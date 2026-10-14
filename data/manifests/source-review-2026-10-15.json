@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "reviewed_date": "2026-10-15",
+  "timezone": "Asia/Calcutta",
+  "scope": "six-document fixture and limited reuse review only",
+  "decisions": [
+    {
+      "id": "nvd-cve",
+      "publisher": "NIST NVD / CVE CNA Apache Software Foundation",
+      "source_ids": [
+        "CVE-2021-44228",
+        "CVE-2021-45046"
+      ],
+      "decision": "attributed_metadata_and_original_factual_summary_only",
+      "original_text_redistribution": "not_exercised",
+      "terms_urls": [
+        "https://www.nist.gov/open/license",
+        "https://www.cve.org/legal/termsofuse",
+        "https://nvd.nist.gov/developers/start-here"
+      ],
+      "limitations": [
+        "CNA descriptions are not assumed NIST-employee works.",
+        "CVE terms visible via indexed first-party search; direct page is JavaScript-only.",
+        "NVD API access-policy content was not verified; must review before bulk access."
+      ]
+    },
+    {
+      "id": "mitre-attack",
+      "publisher": "The MITRE Corporation",
+      "source_ids": [
+        "T1190",
+        "T1059.001"
+      ],
+      "decision": "permitted_with_pinned_copyright_and_license",
+      "original_text_redistribution": "license_notice_only_technique_text_summarized",
+      "terms_urls": [
+        "https://attack.mitre.org/resources/terms-of-use/",
+        "https://attack.mitre.org/resources/faq/"
+      ],
+      "notice_path": "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt",
+      "limitations": [
+        "Do not imply endorsement.",
+        "License does not clear linked third-party reports."
+      ]
+    },
+    {
+      "id": "cisa-aa22-320a",
+      "publisher": "CISA / FBI",
+      "source_ids": [
+        "AA22-320A"
+      ],
+      "decision": "attributed_original_factual_summary_only",
+      "original_text_redistribution": "not_cleared",
+      "terms_urls": [
+        "https://www.cisa.gov/about/website-policies",
+        "https://www.first.org/tlp/"
+      ],
+      "sharing_marking": "TLP:CLEAR",
+      "notice_locator": {
+        "pdf_page": 1
+      },
+      "limitations": [
+        "CISA website policies returned HTTP 403.",
+        "TLP is not a copyright license.",
+        "Do not redistribute PDF or original prose under repository MIT license."
+      ]
+    },
+    {
+      "id": "cisa-aa22-174a",
+      "publisher": "CISA / United States Coast Guard Cyber Command",
+      "source_ids": [
+        "AA22-174A"
+      ],
+      "decision": "attributed_original_factual_summary_only",
+      "original_text_redistribution": "not_cleared",
+      "terms_urls": [
+        "https://www.cisa.gov/about/website-policies",
+        "https://www.first.org/tlp/"
+      ],
+      "sharing_marking": "TLP:WHITE",
+      "notice_locator": {
+        "pdf_page": 1
+      },
+      "limitations": [
+        "CISA website policies returned HTTP 403.",
+        "Retain original historical sharing label.",
+        "Advisory summarizes two response engagements; it is not a single incident identity."
+      ]
+    },
+    {
+      "id": "microsoft-candidate",
+      "publisher": "Microsoft",
+      "source_ids": [],
+      "decision": "link_only_candidate_excluded_from_corpus",
+      "candidate_url": "https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-",
+      "original_text_redistribution": "not_cleared",
+      "terms_urls": [
+        "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions"
+      ],
+      "limitations": [
+        "General content permission policy is not a report-specific redistribution grant.",
+        "No original report downloaded or permission requested."
+      ]
+    }
+  ],
+  "downloads": [
+    {
+      "file": "nvd-44228.json",
+      "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44228",
+      "retrieved_at": "2026-10-14T20:17:11.146152+00:00",
+      "status": 200,
+      "resolved_url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44228",
+      "sha256": "1c38ab4756d5b3189f14e0b2b9fa29780f73167a8073229ae5df16af7412ae3d",
+      "bytes": 87139,
+      "content_type": "application/json",
+      "local_ignored_path": "data/raw/source-review/nvd-44228.json",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "nvd-45046.json",
+      "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-45046",
+      "retrieved_at": "2026-10-14T20:17:19.293812+00:00",
+      "status": 200,
+      "resolved_url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-45046",
+      "sha256": "29243acc21c8fee92688c49dccee4da17c81027f7263ef39ffc0e085d30def33",
+      "bytes": 26544,
+      "content_type": "application/json",
+      "local_ignored_path": "data/raw/source-review/nvd-45046.json",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "attack-tag.json",
+      "url": "https://api.github.com/repos/mitre/cti/git/ref/tags/ATT%26CK-v17.1",
+      "retrieved_at": "2026-10-14T20:17:26.840722+00:00",
+      "status": 200,
+      "resolved_url": "https://api.github.com/repos/mitre/cti/git/ref/tags/ATT%26CK-v17.1",
+      "sha256": "950a7686ab9b11c0bbf2ffab2a3b06fc1f9c338b4579ba92c7238bcefbc0f1a5",
+      "bytes": 341,
+      "content_type": "application/json; charset=utf-8",
+      "local_ignored_path": "data/raw/source-review/attack-tag.json",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "aa22-320a.pdf",
+      "url": "https://www.cisa.gov/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf",
+      "retrieved_at": "2026-10-14T20:17:27.295205+00:00",
+      "status": 200,
+      "resolved_url": "https://www.cisa.gov/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf",
+      "sha256": "beacab7d0ed36ddc4e51b3e7a00e24ac9c612bfb29dffde3ffef01597b4109e2",
+      "bytes": 555642,
+      "content_type": "application/pdf",
+      "local_ignored_path": "data/raw/source-review/aa22-320a.pdf",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "aa22-174a.pdf",
+      "url": "https://www.cisa.gov/sites/default/files/publications/AA22-174A_Joint_CSA_Malicious_Cyber_Actors_Exploiting_Log4Shell_in_Unpatched_VMware_Horizon_Systems_FINAL.pdf",
+      "retrieved_at": "2026-10-14T20:17:27.634521+00:00",
+      "status": 200,
+      "resolved_url": "https://www.cisa.gov/sites/default/files/publications/AA22-174A_Joint_CSA_Malicious_Cyber_Actors_Exploiting_Log4Shell_in_Unpatched_VMware_Horizon_Systems_FINAL.pdf",
+      "sha256": "368d090969cd89d72e772bd878691623a9ca7914dbf91a549d9ef77f155373bf",
+      "bytes": 437182,
+      "content_type": "application/pdf",
+      "local_ignored_path": "data/raw/source-review/aa22-174a.pdf",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "nist-license.html",
+      "url": "https://www.nist.gov/open/license",
+      "retrieved_at": "2026-10-14T20:17:28.135643+00:00",
+      "status": 200,
+      "resolved_url": "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications",
+      "sha256": "b44e3fe3a6d7a8c3136375a9d8855efe302b9d41486e57ca40330372e15e9d2b",
+      "bytes": 93931,
+      "content_type": "text/html; charset=UTF-8",
+      "local_ignored_path": "data/raw/source-review/nist-license.html",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "nvd-api-terms.html",
+      "url": "https://nvd.nist.gov/developers/start-here",
+      "retrieved_at": "2026-10-14T20:17:31.043529+00:00",
+      "status": 200,
+      "resolved_url": "https://nvd.nist.gov/developers/start-here",
+      "sha256": "be4f90d21d31b66445d9823e96d85874bffc5b8923b17ab6b7a1f46d43bfe4d2",
+      "bytes": 2453,
+      "content_type": "text/html",
+      "local_ignored_path": "data/raw/source-review/nvd-api-terms.html",
+      "review_content_status": "http_200_javascript_shell_policy_not_verified"
+    },
+    {
+      "file": "cisa-policies.html",
+      "url": "https://www.cisa.gov/about/website-policies",
+      "retrieved_at": "2026-10-14T20:17:38.269174+00:00",
+      "status": "unavailable",
+      "error": "HTTP Error 404: Not Found",
+      "local_ignored_path": "data/raw/source-review/cisa-policies.html",
+      "review_content_status": "unavailable"
+    },
+    {
+      "file": "microsoft-permissions.html",
+      "url": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions",
+      "retrieved_at": "2026-10-14T20:17:38.750978+00:00",
+      "status": 200,
+      "resolved_url": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions",
+      "sha256": "1e9e0e0290971af70d3e85562900af7aec5438c75113754730abf72932f9f034",
+      "bytes": 186077,
+      "content_type": "text/html; charset=utf-8",
+      "local_ignored_path": "data/raw/source-review/microsoft-permissions.html",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "first-tlp.html",
+      "url": "https://www.first.org/tlp/",
+      "retrieved_at": "2026-10-14T20:17:42.192749+00:00",
+      "status": 200,
+      "resolved_url": "https://www.first.org/tlp/",
+      "sha256": "cc862eee6827a703dd9cbe120caa60d37dbbcd84a94b8b905edc48cba4198772",
+      "bytes": 40177,
+      "content_type": "text/html; charset=UTF-8",
+      "local_ignored_path": "data/raw/source-review/first-tlp.html",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "attack-tag-object.json",
+      "url": "https://api.github.com/repos/mitre/cti/git/tags/a36a9d5119f013f6dcc627ebb7442899c6d07477",
+      "retrieved_at": "2026-10-14T20:17:43.874970+00:00",
+      "status": 200,
+      "resolved_url": "https://api.github.com/repos/mitre/cti/git/tags/a36a9d5119f013f6dcc627ebb7442899c6d07477",
+      "sha256": "25d829d47bc1f460f97ce7089b0aa22e86c49d6e805210e2af911d5246572e71",
+      "bytes": 661,
+      "content_type": "application/json; charset=utf-8",
+      "local_ignored_path": "data/raw/source-review/attack-tag-object.json",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "enterprise-attack-v17.1.json",
+      "url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/enterprise-attack/enterprise-attack.json",
+      "retrieved_at": "2026-10-14T20:17:44.300442+00:00",
+      "status": 200,
+      "resolved_url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/enterprise-attack/enterprise-attack.json",
+      "sha256": "9537a22166367a5b3c1434f5b17b27361cb9c88b34926e655344768fdbda3e85",
+      "bytes": 39787657,
+      "content_type": "text/plain; charset=utf-8",
+      "local_ignored_path": "data/raw/source-review/enterprise-attack-v17.1.json",
+      "review_content_status": "retrieved"
+    },
+    {
+      "file": "attack-LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/LICENSE.txt",
+      "retrieved_at": "2026-10-14T20:18:22.413038+00:00",
+      "status": 200,
+      "resolved_url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/LICENSE.txt",
+      "sha256": "0019296a8f089883b36484dc92cb07ea779caabc7a950d7798366015f57a5bf7",
+      "bytes": 2311,
+      "content_type": "text/plain; charset=utf-8",
+      "local_ignored_path": "data/raw/source-review/attack-LICENSE.txt",
+      "review_content_status": "retrieved"
+    }
+  ],
+  "review_notes_path": "data/fixtures/SOURCE_REVIEW.md"
+}

@@ -43,3 +43,13 @@ Dependencies are pinned in `package.json` and `package-lock.json`. Backend insta
 Citation membership is checked before rendering live analysis; the backend must still validate ATT&CK identifiers, source support, and provider outputs. When analysis fails, the frontend separately tries retrieval. Evidence text is rendered as plain React text, and source links allow only HTTP(S). API credentials must stay server-side. `VITE_API_BASE_URL` is a public service address only.
 
 The benchmark UI renders saved values, quality/latency/memory charts, a metric table, and reproducibility metadata. Real exports, tuning/held-out evaluation, and live provider validation remain future work. See `Progress.md` for verified status.
+
+## Reviewed seed evidence
+
+The [attributed seed corpus](data/fixtures/README.md) contains six source-backed documents across NVD, pinned MITRE ATT&CK and CISA reports. It uses original factual summaries, explicit supported relationships and unsupported cases. The [source/reuse review](data/fixtures/SOURCE_REVIEW.md) records decisions and unresolved report-text permissions. Verify the frozen fixture without downloading anything:
+
+```powershell
+python data/fixtures/verify_fixture.py
+```
+
+These data files are not wired into the frontend or backend; the browser demo remains synthetic. Raw downloads stay ignored. Fixture hashes and upstream provenance are recorded under `data/manifests/`; no full corpus or ingestion implementation is claimed.

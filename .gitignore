@@ -5,7 +5,7 @@ __pycache__/
 .venv/
 .env
 .env.local
-data/
+data/*
 !data/fixtures/
 !data/manifests/
 *.db

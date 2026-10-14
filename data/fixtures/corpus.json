@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "fixture_id": "threatvector-log4shell-seed-v1",
+  "curated_date": "2026-10-15",
+  "text_policy": "Project-authored factual summaries; source expression, report PDFs, and executable payloads are not redistributed. This is curated normalized evidence, not a raw provider-format ingestion fixture.",
+  "documents": [
+    {
+      "id": "nvd:CVE-2021-44228",
+      "source_type": "cve",
+      "source_id": "CVE-2021-44228",
+      "title": "CVE-2021-44228 - Apache Log4j 2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228",
+      "publication_date": "2021-12-10",
+      "retrieved_at": "2026-10-14T20:17:11.146152+00:00",
+      "retrieved_date_local": "2026-10-15",
+      "retrieval_timezone": "Asia/Calcutta",
+      "attribution": "National Institute of Standards and Technology, National Vulnerability Database; CVE description source: Apache Software Foundation (security@apache.org). Summary authored for ThreatVector on 2026-10-15.",
+      "upstream_snapshot": {
+        "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44228",
+        "sha256": "1c38ab4756d5b3189f14e0b2b9fa29780f73167a8073229ae5df16af7412ae3d",
+        "bytes": 87139,
+        "local_ignored_path": "data/raw/source-review/nvd-44228.json"
+      },
+      "sections": [
+        {
+          "id": "nvd:CVE-2021-44228#description",
+          "heading": "description",
+          "text": "CVE-2021-44228 (Log4Shell) affects the log4j-core component of Apache Log4j 2. Attacker-controlled input processed through vulnerable JNDI message lookups can cause remote code execution. The record distinguishes this issue from other Apache logging projects. This summary is based on the English description in the retrieved NVD record; it is not a current product patch guide.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "json_pointer": "/vulnerabilities/0/cve/descriptions/0/value"
+          },
+          "content_sha256": "aca7743949868d36f9c81f09b669cbda09bc46ef3e1d60b8651c0fce0625c5db"
+        }
+      ],
+      "content_sha256": "82ccd0009e36262c563d2e27d29ee10ff71f421ec2645cae287e5a7a1c790279",
+      "source_published_at": "2021-12-10T10:15:09.143",
+      "source_modified_at": "2026-08-11T19:33:44.513",
+      "source_record_sha256": "241c66d4c700db3ae88ede2fadd7a4a1b7c92315244f7d63fef85efdafc2d303",
+      "source_record_locator": "/vulnerabilities/0/cve",
+      "cna_source_identifier": "security@apache.org",
+      "reuse_review_id": "nvd-cve",
+      "original_source_text_redistributed": false
+    },
+    {
+      "id": "nvd:CVE-2021-45046",
+      "source_type": "cve",
+      "source_id": "CVE-2021-45046",
+      "title": "CVE-2021-45046 - Apache Log4j 2",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-45046",
+      "publication_date": "2021-12-14",
+      "retrieved_at": "2026-10-14T20:17:19.293812+00:00",
+      "retrieved_date_local": "2026-10-15",
+      "retrieval_timezone": "Asia/Calcutta",
+      "attribution": "National Institute of Standards and Technology, National Vulnerability Database; CVE description source: Apache Software Foundation (security@apache.org). Summary authored for ThreatVector on 2026-10-15.",
+      "upstream_snapshot": {
+        "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-45046",
+        "sha256": "29243acc21c8fee92688c49dccee4da17c81027f7263ef39ffc0e085d30def33",
+        "bytes": 26544,
+        "local_ignored_path": "data/raw/source-review/nvd-45046.json"
+      },
+      "sections": [
+        {
+          "id": "nvd:CVE-2021-45046#description",
+          "heading": "description",
+          "text": "CVE-2021-45046 describes an incomplete fix for CVE-2021-44228 in Apache Log4j 2.15.0 under certain non-default logging configurations. Attacker control of Thread Context Map input can lead to information disclosure or code execution. This relationship to CVE-2021-44228 is stated by the source; it does not establish that CVE-2021-45046 was exploited in either incident advisory in this fixture.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "json_pointer": "/vulnerabilities/0/cve/descriptions/0/value"
+          },
+          "content_sha256": "1ce6a397b64f4c03a9207ce6ad7da6204f183b8de569a61142643dbb98e89fb6"
+        }
+      ],
+      "content_sha256": "d2165a5f6abf5df5cc52e7a3eb836f19b51c9bd664204d7b8c6fb39e2fc41e19",
+      "source_published_at": "2021-12-14T19:15:07.733",
+      "source_modified_at": "2026-06-17T04:13:05.570",
+      "source_record_sha256": "ef2b8676e3c10aa412b03b4be91b83fb619f185487d71fb655791faf783fac43",
+      "source_record_locator": "/vulnerabilities/0/cve",
+      "cna_source_identifier": "security@apache.org",
+      "reuse_review_id": "nvd-cve",
+      "original_source_text_redistributed": false
+    },
+    {
+      "id": "attack:T1190",
+      "source_type": "attack",
+      "source_id": "T1190",
+      "title": "T1190 - Exploit Public-Facing Application",
+      "url": "https://attack.mitre.org/techniques/T1190",
+      "publication_date": null,
+      "retrieved_at": "2026-10-14T20:17:44.300442+00:00",
+      "retrieved_date_local": "2026-10-15",
+      "retrieval_timezone": "Asia/Calcutta",
+      "attribution": "MITRE ATT&CK, Enterprise release 17.1. Copyright 2025 The MITRE Corporation. See notices/MITRE-ATTACK-LICENSE.txt. Summary authored for ThreatVector on 2026-10-15; no endorsement implied.",
+      "upstream_snapshot": {
+        "url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/enterprise-attack/enterprise-attack.json",
+        "sha256": "9537a22166367a5b3c1434f5b17b27361cb9c88b34926e655344768fdbda3e85",
+        "bytes": 39787657,
+        "local_ignored_path": "data/raw/source-review/enterprise-attack-v17.1.json"
+      },
+      "sections": [
+        {
+          "id": "attack:T1190#description",
+          "heading": "description",
+          "text": "MITRE ATT&CK T1190 describes adversaries exploiting weaknesses in internet-accessible applications or services to obtain initial access. A vulnerability can be related to this technique when supporting evidence establishes that use; conceptual similarity alone does not confirm exploitation.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "json_pointer": "/objects/1269/description",
+            "stix_id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c"
+          },
+          "content_sha256": "35a84911931f996bab4fa75371ad497e6eaa7ee5199f26c049f04877ae179bb3"
+        }
+      ],
+      "content_sha256": "e68a821a17f27b6ffb9348421763d18fde4875eb15f04fb945ea15edb2beca12",
+      "source_created_at": "2018-04-18T17:59:24.739Z",
+      "source_modified_at": "2025-04-15T19:58:25.266Z",
+      "publication_date_note": "STIX creation/modification timestamps are retained separately; publication date not supplied by the selected object.",
+      "source_record_sha256": "4a592e8c17f452d48b1a67a47a649a01f45bda37015f98160fa363ce8b107ca7",
+      "source_record_locator": "/objects/1269",
+      "stix_id": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+      "object_version": "2.7",
+      "revoked": false,
+      "deprecated": false,
+      "attack_release": "17.1",
+      "attack_commit": "dc2ea9270f1a91398c750a6dceb3591b86082ce8",
+      "reuse_review_id": "mitre-attack",
+      "original_source_text_redistributed": false
+    },
+    {
+      "id": "attack:T1059.001",
+      "source_type": "attack",
+      "source_id": "T1059.001",
+      "title": "T1059.001 - PowerShell",
+      "url": "https://attack.mitre.org/techniques/T1059/001",
+      "publication_date": null,
+      "retrieved_at": "2026-10-14T20:17:44.300442+00:00",
+      "retrieved_date_local": "2026-10-15",
+      "retrieval_timezone": "Asia/Calcutta",
+      "attribution": "MITRE ATT&CK, Enterprise release 17.1. Copyright 2025 The MITRE Corporation. See notices/MITRE-ATTACK-LICENSE.txt. Summary authored for ThreatVector on 2026-10-15; no endorsement implied.",
+      "upstream_snapshot": {
+        "url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/enterprise-attack/enterprise-attack.json",
+        "sha256": "9537a22166367a5b3c1434f5b17b27361cb9c88b34926e655344768fdbda3e85",
+        "bytes": 39787657,
+        "local_ignored_path": "data/raw/source-review/enterprise-attack-v17.1.json"
+      },
+      "sections": [
+        {
+          "id": "attack:T1059.001#description",
+          "heading": "description",
+          "text": "MITRE ATT&CK T1059.001 describes adversaries abusing PowerShell commands or scripts for execution. PowerShell is also a legitimate administration environment. Its presence alone does not prove malicious activity or identify a particular exploited vulnerability.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "json_pointer": "/objects/1539/description",
+            "stix_id": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736"
+          },
+          "content_sha256": "f085a6c7b5e7728df8fa670c012a951855727d2ce1efa2c991b461639d6d8f76"
+        }
+      ],
+      "content_sha256": "2a467786098c7846e40e05c50710066e19d3ecec9ecf41d5ca4a220b8541d661",
+      "source_created_at": "2020-03-09T13:48:55.078Z",
+      "source_modified_at": "2025-04-15T19:58:52.378Z",
+      "publication_date_note": "STIX creation/modification timestamps are retained separately; publication date not supplied by the selected object.",
+      "source_record_sha256": "f5f53485b32c780e70d521f002f41ad1c883a453abe8634b1ba1f65ce11a0b94",
+      "source_record_locator": "/objects/1539",
+      "stix_id": "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+      "object_version": "1.5",
+      "revoked": false,
+      "deprecated": false,
+      "attack_release": "17.1",
+      "attack_commit": "dc2ea9270f1a91398c750a6dceb3591b86082ce8",
+      "reuse_review_id": "mitre-attack",
+      "original_source_text_redistributed": false
+    },
+    {
+      "id": "incident:AA22-320A",
+      "source_type": "incident",
+      "source_id": "AA22-320A",
+      "title": "Iranian Government-Sponsored APT Actors Compromise Federal Network, Deploy Crypto Miner, Credential Harvester",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-320a",
+      "publication_date": "2022-11-16",
+      "retrieved_at": "2026-10-14T20:17:27.295205+00:00",
+      "retrieved_date_local": "2026-10-15",
+      "retrieval_timezone": "Asia/Calcutta",
+      "attribution": "Cybersecurity and Infrastructure Security Agency (CISA) and Federal Bureau of Investigation (FBI), Joint Cybersecurity Advisory AA22-320A, November 16, 2022. Original factual summary by ThreatVector; no agency endorsement implied.",
+      "upstream_snapshot": {
+        "url": "https://www.cisa.gov/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf",
+        "sha256": "beacab7d0ed36ddc4e51b3e7a00e24ac9c612bfb29dffde3ffef01597b4109e2",
+        "bytes": 555642,
+        "local_ignored_path": "data/raw/source-review/aa22-320a.pdf"
+      },
+      "sections": [
+        {
+          "id": "incident:AA22-320A#overview",
+          "heading": "overview",
+          "text": "CISA and FBI reported compromise of a federal civilian organization through an unpatched VMware Horizon server. Their advisory associates the compromise with Log4Shell, CVE-2021-44228. The agencies assessed likely Iranian government sponsorship; this is an attributed assessment rather than an independently established fixture fact.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "pdf_page": 2,
+            "heading": "Technical Details / Overview"
+          },
+          "content_sha256": "7f1569675ad6a9f71c370905fc38511cf4d86f6d2fb1d89b6c980c4b612107ee"
+        },
+        {
+          "id": "incident:AA22-320A#technique-use",
+          "heading": "technique-use",
+          "text": "The advisory reports Log4Shell exploitation in February 2022 and explicitly maps that initial access to T1190. It separately maps PowerShell execution in the exploitation payload to T1059.001. These are report-specific observations, not universal mappings for every Log4Shell exploitation.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "pdf_page": 2,
+            "heading": "Threat Actor Activity"
+          },
+          "content_sha256": "13ad33f78660a1d13692cc0ba97ad9ee51c209748c95a67f99b96ba3681f6b95"
+        }
+      ],
+      "content_sha256": "79c126ce484bd2990e2e7909c30b7e1376024f866072b9c93484c9c85582e195",
+      "sharing_marking": "TLP:CLEAR",
+      "report_attack_release": "12",
+      "reuse_review_id": "cisa-aa22-320a",
+      "original_source_text_redistributed": false
+    },
+    {
+      "id": "incident:AA22-174A",
+      "source_type": "incident",
+      "source_id": "AA22-174A",
+      "title": "Malicious Cyber Actors Continue to Exploit Log4Shell in VMware Horizon Systems",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-174a",
+      "publication_date": "2022-06-23",
+      "retrieved_at": "2026-10-14T20:17:27.634521+00:00",
+      "retrieved_date_local": "2026-10-15",
+      "retrieval_timezone": "Asia/Calcutta",
+      "attribution": "Cybersecurity and Infrastructure Security Agency (CISA) and United States Coast Guard Cyber Command (CGCYBER), Joint Cybersecurity Advisory AA22-174A, June 23, 2022. Original factual summary by ThreatVector; no agency endorsement implied.",
+      "upstream_snapshot": {
+        "url": "https://www.cisa.gov/sites/default/files/publications/AA22-174A_Joint_CSA_Malicious_Cyber_Actors_Exploiting_Log4Shell_in_Unpatched_VMware_Horizon_Systems_FINAL.pdf",
+        "sha256": "368d090969cd89d72e772bd878691623a9ca7914dbf91a549d9ef77f155373bf",
+        "bytes": 437182,
+        "local_ignored_path": "data/raw/source-review/aa22-174a.pdf"
+      },
+      "sections": [
+        {
+          "id": "incident:AA22-174A#summary",
+          "heading": "summary",
+          "text": "CISA and CGCYBER described exploitation of CVE-2021-44228 in unpatched VMware Horizon and Unified Access Gateway servers. The advisory draws on two incident-response engagements and malware analysis. One confirmed compromise included lateral movement and data exfiltration. The report is a separate source from AA22-320A; this fixture does not assert a shared victim, actor, or campaign.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "pdf_page": 1,
+            "heading": "Summary"
+          },
+          "content_sha256": "a600c2552473731d08bea682c23bd25b18b119cbaf3f3a2f591d3fb2eca3b54e"
+        },
+        {
+          "id": "incident:AA22-174A#recommendations",
+          "heading": "recommendations",
+          "text": "The advisory recommends installing fixed builds for affected VMware Horizon and Unified Access Gateway systems and reducing exposure of internet-facing services. These are historical recommendations from the June 2022 advisory; current vendor guidance must be checked before operational use.",
+          "text_kind": "project_authored_factual_summary",
+          "source_locator": {
+            "pdf_page": 1,
+            "heading": "Actions to take today"
+          },
+          "content_sha256": "3ec121b0f53d31605b101b17a8114747e50e979809f4cbe3b49d002ad096bdac"
+        }
+      ],
+      "content_sha256": "dd2df0e0ae34124a62463100e48db86c09757bdd28fc15b7be49c106b7e4bf7b",
+      "sharing_marking": "TLP:WHITE",
+      "reuse_review_id": "cisa-aa22-174a",
+      "original_source_text_redistributed": false
+    }
+  ],
+  "relationships": [
+    {
+      "id": "rel-01",
+      "source_document_id": "nvd:CVE-2021-45046",
+      "target_document_id": "nvd:CVE-2021-44228",
+      "relationship_type": "describes_incomplete_fix_for",
+      "evidence_section_id": "nvd:CVE-2021-45046#description",
+      "source_locator": {
+        "json_pointer": "/vulnerabilities/0/cve/descriptions/0/value"
+      },
+      "basis": "The English NVD description explicitly identifies the earlier CVE whose fix was incomplete.",
+      "support": "explicit_source_statement",
+      "inferred": false
+    },
+    {
+      "id": "rel-02",
+      "source_document_id": "incident:AA22-320A",
+      "target_document_id": "nvd:CVE-2021-44228",
+      "relationship_type": "reports_exploitation_of",
+      "evidence_section_id": "incident:AA22-320A#overview",
+      "source_locator": {
+        "pdf_page": 2,
+        "heading": "Technical Details / Overview"
+      },
+      "basis": "The advisory identifies Log4Shell as CVE-2021-44228 and describes the compromise.",
+      "support": "explicit_source_statement",
+      "inferred": false
+    },
+    {
+      "id": "rel-03",
+      "source_document_id": "incident:AA22-320A",
+      "target_document_id": "attack:T1190",
+      "relationship_type": "reports_use_of_technique",
+      "evidence_section_id": "incident:AA22-320A#technique-use",
+      "source_locator": {
+        "pdf_page": 2,
+        "heading": "Threat Actor Activity"
+      },
+      "basis": "The report explicitly labels the initial-access exploitation T1190.",
+      "support": "explicit_source_statement",
+      "inferred": false
+    },
+    {
+      "id": "rel-04",
+      "source_document_id": "incident:AA22-320A",
+      "target_document_id": "attack:T1059.001",
+      "relationship_type": "reports_use_of_technique",
+      "evidence_section_id": "incident:AA22-320A#technique-use",
+      "source_locator": {
+        "pdf_page": 2,
+        "heading": "Threat Actor Activity"
+      },
+      "basis": "The report explicitly labels the PowerShell payload execution T1059.001.",
+      "support": "explicit_source_statement",
+      "inferred": false
+    },
+    {
+      "id": "rel-05",
+      "source_document_id": "incident:AA22-174A",
+      "target_document_id": "nvd:CVE-2021-44228",
+      "relationship_type": "reports_exploitation_of",
+      "evidence_section_id": "incident:AA22-174A#summary",
+      "source_locator": {
+        "pdf_page": 1,
+        "heading": "Summary"
+      },
+      "basis": "The summary explicitly identifies exploitation of CVE-2021-44228.",
+      "support": "explicit_source_statement",
+      "inferred": false
+    }
+  ],
+  "negative_cases": [
+    {
+      "id": "unsupported-45046-320a",
+      "question": "Does AA22-320A establish exploitation of CVE-2021-45046?",
+      "expected": "insufficient_evidence_in_this_fixture",
+      "reason": "The selected report identifies CVE-2021-44228. Similarity and the incomplete-fix relationship do not establish use of CVE-2021-45046."
+    },
+    {
+      "id": "unsupported-shared-campaign",
+      "question": "Do the two advisories describe the same victim or campaign?",
+      "expected": "insufficient_evidence_in_this_fixture",
+      "reason": "Shared product and CVE mentions do not establish shared incident identity."
+    }
+  ]
+}

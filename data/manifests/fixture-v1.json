@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "fixture_id": "threatvector-log4shell-seed-v1",
+  "curated_date": "2026-10-15",
+  "timezone": "Asia/Calcutta",
+  "selection_method": "Manually selected Log4Shell cluster; explicit fixed source IDs; not statistically representative.",
+  "selected_source_ids": [
+    "CVE-2021-44228",
+    "CVE-2021-45046",
+    "T1190",
+    "T1059.001",
+    "AA22-320A",
+    "AA22-174A"
+  ],
+  "counts": {
+    "documents": 6,
+    "sections": 8,
+    "explicit_relationships": 5,
+    "negative_cases": 2
+  },
+  "corpus_sha256": "8fe6d4333549845380568ce84a0dac1ac0983cfa927ebcf604d55bf676fa3f6d",
+  "hash_format": "File hashes: exact bytes. Record hashes: UTF-8 JSON sorted keys, ensure_ascii=false, separators comma/colon. Section text hashes: UTF-8 text bytes.",
+  "attack": {
+    "release": "17.1",
+    "tag": "ATT&CK-v17.1",
+    "commit": "dc2ea9270f1a91398c750a6dceb3591b86082ce8",
+    "license_sha256": "0019296a8f089883b36484dc92cb07ea779caabc7a950d7798366015f57a5bf7"
+  },
+  "artifacts": [
+    {
+      "path": "data/fixtures/corpus.json",
+      "sha256": "8fe6d4333549845380568ce84a0dac1ac0983cfa927ebcf604d55bf676fa3f6d",
+      "bytes": 19422
+    },
+    {
+      "path": "data/fixtures/README.md",
+      "sha256": "47625c007d4062360947de3c09f20e982c673f86a049a443b36d51a5da04ad55",
+      "bytes": 3932
+    },
+    {
+      "path": "data/fixtures/SOURCE_REVIEW.md",
+      "sha256": "80136976d21587d52f28d2b7d5098b29e1ed2e0859199840789f71d994f93800",
+      "bytes": 7235
+    },
+    {
+      "path": "data/fixtures/verify_fixture.py",
+      "sha256": "588d089b90e936cab12915aadf5bb3cff459db1cf8af0bb83f8fb6b6834bb905",
+      "bytes": 6515
+    },
+    {
+      "path": "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt",
+      "sha256": "0019296a8f089883b36484dc92cb07ea779caabc7a950d7798366015f57a5bf7",
+      "bytes": 2311
+    },
+    {
+      "path": "data/manifests/source-review-2026-10-15.json",
+      "sha256": "3702e0830b0038667881cdb7f5745feaf03d1037fa85e06bcffaf2113a5c94a7",
+      "bytes": 11813
+    }
+  ],
+  "limitations": [
+    "No full target corpus or raw ingestion-normalizer fixture.",
+    "No tokenizer-based chunking, imports, indexes, provider calls or evaluation.",
+    "Mutable NVD/API and CISA URLs may change; byte equality on future downloads is not guaranteed.",
+    "Raw downloads are ignored local artifacts; clean clones can verify committed fixture artifacts only.",
+    "Original report prose is not cleared for redistribution; fixtures contain project-authored factual summaries."
+  ]
+}

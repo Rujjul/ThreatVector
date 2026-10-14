@@ -10,13 +10,15 @@ Implemented the requested React/TypeScript demo landing page and frontend worksp
 
 A minimal FastAPI foundation serves health, empty corpus metadata, and empty benchmark runs. Corpus ingestion, retrieval, generation, and document storage are not implemented. User instructions authorized frontend work ahead of phases 1–3; BUILD.md records this adjustment. Demo success does not complete phase 4.
 
+Source/fixture-only milestone: added six attributed source-backed documents (two NVD CVEs, two MITRE ATT&CK techniques and two CISA advisories), eight original-summary evidence sections, five explicit relationships and two unsupported cases. Added frozen fixture/source-review manifests and retained the pinned MITRE license. Raw downloads are ignored; fixture data are not wired into the application. Review scope remains limited: original CISA report-text redistribution is not cleared, and full NVD API policy content could not be verified from the JavaScript-shell response.
+
 ## Phase tracker
 
 | Phase | Status | Completed | Remaining |
 | --- | --- | --- | --- |
 | Planning | Complete | Requirements, build guide, agent instructions, updated progress | Keep aligned with scope. |
 | 0 — Foundation | Complete | React/Vite/TypeScript, FastAPI health, dependency pins/locks, configuration, ignore rules, README | Separate clean-machine installation during delivery. |
-| 1 — Corpus | Not started | None; fictional examples are not corpus fixtures | Source/reuse review, fixtures, manifests, imports, SQLite, full corpus. |
+| 1 — Corpus | In progress | Six attributed summary fixtures; limited source/reuse review; pinned ATT&CK 17.1; provenance/hashes; explicit relationships and unsupported cases; offline integrity checks | Full report-text permissions where needed, bulk API policy review, raw normalizer fixtures, normalizers, SQLite, ingestion/idempotence checks and full target corpus. |
 | 2 — Retrieval | Not started | Frontend request shapes only | Chunking, embeddings, indexes, artifact validation, identifier/filter cases. |
 | 3 — Analysis | Not started | Frontend citation guard and failure fallback only | Server correlation, provider adapter, grounding validation, mocked cases. |
 | 4 — Interface | In progress | Landing, investigation, evidence drawer, benchmark views; demo browser workflow; live health; loading/empty/failure states; six passing frontend tests | Real API workflow, document retrieval, provider fallback, chart-to-export verification and mobile visual QA. |
@@ -24,6 +26,12 @@ A minimal FastAPI foundation serves health, empty corpus metadata, and empty ben
 | 6 — Delivery | In progress | Windows setup and frontend integration documentation | Clean setup, real end-to-end checks, final backend tests, live-provider record. |
 
 ## Validation record
+
+- Fixture integrity: `python data/fixtures/verify_fixture.py` passed for six documents/eight sections/five relationships/two unsupported cases. `--check-local-sources` also passed against downloaded source bytes, selected NVD/STIX object hashes and source locators. No network calls in verification.
+- Isolated-copy checks: a clean fixture-only copy passed without raw downloads; changed corpus bytes were rejected; an unsupported incident-to-CVE-2021-45046 edge was rejected even after recomputing its artifact hash. Repository fixture files were not changed by these negative checks. Fixture bytes are protected from Git line-ending conversion through scoped `.gitattributes` rules.
+- Source availability: two individual NVD API responses, ATT&CK release-17.1 tag/commit/bundle/license, and both official CISA PDFs downloaded successfully with measured SHA-256. CISA website-policy URL returned HTTP 403; NVD developer-policy HTTP 200 contained a JavaScript shell. Neither was treated as verified policy content.
+- Evidence review: CISA AA22-320A pages 1–2 and AA22-174A page 1 read; AA22-320A page 2 and AA22-174A page 1 visually inspected. Publication dates, TLP labels, CVE mention and report-specific T1190/T1059.001 labels verified. Full extracted PDFs did not mention 45046; that finding is bounded to these reports.
+- No ingestion, indexes, embeddings, frontend changes, live provider calls or performance/quality claims added in the fixture/source-review milestone. The whole target corpus and phase-1 exit criteria remain incomplete.
 
 - Focus clarification update: frontend type/production build and all six tests passed after copy changes; `git diff --check` passed. No retrieval behavior or backend capability was added by this update.
 
@@ -40,7 +48,7 @@ A minimal FastAPI foundation serves health, empty corpus metadata, and empty ben
 
 - Proposed response shapes are in `frontend/src/api.ts` and README.md. Actual backend integration remains unverified.
 - `/analyze`, `/search`, and `/documents/{id}` do not exist yet. Live investigation displays an API failure; live benchmarks are empty.
-- No public corpus or attributed fixture exists. Source snapshot compatibility and incident reuse terms are unchecked.
+- Small attributed factual-summary fixtures now exist. Full target corpus, raw normalizer fixtures and ingestion compatibility remain open. Original CISA text is not cleared for redistribution; Microsoft candidate reports remain link-only. Full NVD bulk-access policy review is pending.
 - Embedding revision, FAISS compatibility, relevance thresholds, tuning/held-out labels, performance and answer quality remain unverified.
 - Frontend validates citation membership only. Server must validate ATT&CK IDs and grounding; semantic support requires manual review.
 - Optional Google Fonts loads fall back to system fonts offline.
@@ -49,7 +57,7 @@ A minimal FastAPI foundation serves health, empty corpus metadata, and empty ben
 
 ## Next work
 
-Continue phase 1 with public-source/reuse review, attributed fixtures, SQLite and ingestion. Complete retrieval and analysis before marking the live interface complete. Compare charts with actual exports during evaluation.
+Current user scope ends at small fixtures and source/reuse review. Future phase-1 work is raw normalizer fixtures, SQLite and ingestion/idempotence, broader report reuse review and the full target corpus. Complete retrieval and analysis before marking the live interface complete. Compare charts with actual exports during evaluation.
 
 ## Milestone log
 
@@ -58,3 +66,4 @@ Continue phase 1 with public-source/reuse review, attributed fixtures, SQLite an
 | 2026-10-14 | Planning documents | Documentation only. |
 | 2026-10-15 | User requested frontend-first delivery | Scope adjustment in BUILD.md. |
 | 2026-10-15 | Foundation and React frontend delivered | Type/build and six tests passed; HTTP health and desktop demo browser checks passed. Live retrieval/evaluation incomplete. |
+| 2026-10-15 | Attributed fixture corpus and limited source/reuse review | Six documents, eight sections, five explicit relationships, two unsupported cases; frozen provenance/hashes and offline checks. No ingestion or app integration. |
