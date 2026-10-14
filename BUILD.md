@@ -2,6 +2,8 @@
 
 This is the main architecture and implementation reference. `Requirements.md` defines acceptance criteria; `AGENTS.md` governs agent work; `Progress.md` records actual delivery state. This file describes intended behavior, not completed implementation.
 
+Product focus (2026-10-15): center semantic vulnerability correlation, hybrid retrieval, evidence-grounded explanations, and FAISS indexing. Hybrid retrieval means exact CVE/ATT&CK lookup supplemented by semantic vector results in the existing design; adding lexical/BM25 ranking requires a separate scope decision. Public incident reports are supporting correlation evidence. Do not add generic log monitoring, incident dashboards, alert feeds, or SIEM workflows. Frontend priorities are the correlation question, retrieved evidence, source-supported versus inferred associations, cited explanations, and reproducible Flat/IVF/HNSW comparisons.
+
 ## Architecture flow
 
 ```mermaid
@@ -74,6 +76,8 @@ Retrieved text is delimited untrusted evidence. It cannot set system instruction
 - Export JSON and CSV with query-set hash, corpus hash, model revision, configuration, and measured results. Manual answer review covers 20 held-out questions and records evidence support, technique correctness, and mitigation relevance.
 
 ## Build phases and exit criteria
+
+User-directed scope adjustment (2026-10-15): build the demo front page and actual React/TypeScript frontend first, with a minimal backend foundation. Interface code may precede phases 1–3 under this instruction, but phase 4 remains incomplete until the real API/browser workflow is verified. Demo content is explicitly synthetic; benchmark charts consume saved live results only. Frontend response field shapes are documented in `frontend/src/api.ts` and README.md for subsequent backend integration.
 
 | Phase | Deliverables | Exit criteria |
 | --- | --- | --- |

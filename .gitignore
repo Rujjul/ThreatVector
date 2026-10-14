@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vite/
+__pycache__/
+.venv/
+.env
+.env.local
+data/
+!data/fixtures/
+!data/manifests/
+*.db
+*.faiss

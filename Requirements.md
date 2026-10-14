@@ -2,7 +2,7 @@
 
 ## Goal and audience
 
-Build a local cybersecurity RAG portfolio application demonstrating semantic retrieval and evidence-grounded correlation across vulnerabilities, attack techniques, and historical incidents. Reviewers must be able to inspect evidence and reproduce comparisons of FAISS Flat, IVF, and HNSW indexes.
+Build a local cybersecurity RAG portfolio application centered on semantic vulnerability correlation, hybrid retrieval, evidence-grounded explanations, and FAISS indexing. Hybrid retrieval combines exact CVE/ATT&CK identifier lookup with semantic vector retrieval; lexical/BM25 ranking is not part of the current scope. Historical incident reports provide supporting evidence for vulnerability correlations. Reviewers must be able to inspect evidence and reproduce comparisons of FAISS Flat, IVF, and HNSW indexes.
 
 ## Scope
 
@@ -12,7 +12,7 @@ Build a local cybersecurity RAG portfolio application demonstrating semantic ret
 - Investigation, evidence-detail, and benchmark views.
 - CLI commands for ingestion, index construction, and evaluation.
 
-Excluded from v1: authentication, private documents, multi-user operation, cloud deployment, automated refresh schedules, model fine-tuning, and arbitrary web crawling.
+Excluded from v1: generic log monitoring, incident dashboards, SIEM workflows, authentication, private documents, multi-user operation, cloud deployment, automated refresh schedules, model fine-tuning, and arbitrary web crawling.
 
 ## Functional requirements
 
