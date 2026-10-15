@@ -110,6 +110,18 @@ def test_missing_metadata_stays_absent_not_fabricated():
     assert doc.metadata['metrics'] == {}
 
 
+def test_blank_upstream_translation_is_diagnosed_without_dropping_english():
+    payload = json.loads(raw('nvd-44228.json'))
+    payload['vulnerabilities'][0]['cve']['descriptions'].append({'lang': 'es', 'value': ''})
+    batch = mutated_nvd(payload)
+    assert batch.documents[0].active
+    assert any(i.code == 'empty_description' for i in batch.issues)
+    payload['vulnerabilities'][0]['cve']['descriptions'] = [{'lang': 'en', 'value': ' '}]
+    batch = mutated_nvd(payload)
+    assert not batch.documents[0].active
+    assert not batch.documents[0].sections
+
+
 def test_repeated_content_from_distinct_retrievals_keeps_both_provenances():
     ctx = context('nvd-44228.json')
     first = normalize_nvd(raw('nvd-44228.json'), context=ctx)

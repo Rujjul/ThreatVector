@@ -24,7 +24,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-The foundation serves `/health`, `/corpus`, and an empty `/benchmarks`. It does **not** implement retrieval, ingestion, generation, or document storage. Live investigations correctly show failures until those phases exist.
+The HTTP foundation serves `/health`, placeholder `/corpus`, and an empty `/benchmarks`. SQLite storage and ingestion now exist through the separate CLI; these routes are not wired to the database. Live investigations show failures until retrieval and analysis exist.
 
 ## Frontend verification
 
@@ -52,13 +52,13 @@ The [attributed seed corpus](data/fixtures/README.md) contains six source-backed
 python data/fixtures/verify_fixture.py
 ```
 
-These data files are not wired into the frontend or backend; the browser demo remains synthetic. Raw downloads stay ignored. Fixture hashes and upstream provenance are recorded under `data/manifests/`; no full corpus or ingestion implementation is claimed.
+The browser demo remains synthetic. Seed data can now be normalized and ingested through the CLI; raw downloads stay ignored. Fixture hashes and upstream provenance are recorded under `data/manifests/`.
 
 The source manifest's revision-2 decisions use four explicit reuse categories and include reviewed Microsoft/NCSC candidates. The [NVD access-policy review](data/fixtures/NVD_API_POLICY.md) now verifies bulk/API limits, key handling and attribution. Current CISA policy pages were found and read, but worldwide full-report rights remain unestablished; project-authored factual summaries remain the approved representation. Microsoft articles remain links/metadata only. No candidate text has been added to the seed corpus.
 
 ## Normalizers and raw-format fixtures
 
-[Source normalizers](backend/normalization/README.md) now handle NVD API 2.0 responses, pinned ATT&CK STIX bundles and approved incident-summary manifests. [Raw fixtures](data/fixtures/raw_normalizers/README.md) retain source format, hashes, metadata and applicable notices. The adapters are pure in-memory functions; no ingestion endpoint, database import, retrieval, index or provider call is added.
+[Source normalizers](backend/normalization/README.md) handle NVD API 2.0 responses, pinned STIX bundles and approved incident summaries. [Raw fixtures](data/fixtures/raw_normalizers/README.md) retain source format, hashes and notices. Adapters remain pure; the separate ingestion service persists their output without retrieval, indexing or providers.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.lock
@@ -66,4 +66,15 @@ The source manifest's revision-2 decisions use four explicit reuse categories an
 python data/fixtures/verify_fixture.py
 ```
 
-Normalization preserves source provenance, rejects conflicting revisions, keeps inactive records and explicit unresolved relationships, and separates identifier mentions from caller-reviewed stronger annotations. Policy decisions come from trusted project configuration. Source text cannot authorize itself, enable reviewed annotations or trigger tools. Database idempotence and full ingestion remain unimplemented; normalization repeatability is tested independently.
+Normalization preserves provenance, rejects conflicting revisions, retains inactive/unresolved records and separates identifier mentions from reviewed stronger annotations. Policy comes from trusted project configuration. Source text cannot authorize itself, enable reviewed annotations or trigger tools.
+
+## SQLite and the full corpus
+
+The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, frozen manifests and offline verification. The local corpus contains **10,000 NVD CVEs, 2,091 pinned Enterprise ATT&CK records and 20 incident summaries**. A full replay changed zero database rows; checks are saved in `data/manifests/full-corpus-validation-v1.json`. Downloads and the database stay outside Git. Exact replay requires archived snapshots because upstream URLs are mutable.
+
+```powershell
+.\.venv\Scripts\python.exe -m backend.cli ingest --manifest data/manifests/full-corpus-v1.json --database data/corpus.sqlite3 --reviewed-annotations --check-idempotence
+.\.venv\Scripts\python.exe -m backend.cli inspect --database data/corpus.sqlite3
+```
+
+The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. Tokenized chunks, embeddings, indexes and live application integration remain unimplemented.

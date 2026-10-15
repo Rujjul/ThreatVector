@@ -52,6 +52,12 @@ flowchart TD
 6. Expand explicit source relationships and retrieve their supporting chunks for analysis. Keep semantic associations labeled as inferred. Do not infer that a CVE was used in an incident merely because texts are similar.
 7. Use up to eight deduplicated chunks for generation, prioritizing direct identifier evidence and supported relationships. Return insufficient evidence when nothing relevant survives a threshold calibrated on tuning queries; freeze that threshold before held-out evaluation. Do not interpret similarity scores as probabilities.
 
+### SQLite and full-corpus milestone (2026-10-15)
+
+Phase 1 now has transactional SQLite storage, hash-verified offline ingestion, bounded bulk acquisition, immutable-revision conflict handling and persistent zero-write replay checks. See `backend/CORPUS.md` for commands. The local full-v1 corpus contains 10,000 deterministically selected 2021 NVD records, the pinned Enterprise ATT&CK 17.1 bundle (2,091 normalized records) and 20 original incident-report summaries. Frozen manifests and the actual validation report are under `data/manifests/`; downloaded snapshots and the SQLite database remain ignored. Exact replay requires archived bytes because upstream feeds/pages change.
+
+SQLite retains documents, evidence sections, explicit relationships, provenance, diagnostics and import receipts. Conflicting same-identity revisions abort the entire import; updated corpora use a separate database. Inactive records and unresolved endpoints are retained explicitly. The reserved chunks table is empty until phase 2 implements tokenizer-aware chunking. Ingestion and storage are CLI services; the HTTP foundation and frontend remain unwired. Earlier fixture/normalizer milestone descriptions above are historical, not current missing-work claims.
+
 ## API and generation contract
 
 | Interface | Behavior |

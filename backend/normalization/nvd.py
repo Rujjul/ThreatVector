@@ -30,7 +30,12 @@ def normalize_nvd(raw: bytes, *, context: SourceContext) -> Batch:
         for j, value in enumerate(sequence(cve.get('descriptions', []), locator + '/descriptions')):
             desc = mapping(value, f'{locator}/descriptions/{j}')
             lang = string(desc.get('lang'), f'{locator}/descriptions/{j}/lang')
-            text = string(desc.get('value'), f'{locator}/descriptions/{j}/value')
+            text = desc.get('value')
+            require(isinstance(text, str), f'{locator}/descriptions/{j}/value: expected string')
+            if not text.strip():
+                issues.append(Issue('empty_description', f'{locator}/descriptions/{j}', 'Blank upstream description omitted; no text invented.'))
+                continue
+            text = text.strip()
             if lang.lower() == 'en' and text not in seen:
                 descriptions.append(section(doc_id, len(descriptions), 'Description', text, context.representation, f'{locator}/descriptions/{j}/value', snapshot=snapshot))
                 seen.add(text)

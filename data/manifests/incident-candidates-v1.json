@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "purpose": "Explicit bounded source list for full-v1; source review and original summaries required before admission. No recursive crawling.",
+  "publisher": "CISA and report-specific coauthors",
+  "advisory_ids": ["AA23-075A", "AA23-061A", "AA23-136A", "AA23-158A", "AA23-165A", "AA23-319A", "AA23-320A", "AA23-325A", "AA23-353A", "AA23-352A", "AA23-131A", "AA23-039A", "AA23-040A", "AA23-284A", "AA24-060A", "AA24-109A", "AA24-131A", "AA24-242A"],
+  "url_template": "https://www.cisa.gov/news-events/cybersecurity-advisories/{lowercase_id}",
+  "representation": "project_authored_factual_summary",
+  "verbatim_text_admitted": false
+}

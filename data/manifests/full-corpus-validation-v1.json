@@ -1,0 +1,46 @@
+{
+  "corpus_sha256": "7de901ab0d63f9577f942aaf989b2ccac501a68a3c62efbc10909f1827f67bf0",
+  "documents": 12111,
+  "active_documents": 11380,
+  "relationships": 20432,
+  "resolved_relationships": 18311,
+  "sections": 12109,
+  "source_counts": {
+    "cve": 10000,
+    "attack": 2091,
+    "incident": 20
+  },
+  "changed_documents": 0,
+  "changed_relationships": 0,
+  "schema_version": 1,
+  "manifest_sha256": "74bdbf6c881f423e8214076c1b614ef6f15955234aee8e032cef8f791e0c039b",
+  "verified_at": "2026-10-15T13:47:19.597046+00:00",
+  "idempotence_verified": true,
+  "replay_database_row_changes": 0,
+  "manifest_matches_database": true,
+  "sql_projections_verified": true,
+  "integrity_check": "ok",
+  "foreign_key_errors": [],
+  "inactive_documents_by_type": {
+    "attack": 386,
+    "cve": 345
+  },
+  "unresolved_relationships": 2121,
+  "active_relationships": 18169,
+  "normalization_diagnostics": {
+    "empty_description": 1,
+    "legacy_external_identifier": 224,
+    "missing_description": 4,
+    "unresolved_stix_relationship": 2116,
+    "unsupported_stix_type": 148
+  },
+  "chunks": 0,
+  "python_version": "3.10.11",
+  "sqlite_version": "3.40.1",
+  "reviewed_annotations_enabled": true,
+  "limitations": [
+    "Sections are source evidence units, not tokenized chunks.",
+    "Inactive records and unresolved relationships are retained; unsupported STIX object types are diagnosed.",
+    "2021-focused CVE sample and original incident summaries; no retrieval/answer/index benchmark claimed."
+  ]
+}

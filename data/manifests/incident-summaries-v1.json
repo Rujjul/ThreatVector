@@ -1,0 +1,570 @@
+{
+  "format": "threatvector_incident_manifest",
+  "version": 1,
+  "reports": [
+    {
+      "source_id": "AA22-320A",
+      "title": "Iranian Government-Sponsored APT Actors Compromise Federal Network, Deploy Crypto Miner, Credential Harvester",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-320a",
+      "publication_date": "2022-11-16",
+      "sharing_marking": "TLP:CLEAR",
+      "reuse_review_id": "cisa-aa22-320a",
+      "upstream_url": "https://www.cisa.gov/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf",
+      "upstream_sha256": "beacab7d0ed36ddc4e51b3e7a00e24ac9c612bfb29dffde3ffef01597b4109e2",
+      "upstream_retrieved_at": "2026-10-14T20:17:27.295205+00:00",
+      "report_attack_release": "12",
+      "sections": [
+        {
+          "key": "overview",
+          "heading": "overview",
+          "text": "CISA and FBI reported compromise of a federal civilian organization through an unpatched VMware Horizon server. Their advisory associates the compromise with Log4Shell, CVE-2021-44228. The agencies assessed likely Iranian government sponsorship; this is an attributed assessment rather than an independently established fixture fact.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 2,
+            "heading": "Technical Details / Overview"
+          }
+        },
+        {
+          "key": "technique-use",
+          "heading": "technique-use",
+          "text": "The advisory reports Log4Shell exploitation in February 2022 and explicitly maps that initial access to T1190. It separately maps PowerShell execution in the exploitation payload to T1059.001. These are report-specific observations, not universal mappings for every Log4Shell exploitation.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 2,
+            "heading": "Threat Actor Activity"
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "target_source_id": "CVE-2021-44228",
+          "relationship_type": "reports_exploitation_of",
+          "section_key": "overview",
+          "basis": "The advisory identifies Log4Shell as CVE-2021-44228 and describes the compromise."
+        },
+        {
+          "target_source_id": "T1190",
+          "relationship_type": "reports_use_of_technique",
+          "section_key": "technique-use",
+          "basis": "The report explicitly labels the initial-access exploitation T1190."
+        },
+        {
+          "target_source_id": "T1059.001",
+          "relationship_type": "reports_use_of_technique",
+          "section_key": "technique-use",
+          "basis": "The report explicitly labels the PowerShell payload execution T1059.001."
+        }
+      ]
+    },
+    {
+      "source_id": "AA22-174A",
+      "title": "Malicious Cyber Actors Continue to Exploit Log4Shell in VMware Horizon Systems",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-174a",
+      "publication_date": "2022-06-23",
+      "sharing_marking": "TLP:WHITE",
+      "reuse_review_id": "cisa-aa22-174a",
+      "upstream_url": "https://www.cisa.gov/sites/default/files/publications/AA22-174A_Joint_CSA_Malicious_Cyber_Actors_Exploiting_Log4Shell_in_Unpatched_VMware_Horizon_Systems_FINAL.pdf",
+      "upstream_sha256": "368d090969cd89d72e772bd878691623a9ca7914dbf91a549d9ef77f155373bf",
+      "upstream_retrieved_at": "2026-10-14T20:17:27.634521+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "summary",
+          "heading": "summary",
+          "text": "CISA and CGCYBER described exploitation of CVE-2021-44228 in unpatched VMware Horizon and Unified Access Gateway servers. The advisory draws on two incident-response engagements and malware analysis. One confirmed compromise included lateral movement and data exfiltration. The report is a separate source from AA22-320A; this fixture does not assert a shared victim, actor, or campaign.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 1,
+            "heading": "Summary"
+          }
+        },
+        {
+          "key": "recommendations",
+          "heading": "recommendations",
+          "text": "The advisory recommends installing fixed builds for affected VMware Horizon and Unified Access Gateway systems and reducing exposure of internet-facing services. These are historical recommendations from the June 2022 advisory; current vendor guidance must be checked before operational use.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 1,
+            "heading": "Actions to take today"
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "target_source_id": "CVE-2021-44228",
+          "relationship_type": "reports_exploitation_of",
+          "section_key": "summary",
+          "basis": "The summary explicitly identifies exploitation of CVE-2021-44228."
+        }
+      ]
+    },
+    {
+      "source_id": "AA23-075A",
+      "title": "#StopRansomware: LockBit 3.0",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-075a",
+      "publication_date": "2023-03-16",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-075a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-075a",
+      "upstream_sha256": "7aaac7a9347f921c0f204ca03bc243b282f833bd48a8c29900e8506038bb34a6",
+      "upstream_retrieved_at": "2026-10-15T13:39:10.350621+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "The FBI, CISA and MS-ISAC describe LockBit 3.0 as an affiliate-operated ransomware service. The report lists several observed entry routes, including valid-account abuse (T1078) and exploitation of public-facing applications (T1190); these are alternatives rather than a claim that every intrusion followed one route. Affiliates stole data using tools including rclone before encrypting victim systems. The advisory recommends patching exploited vulnerabilities and enforcing phishing-resistant multifactor authentication.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY; INITIAL ACCESS; EXFILTRATION",
+            "snapshot_sha256": "7aaac7a9347f921c0f204ca03bc243b282f833bd48a8c29900e8506038bb34a6"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-061A",
+      "title": "#StopRansomware: Blacksuit (Royal) Ransomware",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-061a",
+      "publication_date": "2023-03-02",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-061a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-061a",
+      "upstream_sha256": "09a8f398ae9bef25db9283d653e1cb6519547c806b1ad4630f9fcd363d5f9a10",
+      "upstream_retrieved_at": "2026-10-15T13:39:11.900667+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "The updated FBI and CISA advisory describes BlackSuit as an evolution of Royal ransomware. Reported activity combines theft of victim data with encryption and threats to publish stolen information. The report identifies phishing (T1566) and vulnerable public-facing applications (T1190) among initial-access methods, while distinguishing FBI observations from third-party reporting. Its August 2024 revisions add BlackSuit activity; this summary describes that revised report rather than only the original Royal advisory.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary; Initial Access",
+            "snapshot_sha256": "09a8f398ae9bef25db9283d653e1cb6519547c806b1ad4630f9fcd363d5f9a10"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-136A",
+      "title": "#StopRansomware: BianLian Ransomware Group",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-136a",
+      "publication_date": null,
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-136a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-136a",
+      "upstream_sha256": "2947e19e5fc22a61047bcddef2b08fc255390567ad99a962b87b798e311c4f8f",
+      "upstream_retrieved_at": "2026-10-15T13:39:13.461134+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "The FBI, CISA and Australian partners describe BianLian intrusions using valid remote desktop credentials, discovery tools and data exfiltration. Their November 2024 update reports a transition from encryption plus theft to exclusively theft-based extortion around January 2024. The report documents RDP lateral movement (T1021.001) and credential harvesting. It recommends restricting remote desktop access and scripting permissions. The page gives an original publication month, May 2023, without an exact day in the reviewed summary; that date remains absent here.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary; Privilege Escalation; Persistence and Lateral Movement",
+            "snapshot_sha256": "2947e19e5fc22a61047bcddef2b08fc255390567ad99a962b87b798e311c4f8f"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-158A",
+      "title": "#StopRansomware: CL0P Ransomware Gang Exploits CVE-2023-34362 MOVEit Vulnerability",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-158a",
+      "publication_date": "2023-06-07",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-158a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-158a",
+      "upstream_sha256": "beb655fdd7c8c6c4cb5b4ae53fda2f6ff4c8c19cfba20e163be5dc7f78bad801",
+      "upstream_retrieved_at": "2026-10-15T13:39:15.256703+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "FBI and CISA report that CL0P actors exploited CVE-2023-34362 in MOVEit Transfer during the May 2023 campaign. The advisory attributes the initial account to open-source reporting and describes installation of the LEMURLOOT web shell to obtain data from the transfer service. It also discusses a separate GoAnywhere campaign involving CVE-2023-0669. These are report-specific campaigns, not evidence that any similar file-transfer vulnerability was exploited by CL0P.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY; CVE-2023-34362 MOVEIT TRANSFER VULNERABILITY",
+            "snapshot_sha256": "beb655fdd7c8c6c4cb5b4ae53fda2f6ff4c8c19cfba20e163be5dc7f78bad801"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-165A",
+      "title": "Understanding Ransomware Threat Actors: LockBit",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-165a",
+      "publication_date": "2023-06-14",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-165a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-165a",
+      "upstream_sha256": "bf23da4a1dcaec4ab0fe7c817cc664a5c916e675b11d52377b9cb3dc2e7b2643",
+      "upstream_retrieved_at": "2026-10-15T13:39:16.769057+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "CISA, FBI, MS-ISAC and international partners describe observed LockBit incidents across multiple critical-infrastructure sectors. LockBit supplies ransomware and infrastructure to affiliates, whose methods vary substantially between intrusions. The report traces changes in the service and explains why one fixed sequence of techniques cannot represent every affiliate. Its findings concern the observed period through 2023; this corpus does not treat the historical prevalence statements as current measurements.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY; Introduction",
+            "snapshot_sha256": "bf23da4a1dcaec4ab0fe7c817cc664a5c916e675b11d52377b9cb3dc2e7b2643"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-319A",
+      "title": "#StopRansomware: Rhysida Ransomware",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a",
+      "publication_date": "2023-11-15",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-319a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-319a",
+      "upstream_sha256": "2d39c3cee930ef4c26a4e20ce2a316644d161a4f14cb28c1c40618965e72e19d",
+      "upstream_retrieved_at": "2026-10-15T13:39:18.596505+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "The revised FBI, CISA and MS-ISAC report describes Rhysida ransomware activity using incident-response investigations and malware samples found on victim networks. Education, healthcare, manufacturing, government and information-technology organizations are among the reported targets. The April 2025 revision updates indicators and techniques with investigations through December 2024. The agencies recommend remediation of exploited vulnerabilities, multifactor authentication and network segmentation; the corpus retains their recommendations as attributed historical evidence.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary",
+            "snapshot_sha256": "2d39c3cee930ef4c26a4e20ce2a316644d161a4f14cb28c1c40618965e72e19d"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-320A",
+      "title": "Scattered Spider",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a",
+      "publication_date": "2023-11-16",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-320a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a",
+      "upstream_sha256": "9e02aaa5113628e691002e4e5d6960f1c429b5fa8990d5b7b84dd7886c7181b2",
+      "upstream_retrieved_at": "2026-10-15T13:39:20.419193+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "The Scattered Spider advisory describes attacks against large organizations and their contracted IT help desks. The July 2025 revision adds social-engineering methods and ransomware observations from investigations through June 2025. The report attributes recent DragonForce deployment and extortion activity to trusted third parties. Its recommendations include offline tested backups, phishing-resistant multifactor authentication and controls on software execution. This summary preserves those attribution boundaries rather than independently assigning every described intrusion to the group.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary",
+            "snapshot_sha256": "9e02aaa5113628e691002e4e5d6960f1c429b5fa8990d5b7b84dd7886c7181b2"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-325A",
+      "title": "#StopRansomware: LockBit 3.0 Ransomware Affiliates Exploit CVE 2023-4966 Citrix Bleed Vulnerability",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-325a",
+      "publication_date": "2023-11-21",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-325a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-325a",
+      "upstream_sha256": "5ad80c582692dd8396e2424cb885dbffca4f5eb0b8e5b36df6e3b3c5468ba023",
+      "upstream_retrieved_at": "2026-10-15T13:39:22.011534+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "CISA and partner agencies describe LockBit 3.0 affiliates exploiting CVE-2023-4966, known as Citrix Bleed, against NetScaler appliances. The advisory includes observations voluntarily shared by Boeing concerning its separate parts-distribution environment. Session hijacking could bypass password and multifactor-authentication requirements, enabling further access and credential theft. The agencies advise patching, isolating affected appliances and hunting for compromise. The report supplies campaign evidence, not a general relationship between all Citrix vulnerabilities and LockBit.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY",
+            "snapshot_sha256": "5ad80c582692dd8396e2424cb885dbffca4f5eb0b8e5b36df6e3b3c5468ba023"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-353A",
+      "title": "#StopRansomware: ALPHV Blackcat",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-353a",
+      "publication_date": "2023-12-19",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-353a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-353a",
+      "upstream_sha256": "516dcecc024256d1026870c4dc68b883779cfe0abc2f01dff2799c7e818f9396",
+      "upstream_retrieved_at": "2026-10-15T13:39:23.677355+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "FBI, CISA and HHS describe ALPHV Blackcat ransomware-service activity in a February 2024 update. The report discusses victim-specific email communications and increased targeting of healthcare following disruption of the group's infrastructure. Its Sphynx update supports encryption on Windows, Linux and VMware environments. The agencies recommend asset inventory, remediation of exploited vulnerabilities, multifactor authentication and removal of unnecessary exposed services. No particular CVE exploitation claim is inferred from this general campaign summary.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY",
+            "snapshot_sha256": "516dcecc024256d1026870c4dc68b883779cfe0abc2f01dff2799c7e818f9396"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-352A",
+      "title": "#StopRansomware: Play Ransomware",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-352a",
+      "publication_date": "2023-12-18",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-352a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-352a",
+      "upstream_sha256": "860654ba955ea0b6a0e0259b4169b118712e6052ca530e9e94b095983e6e98aa",
+      "upstream_retrieved_at": "2026-10-15T13:39:24.890127+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "The revised FBI, CISA and Australian advisory describes Play ransomware incidents across businesses and critical infrastructure. Its June 2025 update incorporates investigations through January 2025. The actors steal data before encrypting systems and contact victims to demand payment and threaten disclosure. The agencies recommend multifactor authentication, software updates and offline recovery preparation. The report distinguishes observed activity from claims made on the group's own leak site; those claims are not independently validated by this corpus.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary",
+            "snapshot_sha256": "860654ba955ea0b6a0e0259b4169b118712e6052ca530e9e94b095983e6e98aa"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-131A",
+      "title": "Malicious Actors Exploit CVE-2023-27350 in PaperCut MF and NG",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-131a",
+      "publication_date": null,
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-131a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-131a",
+      "upstream_sha256": "a48262237d35000311b733db3b6ae5357c9e545dbe4f5bd68c94206e6cfe89d1",
+      "upstream_retrieved_at": "2026-10-15T13:39:26.426201+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "FBI and CISA describe active exploitation of CVE-2023-27350 in PaperCut NG and MF. Their May 2023 report says the vulnerability permits unauthenticated remote execution and notes attempted exploitation of education-sector servers by actors calling themselves the Bl00dy Ransomware Gang. The agencies advise patching and, for organizations that delayed remediation, hunting for evidence of compromise. The reviewed page labels May 11, 2023 as a revision date; this summary does not invent a distinct original publication date.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY; Vulnerability Overview",
+            "snapshot_sha256": "a48262237d35000311b733db3b6ae5357c9e545dbe4f5bd68c94206e6cfe89d1"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-039A",
+      "title": "ESXiArgs Ransomware Virtual Machine Recovery Guidance",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-039a",
+      "publication_date": "2023-02-08",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-039a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-039a",
+      "upstream_sha256": "667d8ae5e58762c8d14222e242637d275c3620ac1b8d05421c7a90953c9d5628",
+      "upstream_retrieved_at": "2026-10-15T13:39:27.979864+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "CISA and FBI describe the ESXiArgs ransomware campaign against VMware ESXi servers. The report assesses that actors may be exploiting known vulnerabilities in outdated or unpatched servers, without establishing a specific CVE in the reviewed overview. Encryption of configuration files can leave virtual machines unusable even where underlying flat files remain intact. The agencies provide a recovery script and explain that recovery is conditional; this corpus neither executes that script nor promises successful restoration.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary; Technical Details",
+            "snapshot_sha256": "667d8ae5e58762c8d14222e242637d275c3620ac1b8d05421c7a90953c9d5628"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-040A",
+      "title": "#StopRansomware: Ransomware Attacks on Critical Infrastructure Fund DPRK Malicious Cyber Activities",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-040a",
+      "publication_date": "2023-02-09",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-040a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-040a",
+      "upstream_sha256": "d171341c3fc6473751ffc85fc5de7544ff0a232fda2ee26ae31d8d5bc481207a",
+      "upstream_retrieved_at": "2026-10-15T13:39:29.854142+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "U.S. and South Korean agencies describe ransomware operations against healthcare and other critical infrastructure, assessing that proceeds support DPRK priorities. The report lists CVE-2021-44228 and CVE-2021-20038 among vulnerabilities observed in gaining access, and maps public-application exploitation to T1190. It also describes cryptocurrency-funded infrastructure and concealed actor identities. The national sponsorship and funding link remain attributed agency assessments, not independently proven conclusions of this application.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY; Observable TTPs",
+            "snapshot_sha256": "d171341c3fc6473751ffc85fc5de7544ff0a232fda2ee26ae31d8d5bc481207a"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA23-284A",
+      "title": "#StopRansomware: AvosLocker Ransomware (Update)",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-284a",
+      "publication_date": "2023-10-11",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa23-284a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-284a",
+      "upstream_sha256": "18b157b8cc95291a443175086833002dddbf6795751c4db537de33a0df3e3713",
+      "upstream_retrieved_at": "2026-10-15T13:39:31.435481+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "FBI and CISA describe AvosLocker affiliate intrusions into U.S. critical infrastructure using legitimate administration software and open-source remote-access tools. The ransomware service affects Windows, Linux and VMware ESXi environments, while affiliates threaten disclosure of stolen data. This October 2023 advisory updates an earlier report with observations through May 2023 and additional detection material. Recommended controls include securing remote access, restricting RDP and PowerShell, and keeping software patched.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY",
+            "snapshot_sha256": "18b157b8cc95291a443175086833002dddbf6795751c4db537de33a0df3e3713"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA24-060A",
+      "title": "#StopRansomware: Phobos Ransomware",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-060a",
+      "publication_date": null,
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa24-060a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-060a",
+      "upstream_sha256": "4afd2eddd1847a57b86ec83cafb1c31eda096b5505520a4e7b5f8ec6d5fc151e",
+      "upstream_retrieved_at": "2026-10-15T13:39:33.101499+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "FBI, CISA and MS-ISAC describe Phobos ransomware-service incidents affecting state and local governments, education, emergency services and public healthcare. The report incorporates open-source observations through February 2024 and notes recurring reports to MS-ISAC since 2019. Its recommendations emphasize protecting remote desktop access and disrupting malicious execution. February 29, 2024 appears as the page's last-revised date; a separate exact original publication date is not established by the reviewed passage.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "SUMMARY",
+            "snapshot_sha256": "4afd2eddd1847a57b86ec83cafb1c31eda096b5505520a4e7b5f8ec6d5fc151e"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA24-109A",
+      "title": "#StopRansomware: Akira Ransomware",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-109a",
+      "publication_date": "2024-04-18",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa24-109a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-109a",
+      "upstream_sha256": "723a863b8aea49f1e401b658fa1704ce0714ac4ff622c1ddaaea4920b436305f",
+      "upstream_retrieved_at": "2026-10-15T13:39:34.713586+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "The updated Akira advisory describes ransomware incidents affecting organizations in North America, Europe and Australia, including Windows and ESXi environments. Its November 2025 revision adds third-party reporting of attacks against Nutanix hypervisors and assesses likely abuse of SonicWall CVE-2024-40766. That vulnerability relationship remains a qualified assessment rather than confirmed exploitation in every incident. The agencies recommend phishing-resistant authentication, patching and regularly tested offline backups.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary",
+            "snapshot_sha256": "723a863b8aea49f1e401b658fa1704ce0714ac4ff622c1ddaaea4920b436305f"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA24-131A",
+      "title": "#StopRansomware: Black Basta",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a",
+      "publication_date": "2024-05-10",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa24-131a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a",
+      "upstream_sha256": "5abf0c1d55dcf0a0f043270659e4201d8e1696c697c72f90aa662c7becb26a13",
+      "upstream_retrieved_at": "2026-10-15T13:39:36.267086+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "FBI, CISA, HHS and MS-ISAC describe Black Basta affiliates stealing and encrypting data across multiple critical-infrastructure sectors. The November 2024 revision adds email flooding followed by social engineering over Microsoft Teams to persuade users to grant remote-management access. The advisory combines FBI investigations with third-party reporting and discusses phishing and vulnerability exploitation as general access routes. It recommends patching, phishing-resistant multifactor authentication and user training without establishing a specific CVE in this summary.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary",
+            "snapshot_sha256": "5abf0c1d55dcf0a0f043270659e4201d8e1696c697c72f90aa662c7becb26a13"
+          }
+        }
+      ],
+      "relationships": []
+    },
+    {
+      "source_id": "AA24-242A",
+      "title": "#StopRansomware: RansomHub Ransomware",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-242a",
+      "publication_date": "2024-08-29",
+      "sharing_marking": null,
+      "reuse_review_id": "cisa-aa24-242a",
+      "upstream_url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-242a",
+      "upstream_sha256": "232771db698278968f525072196cb4537fbe7c57bf96ec3037c47cc1463511a8",
+      "upstream_retrieved_at": "2026-10-15T13:39:38.193948+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "reviewed-summary",
+          "heading": "Reviewed factual summary",
+          "text": "FBI, CISA, MS-ISAC and HHS describe RansomHub as a ransomware service using both encryption and stolen-data extortion. Their August 2024 report discusses affiliates operating across many critical-infrastructure sectors and explains that exfiltration methods vary by affiliate. Ransom notes direct victims to a communication site rather than supplying a fixed payment instruction. The agencies recommend prompt software updates, phishing-resistant multifactor authentication and phishing awareness. Reported victim counts describe the historical reporting window rather than a current total.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "format": "html",
+            "heading": "Summary",
+            "snapshot_sha256": "232771db698278968f525072196cb4537fbe7c57bf96ec3037c47cc1463511a8"
+          }
+        }
+      ],
+      "relationships": []
+    }
+  ]
+}
