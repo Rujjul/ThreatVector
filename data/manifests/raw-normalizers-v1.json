@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "fixture_id": "threatvector-raw-normalizers-v1",
+  "curated_date": "2026-10-15",
+  "source_review_manifest": "data/manifests/source-review-2026-10-15.json",
+  "entries": [
+    {
+      "path": "data/fixtures/raw_normalizers/nvd-44228.json",
+      "format": "nvd_api_2_0",
+      "representation": "original_source_text",
+      "snapshot_kind": "unmodified_http_response",
+      "source_url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44228",
+      "retrieved_at": "2026-10-14T20:17:11.146152+00:00",
+      "sha256": "1c38ab4756d5b3189f14e0b2b9fa29780f73167a8073229ae5df16af7412ae3d",
+      "bytes": 87139,
+      "selected_ids": [
+        "CVE-2021-44228"
+      ],
+      "selected_record_sha256": {
+        "CVE-2021-44228": "241c66d4c700db3ae88ede2fadd7a4a1b7c92315244f7d63fef85efdafc2d303"
+      },
+      "reuse_review_id": "nvd-cve",
+      "attribution": "NIST National Vulnerability Database; CVE description supplied by Apache Software Foundation (security@apache.org). Unmodified API snapshot; see NIST/CVE notices.",
+      "required_notices": [
+        "data/fixtures/notices/NIST-DATA-NOTICE.txt",
+        "data/fixtures/notices/CVE-TERMS.txt"
+      ]
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/nvd-45046.json",
+      "format": "nvd_api_2_0",
+      "representation": "original_source_text",
+      "snapshot_kind": "unmodified_http_response",
+      "source_url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-45046",
+      "retrieved_at": "2026-10-14T20:17:19.293812+00:00",
+      "sha256": "29243acc21c8fee92688c49dccee4da17c81027f7263ef39ffc0e085d30def33",
+      "bytes": 26544,
+      "selected_ids": [
+        "CVE-2021-45046"
+      ],
+      "selected_record_sha256": {
+        "CVE-2021-45046": "ef2b8676e3c10aa412b03b4be91b83fb619f185487d71fb655791faf783fac43"
+      },
+      "reuse_review_id": "nvd-cve",
+      "attribution": "NIST National Vulnerability Database; CVE description supplied by Apache Software Foundation (security@apache.org). Unmodified API snapshot; see NIST/CVE notices.",
+      "required_notices": [
+        "data/fixtures/notices/NIST-DATA-NOTICE.txt",
+        "data/fixtures/notices/CVE-TERMS.txt"
+      ]
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/attack-enterprise-17.1.json",
+      "format": "stix_bundle",
+      "representation": "original_source_text",
+      "snapshot_kind": "bundle_subset_objects_unchanged_not_original_response",
+      "source_url": "urn:threatvector:fixture:raw-normalizers-v1:attack-enterprise-17.1",
+      "retrieved_at": "2026-10-14T20:17:44.300442+00:00",
+      "sha256": "bd2e680194cea7fe10a314c6b2055b9bcbef64eee7430fb1a491806df6766a33",
+      "bytes": 28033,
+      "selected_ids": [
+        "M1051",
+        "T1059",
+        "T1059.001",
+        "T1190"
+      ],
+      "selected_stix_ids": [
+        "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+        "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830",
+        "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736",
+        "course-of-action--65da1eb6-d35d-4853-b280-98a76c0aef53",
+        "course-of-action--e5d930e9-775a-40ad-9bdb-b941d8dfe86b",
+        "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168",
+        "relationship--b7dc0db4-b1fb-4235-8b49-0792e7019377",
+        "relationship--d373eebb-b578-4b59-9de1-2946bf837d96"
+      ],
+      "selected_record_sha256": {
+        "course-of-action--65da1eb6-d35d-4853-b280-98a76c0aef53": "e45f46694027251b1707df36344160f4663a204c2f5405c68d72e01b10cb489a",
+        "course-of-action--e5d930e9-775a-40ad-9bdb-b941d8dfe86b": "fef373757618c859176021fedd82b8f4bc888b3474d30bae7fc2b664df29cc5b",
+        "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c": "4a592e8c17f452d48b1a67a47a649a01f45bda37015f98160fa363ce8b107ca7",
+        "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830": "1003b0ff5379739796ca7f100b47f26084ee72e2ddb5072422e48d8d80727749",
+        "attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736": "f5f53485b32c780e70d521f002f41ad1c883a453abe8634b1ba1f65ce11a0b94",
+        "relationship--b7dc0db4-b1fb-4235-8b49-0792e7019377": "5bc811f272e3c4e762c2560dc51b9bfbcf8d4a279a4e4baea1ba64dd29b2ae22",
+        "relationship--d373eebb-b578-4b59-9de1-2946bf837d96": "e65d9c087245928c243cbad417e5b33539095ca086d9d5364d2a91d79d82bc8b",
+        "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5": "07b98cd17560c5e57c8fae085ec2338c6c1a3e566e93d66be352c324b6d489d7",
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168": "a40276f5733c7e7ec150a66acb0336294f9a02ec4a97f9079b3d0c7a3cf5612a"
+      },
+      "upstream_url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/enterprise-attack/enterprise-attack.json",
+      "upstream_sha256": "9537a22166367a5b3c1434f5b17b27361cb9c88b34926e655344768fdbda3e85",
+      "attack_release": "17.1",
+      "attack_commit": "dc2ea9270f1a91398c750a6dceb3591b86082ce8",
+      "reuse_review_id": "mitre-attack",
+      "attribution": "MITRE ATT&CK Enterprise 17.1. Copyright 2025 The MITRE Corporation. Selected STIX objects unchanged; bundle reduced. See MITRE-ATTACK-LICENSE.txt.",
+      "required_notices": [
+        "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt"
+      ]
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/incident-summaries.json",
+      "format": "threatvector_incident_manifest_1",
+      "representation": "project_authored_factual_summary",
+      "snapshot_kind": "project_authored_manifest_not_original_report_text",
+      "source_url": "urn:threatvector:fixture:raw-normalizers-v1:incident-summaries",
+      "retrieved_at": "2026-10-15T13:22:03.938071+00:00",
+      "curated_date": "2026-10-15",
+      "timestamp_note": "Time the generated curated fixture was read locally, not an original report download. Original report retrieval times are retained separately.",
+      "sha256": "55e0d9c1764ebe347689fdb9eda4c7a6e5c30fd2ec8e71f7401d65c9c8caa175",
+      "bytes": 5196,
+      "selected_ids": [
+        "AA22-320A",
+        "AA22-174A"
+      ],
+      "context_by_source_id": {
+        "AA22-320A": {
+          "reuse_review_id": "cisa-aa22-320a",
+          "attribution": "Cybersecurity and Infrastructure Security Agency (CISA) and Federal Bureau of Investigation (FBI), Joint Cybersecurity Advisory AA22-320A, November 16, 2022. Original factual summary by ThreatVector; no agency endorsement implied.",
+          "upstream_url": "https://www.cisa.gov/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf",
+          "upstream_sha256": "beacab7d0ed36ddc4e51b3e7a00e24ac9c612bfb29dffde3ffef01597b4109e2"
+        },
+        "AA22-174A": {
+          "reuse_review_id": "cisa-aa22-174a",
+          "attribution": "Cybersecurity and Infrastructure Security Agency (CISA) and United States Coast Guard Cyber Command (CGCYBER), Joint Cybersecurity Advisory AA22-174A, June 23, 2022. Original factual summary by ThreatVector; no agency endorsement implied.",
+          "upstream_url": "https://www.cisa.gov/sites/default/files/publications/AA22-174A_Joint_CSA_Malicious_Cyber_Actors_Exploiting_Log4Shell_in_Unpatched_VMware_Horizon_Systems_FINAL.pdf",
+          "upstream_sha256": "368d090969cd89d72e772bd878691623a9ca7914dbf91a549d9ef77f155373bf"
+        }
+      },
+      "annotations_reviewed_by_project": true,
+      "required_notices": []
+    }
+  ],
+  "limitations": [
+    "Two exact NVD API responses; pinned STIX subset objects unchanged; CISA source prose is not included.",
+    "Incident JSON is a curated summary-manifest input format, not an original vendor report or source PDF.",
+    "Inactive/malformed/injection boundary cases are synthetic mutations in tests, not fabricated public evidence.",
+    "No networking, database, chunking, embeddings or ingestion CLI is implemented by these fixtures."
+  ],
+  "artifacts": [
+    {
+      "path": "data/fixtures/raw_normalizers/nvd-44228.json",
+      "sha256": "1c38ab4756d5b3189f14e0b2b9fa29780f73167a8073229ae5df16af7412ae3d",
+      "bytes": 87139
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/nvd-45046.json",
+      "sha256": "29243acc21c8fee92688c49dccee4da17c81027f7263ef39ffc0e085d30def33",
+      "bytes": 26544
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/attack-enterprise-17.1.json",
+      "sha256": "bd2e680194cea7fe10a314c6b2055b9bcbef64eee7430fb1a491806df6766a33",
+      "bytes": 28033
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/incident-summaries.json",
+      "sha256": "55e0d9c1764ebe347689fdb9eda4c7a6e5c30fd2ec8e71f7401d65c9c8caa175",
+      "bytes": 5196
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/README.md",
+      "sha256": "fda0888e384c7bdfe082384ca801fbe8b0b7d607e4f83d11ff856acf5a4fdc33",
+      "bytes": 4149
+    },
+    {
+      "path": "data/fixtures/notices/NIST-DATA-NOTICE.txt",
+      "sha256": "58a613e72f911c1f8fc04a17b566d3ba16956100e79ed7325c474dec0b24fa8d",
+      "bytes": 2376
+    },
+    {
+      "path": "data/fixtures/notices/CVE-TERMS.txt",
+      "sha256": "3b275db7857f7051d9954816d90897e027b6ba087177bd086483d1b1f6485491",
+      "bytes": 1830
+    },
+    {
+      "path": "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt",
+      "sha256": "0019296a8f089883b36484dc92cb07ea779caabc7a950d7798366015f57a5bf7",
+      "bytes": 2311
+    }
+  ],
+  "expected_fixture_normalization": {
+    "documents": 9,
+    "active_documents": 8,
+    "relationships": 10,
+    "stix_relationships": 2,
+    "identifier_mentions": 4,
+    "caller_reviewed_annotations": 4
+  }
+}

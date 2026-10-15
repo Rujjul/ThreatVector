@@ -53,3 +53,17 @@ python data/fixtures/verify_fixture.py
 ```
 
 These data files are not wired into the frontend or backend; the browser demo remains synthetic. Raw downloads stay ignored. Fixture hashes and upstream provenance are recorded under `data/manifests/`; no full corpus or ingestion implementation is claimed.
+
+The source manifest's revision-2 decisions use four explicit reuse categories and include reviewed Microsoft/NCSC candidates. The [NVD access-policy review](data/fixtures/NVD_API_POLICY.md) now verifies bulk/API limits, key handling and attribution. Current CISA policy pages were found and read, but worldwide full-report rights remain unestablished; project-authored factual summaries remain the approved representation. Microsoft articles remain links/metadata only. No candidate text has been added to the seed corpus.
+
+## Normalizers and raw-format fixtures
+
+[Source normalizers](backend/normalization/README.md) now handle NVD API 2.0 responses, pinned ATT&CK STIX bundles and approved incident-summary manifests. [Raw fixtures](data/fixtures/raw_normalizers/README.md) retain source format, hashes, metadata and applicable notices. The adapters are pure in-memory functions; no ingestion endpoint, database import, retrieval, index or provider call is added.
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.lock
+.\.venv\Scripts\python.exe -m pytest
+python data/fixtures/verify_fixture.py
+```
+
+Normalization preserves source provenance, rejects conflicting revisions, keeps inactive records and explicit unresolved relationships, and separates identifier mentions from caller-reviewed stronger annotations. Policy decisions come from trusted project configuration. Source text cannot authorize itself, enable reviewed annotations or trigger tools. Database idempotence and full ingestion remain unimplemented; normalization repeatability is tested independently.

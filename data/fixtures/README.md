@@ -1,5 +1,7 @@
 # Attributed seed corpus
 
+Raw source-shaped normalizer fixtures are now available separately in [raw_normalizers/](raw_normalizers/README.md), with NVD/CVE notices and the pinned MITRE license. The seed corpus described below remains six curated summary documents; the new raw inputs are tested through `backend/normalization/` and do not change the application demo.
+
 `corpus.json` contains **six documents, eight curated sections, five explicit relationships and two unsupported cases**:
 
 | Type | Selected sources |
@@ -20,6 +22,10 @@ Read [SOURCE_REVIEW.md](SOURCE_REVIEW.md) and preserve source attribution and [t
 
 Original CISA prose, PDFs, third-party graphics, executable payloads and complete raw datasets are excluded from tracked fixtures. Full CISA report-text redistribution remains uncleared; summaries restate verified facts. NVD descriptions identify Apache as the CNA source, so the fixture does not indiscriminately call all NVD text government-created public-domain work.
 
+Follow-up review revision 2 closes the CISA policy-access and NVD JavaScript-shell gaps. Current CISA policies still do not establish a worldwide full-report license, so only original factual summaries are approved. [NVD_API_POLICY.md](NVD_API_POLICY.md) documents verified API/bulk access and modified-content attribution rules. NVD-based summaries explicitly identify ThreatVector as author and retain original-record provenance separately.
+
+Every manifest entry now has one of four decisions: **Redistributable full text**, **Permitted excerpts/summaries only**, **Metadata and links only**, or **Excluded sources**, with source-specific conditions. Eligibility for full text does not change the fixture's current summary representation. Two Microsoft candidates remain metadata/link-only; one NCSC-authored article is eligible under OGL v3.0; its separately linked joint advisory is excluded pending independent review. These candidates were not added to the six-document fixture.
+
 ## Verify the frozen snapshot
 
 From the repository root, using standard-library Python only:
@@ -35,6 +41,8 @@ python data/fixtures/verify_fixture.py --check-local-sources
 ```
 
 The second check verifies exact downloaded bytes and selected NVD/STIX object hashes and source locators. It makes no network calls. Missing local downloads cause an explicit failure, not a fixture substitution. A clean clone can perform the first check without downloads.
+
+Verification also checks the final reuse categories, candidate admission restrictions, policy-evidence references and separate summary attribution. With local sources present, it checks the policy evidence hashes as well. It does not automatically determine copyright status or certify legal compliance.
 
 `../manifests/fixture-v1.json` is the frozen fixture manifest; `../manifests/source-review-2026-10-15.json` records review decisions and retrieval evidence. Future live NVD responses can change: their historical bytes are not promised reconstructible from a mutable URL. The committed curated snapshot is self-contained; raw downloaded snapshots remain ignored local artifacts. PDF page references and factual support were reviewed manually, not inferred by the checker.
 

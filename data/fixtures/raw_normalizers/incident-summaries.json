@@ -1,0 +1,102 @@
+{
+  "format": "threatvector_incident_manifest",
+  "version": 1,
+  "reports": [
+    {
+      "source_id": "AA22-320A",
+      "title": "Iranian Government-Sponsored APT Actors Compromise Federal Network, Deploy Crypto Miner, Credential Harvester",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-320a",
+      "publication_date": "2022-11-16",
+      "sharing_marking": "TLP:CLEAR",
+      "reuse_review_id": "cisa-aa22-320a",
+      "upstream_url": "https://www.cisa.gov/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf",
+      "upstream_sha256": "beacab7d0ed36ddc4e51b3e7a00e24ac9c612bfb29dffde3ffef01597b4109e2",
+      "upstream_retrieved_at": "2026-10-14T20:17:27.295205+00:00",
+      "report_attack_release": "12",
+      "sections": [
+        {
+          "key": "overview",
+          "heading": "overview",
+          "text": "CISA and FBI reported compromise of a federal civilian organization through an unpatched VMware Horizon server. Their advisory associates the compromise with Log4Shell, CVE-2021-44228. The agencies assessed likely Iranian government sponsorship; this is an attributed assessment rather than an independently established fixture fact.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 2,
+            "heading": "Technical Details / Overview"
+          }
+        },
+        {
+          "key": "technique-use",
+          "heading": "technique-use",
+          "text": "The advisory reports Log4Shell exploitation in February 2022 and explicitly maps that initial access to T1190. It separately maps PowerShell execution in the exploitation payload to T1059.001. These are report-specific observations, not universal mappings for every Log4Shell exploitation.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 2,
+            "heading": "Threat Actor Activity"
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "target_source_id": "CVE-2021-44228",
+          "relationship_type": "reports_exploitation_of",
+          "section_key": "overview",
+          "basis": "The advisory identifies Log4Shell as CVE-2021-44228 and describes the compromise."
+        },
+        {
+          "target_source_id": "T1190",
+          "relationship_type": "reports_use_of_technique",
+          "section_key": "technique-use",
+          "basis": "The report explicitly labels the initial-access exploitation T1190."
+        },
+        {
+          "target_source_id": "T1059.001",
+          "relationship_type": "reports_use_of_technique",
+          "section_key": "technique-use",
+          "basis": "The report explicitly labels the PowerShell payload execution T1059.001."
+        }
+      ]
+    },
+    {
+      "source_id": "AA22-174A",
+      "title": "Malicious Cyber Actors Continue to Exploit Log4Shell in VMware Horizon Systems",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-174a",
+      "publication_date": "2022-06-23",
+      "sharing_marking": "TLP:WHITE",
+      "reuse_review_id": "cisa-aa22-174a",
+      "upstream_url": "https://www.cisa.gov/sites/default/files/publications/AA22-174A_Joint_CSA_Malicious_Cyber_Actors_Exploiting_Log4Shell_in_Unpatched_VMware_Horizon_Systems_FINAL.pdf",
+      "upstream_sha256": "368d090969cd89d72e772bd878691623a9ca7914dbf91a549d9ef77f155373bf",
+      "upstream_retrieved_at": "2026-10-14T20:17:27.634521+00:00",
+      "report_attack_release": null,
+      "sections": [
+        {
+          "key": "summary",
+          "heading": "summary",
+          "text": "CISA and CGCYBER described exploitation of CVE-2021-44228 in unpatched VMware Horizon and Unified Access Gateway servers. The advisory draws on two incident-response engagements and malware analysis. One confirmed compromise included lateral movement and data exfiltration. The report is a separate source from AA22-320A; this fixture does not assert a shared victim, actor, or campaign.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 1,
+            "heading": "Summary"
+          }
+        },
+        {
+          "key": "recommendations",
+          "heading": "recommendations",
+          "text": "The advisory recommends installing fixed builds for affected VMware Horizon and Unified Access Gateway systems and reducing exposure of internet-facing services. These are historical recommendations from the June 2022 advisory; current vendor guidance must be checked before operational use.",
+          "text_kind": "project_authored_factual_summary",
+          "upstream_locator": {
+            "pdf_page": 1,
+            "heading": "Actions to take today"
+          }
+        }
+      ],
+      "relationships": [
+        {
+          "target_source_id": "CVE-2021-44228",
+          "relationship_type": "reports_exploitation_of",
+          "section_key": "summary",
+          "basis": "The summary explicitly identifies exploitation of CVE-2021-44228."
+        }
+      ]
+    }
+  ]
+}

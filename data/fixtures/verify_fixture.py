@@ -47,10 +47,32 @@ def verify(check_local_sources=False):
     require(len(sections) == sum(len(d['sections']) for d in docs) == 8, 'Duplicate/missing sections')
     review = json.loads((ROOT / 'data/manifests/source-review-2026-10-15.json').read_text(encoding='utf-8'))
     reviews = {r['id']: r for r in review['decisions']}
+    categories = {'redistributable_full_text', 'permitted_excerpts_summaries_only', 'metadata_and_links_only', 'excluded_sources'}
+    require(review['schema_version'] == 2 and review['review_revision'] == 2, 'Source-review revision mismatch')
+    require(set(review['decision_categories']) == categories, 'Missing reuse category')
+    require(len(reviews) == len(review['decisions']), 'Duplicate reuse decision')
+    evidence_ids = {e['id'] for e in review['policy_evidence']}
+    require(len(evidence_ids) == len(review['policy_evidence']), 'Duplicate policy evidence')
+    for decision in review['decisions']:
+        category = decision['decision_category']
+        require(category in categories, 'Unknown reuse category')
+        require(decision['decision_label'] == review['decision_categories'][category], 'Reuse label mismatch')
+        require(decision['decision_scope'] and decision['conditions'], 'Unscoped reuse decision')
+        require(set(decision['policy_evidence_ids']).issubset(evidence_ids), 'Unknown policy evidence reference')
+        if category in {'metadata_and_links_only', 'excluded_sources'}:
+            require(not decision['included_in_fixture'], 'Restricted candidate admitted to fixture')
+    require(dict(Counter(d['decision_category'] for d in review['decisions'])) == review['decision_counts'], 'Reuse counts mismatch')
+    require(review['nvd_api_policy']['status'] == 'review_complete_no_implementation_or_key_registration', 'NVD policy review missing')
     for doc in docs:
         require(all(doc[k] for k in ['id', 'source_id', 'title', 'url', 'retrieved_at', 'attribution']), 'Missing provenance')
         require(doc['url'].startswith('https://'), 'Expected public HTTPS source')
         require(doc['reuse_review_id'] in reviews, 'Missing reuse decision')
+        decision = reviews[doc['reuse_review_id']]
+        require(doc['decision_category'] == decision['decision_category'], 'Document reuse category mismatch')
+        require('project_authored_factual_summary' in decision['allowed_representations'], 'Summary not approved for source')
+        require(doc['summary_author'] == 'ThreatVector', 'Derived text author missing')
+        if doc['source_type'] == 'cve':
+            require(doc['attribution'].startswith('ThreatVector.') and doc['upstream_attribution'], 'NVD source/summary attribution conflated')
         require(doc['original_source_text_redistributed'] is False, 'Unexpected original source prose')
         require(sha(canonical(doc['sections'])) == doc['content_sha256'], 'Document content hash mismatch')
         if doc['source_type'] == 'attack':
@@ -88,6 +110,9 @@ def verify(check_local_sources=False):
         for source in review['downloads']:
             if source['status'] == 200:
                 require(sha(local_path(source['local_ignored_path']).read_bytes()) == source['sha256'], f'Source-review download changed: {source["file"]}')
+        for evidence in review['policy_evidence']:
+            raw = local_path(evidence['local_ignored_path']).read_bytes()
+            require(sha(raw) == evidence['sha256'] and len(raw) == evidence['bytes'], f'Policy evidence changed: {evidence["id"]}')
     print('PASS: 6 documents, 8 sections, 5 explicit relationships, 2 unsupported cases; hashes, attribution and source references verified.' + (' Local upstream bytes and selected records also verified.' if check_local_sources else ' No network access required.'))
 
 if __name__ == '__main__':

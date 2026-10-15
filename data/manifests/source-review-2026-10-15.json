@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "reviewed_date": "2026-10-15",
   "timezone": "Asia/Calcutta",
-  "scope": "six-document fixture and limited reuse review only",
+  "scope": "Final project reuse classifications for seed sources and named incident-report candidates; NVD API/bulk policy review. No corpus expansion or ingestion.",
   "decisions": [
     {
       "id": "nvd-cve",
@@ -11,18 +11,46 @@
         "CVE-2021-44228",
         "CVE-2021-45046"
       ],
-      "decision": "attributed_metadata_and_original_factual_summary_only",
-      "original_text_redistribution": "not_exercised",
-      "terms_urls": [
-        "https://www.nist.gov/open/license",
-        "https://www.cve.org/legal/termsofuse",
-        "https://nvd.nist.gov/developers/start-here"
+      "decision_category": "redistributable_full_text",
+      "decision_label": "Redistributable full text",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "Selected unmodified CVE/NIST record text, not arbitrary linked vendor material; current included text is ThreatVector-authored factual summaries.",
+      "allowed_representations": [
+        "unmodified_selected_record_text_with_notices",
+        "project_authored_factual_summary",
+        "metadata_and_links"
       ],
-      "limitations": [
-        "CNA descriptions are not assumed NIST-employee works.",
-        "CVE terms visible via indexed first-party search; direct page is JavaScript-only.",
-        "NVD API access-policy content was not verified; must review before bulk access."
-      ]
+      "not_approved": [
+        "modified_text_presented_as_nvd_content",
+        "linked_vendor_report_text_without_own_license",
+        "keys_or_credentials"
+      ],
+      "conditions": [
+        "Retain applicable NIST acknowledgment/warranty and CVE/MITRE designation/license with full-text copies before distribution.",
+        "Attribute project-authored summaries to ThreatVector; maintain separate provenance links to unmodified records.",
+        "Display NVD non-endorsement notice when API-backed data is integrated into the app.",
+        "Respect documented shared limits; never share API keys outside original requestor."
+      ],
+      "policy_evidence_ids": [
+        "nvd-start-here",
+        "nvd-api-key-terms",
+        "nvd-api-workflows-expanded",
+        "nvd-data-feeds",
+        "nist-data-license",
+        "cve-terms"
+      ],
+      "terms_urls": [
+        "https://nvd.nist.gov/developers/api-workflows",
+        "https://nvd.nist.gov/developers/request-an-api-key",
+        "https://nvd.nist.gov/developers/start-here",
+        "https://nvd.nist.gov/vuln/data-feeds",
+        "https://www.cve.org/legal/termsofuse",
+        "https://www.nist.gov/open/license"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": true,
+      "original_text_redistributed": false,
+      "attribution_rule": "summary_author=ThreatVector; upstream_record_provider=NIST NVD; CNA source retained separately"
     },
     {
       "id": "mitre-attack",
@@ -31,16 +59,34 @@
         "T1190",
         "T1059.001"
       ],
-      "decision": "permitted_with_pinned_copyright_and_license",
-      "original_text_redistribution": "license_notice_only_technique_text_summarized",
-      "terms_urls": [
-        "https://attack.mitre.org/resources/terms-of-use/",
-        "https://attack.mitre.org/resources/faq/"
+      "decision_category": "redistributable_full_text",
+      "decision_label": "Redistributable full text",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "Selected MITRE ATT&CK Enterprise-17.1 objects at the frozen commit, excluding linked third-party report text.",
+      "allowed_representations": [
+        "technique_text_with_pinned_license",
+        "project_authored_factual_summary",
+        "metadata_and_links"
       ],
+      "not_approved": [
+        "third_party_report_text_via_attack_links",
+        "endorsement_or_unauthorized_logo_use"
+      ],
+      "conditions": [
+        "Retain the pinned 2025 copyright designation and complete license unchanged."
+      ],
+      "policy_evidence_ids": [],
+      "terms_urls": [
+        "https://github.com/mitre/cti/blob/dc2ea9270f1a91398c750a6dceb3591b86082ce8/LICENSE.txt",
+        "https://attack.mitre.org/resources/terms-of-use/"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": true,
       "notice_path": "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt",
-      "limitations": [
-        "Do not imply endorsement.",
-        "License does not clear linked third-party reports."
+      "original_text_redistributed": false,
+      "historical_download_evidence_files": [
+        "attack-LICENSE.txt",
+        "enterprise-attack-v17.1.json"
       ]
     },
     {
@@ -49,21 +95,45 @@
       "source_ids": [
         "AA22-320A"
       ],
-      "decision": "attributed_original_factual_summary_only",
-      "original_text_redistribution": "not_cleared",
-      "terms_urls": [
-        "https://www.cisa.gov/about/website-policies",
-        "https://www.first.org/tlp/"
+      "decision_category": "permitted_excerpts_summaries_only",
+      "decision_label": "Permitted excerpts/summaries only",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "Project-authored factual summaries only for potential worldwide repository distribution. Publisher policy access is resolved; worldwide full-report rights are not established.",
+      "allowed_representations": [
+        "project_authored_factual_summary",
+        "metadata_and_links"
       ],
+      "not_approved": [
+        "verbatim_report_text",
+        "report_pdf",
+        "logos_and_third_party_material"
+      ],
+      "conditions": [
+        "Preserve attribution, source URL, publication date, page references and TLP:CLEAR.",
+        "Keep qualified agency assessments attributed; do not imply endorsement.",
+        "Obtain additional rights evidence before original report-text republication."
+      ],
+      "policy_evidence_ids": [
+        "cisa-terms-use",
+        "cisa-intellectual-property",
+        "us-government-works"
+      ],
+      "terms_urls": [
+        "https://www.cisa.gov/intellectual-property-policy",
+        "https://www.cisa.gov/terms-use",
+        "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-chap1-sec105.htm"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": true,
+      "full_text_project_approved": false,
+      "verbatim_excerpt_project_approved": false,
+      "publisher_license_for_summaries_asserted": false,
+      "us_government_prose_note": "17 USC 105 can remove U.S. copyright for qualifying government-authored text; it is not a worldwide license for all joint-report elements.",
       "sharing_marking": "TLP:CLEAR",
       "notice_locator": {
         "pdf_page": 1
       },
-      "limitations": [
-        "CISA website policies returned HTTP 403.",
-        "TLP is not a copyright license.",
-        "Do not redistribute PDF or original prose under repository MIT license."
-      ]
+      "original_source_text_redistributed": false
     },
     {
       "id": "cisa-aa22-174a",
@@ -71,36 +141,199 @@
       "source_ids": [
         "AA22-174A"
       ],
-      "decision": "attributed_original_factual_summary_only",
-      "original_text_redistribution": "not_cleared",
-      "terms_urls": [
-        "https://www.cisa.gov/about/website-policies",
-        "https://www.first.org/tlp/"
+      "decision_category": "permitted_excerpts_summaries_only",
+      "decision_label": "Permitted excerpts/summaries only",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "Same original-summary-only project decision; not a blanket legal prohibition on U.S. government-authored prose.",
+      "allowed_representations": [
+        "project_authored_factual_summary",
+        "metadata_and_links"
       ],
+      "not_approved": [
+        "verbatim_report_text",
+        "report_pdf",
+        "logos_and_third_party_material"
+      ],
+      "conditions": [
+        "Preserve attribution, publication date and original TLP:WHITE label.",
+        "Do not infer a shared victim or campaign with AA22-320A.",
+        "Additional rights evidence needed for worldwide full report-text distribution."
+      ],
+      "policy_evidence_ids": [
+        "cisa-terms-use",
+        "cisa-intellectual-property",
+        "us-government-works"
+      ],
+      "terms_urls": [
+        "https://www.cisa.gov/intellectual-property-policy",
+        "https://www.cisa.gov/terms-use",
+        "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-chap1-sec105.htm"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": true,
+      "full_text_project_approved": false,
+      "verbatim_excerpt_project_approved": false,
+      "publisher_license_for_summaries_asserted": false,
       "sharing_marking": "TLP:WHITE",
       "notice_locator": {
         "pdf_page": 1
       },
-      "limitations": [
-        "CISA website policies returned HTTP 403.",
-        "Retain original historical sharing label.",
-        "Advisory summarizes two response engagements; it is not a single incident identity."
-      ]
+      "original_source_text_redistributed": false
     },
     {
       "id": "microsoft-candidate",
       "publisher": "Microsoft",
-      "source_ids": [],
-      "decision": "link_only_candidate_excluded_from_corpus",
-      "candidate_url": "https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-",
-      "original_text_redistribution": "not_cleared",
-      "terms_urls": [
-        "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions"
+      "source_ids": [
+        "MS-HAFNIUM-2021-03-02"
       ],
-      "limitations": [
-        "General content permission policy is not a report-specific redistribution grant.",
-        "No original report downloaded or permission requested."
-      ]
+      "decision_category": "metadata_and_links_only",
+      "decision_label": "Metadata and links only",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "HAFNIUM targeting Exchange Servers with 0-day exploits; report-specific review found no override of linked website use terms.",
+      "allowed_representations": [
+        "metadata_and_links"
+      ],
+      "not_approved": [
+        "report_text",
+        "verbatim_excerpts",
+        "derived_report_summaries_in_distributed_corpus",
+        "images",
+        "whole_html"
+      ],
+      "conditions": [
+        "Keep source link and bibliographic metadata only until appropriate written permission or a report-specific license is verified.",
+        "Separate IOC/code repository terms do not automatically license the article."
+      ],
+      "policy_evidence_ids": [
+        "microsoft-terms-use",
+        "microsoft-content-permissions",
+        "microsoft-hafnium-candidate"
+      ],
+      "terms_urls": [
+        "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions",
+        "https://www.microsoft.com/en-us/legal/terms-of-use"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": false,
+      "title": "HAFNIUM targeting Exchange Servers with 0-day exploits",
+      "publication_date": "2021-03-02",
+      "candidate_url": "https://www.microsoft.com/en-us/security/blog/2021/03/02/hafnium-targeting-exchange-servers/",
+      "previous_candidate_url": "https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-",
+      "permission_requested": false
+    },
+    {
+      "id": "microsoft-log4j-candidate",
+      "publisher": "Microsoft",
+      "source_ids": [
+        "MS-LOG4J-2021-12-11"
+      ],
+      "decision_category": "metadata_and_links_only",
+      "decision_label": "Metadata and links only",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "Log4j exploitation guidance article, not a grant covering linked IOC repositories or Microsoft Learn pages.",
+      "allowed_representations": [
+        "metadata_and_links"
+      ],
+      "not_approved": [
+        "report_text",
+        "verbatim_excerpts",
+        "derived_report_summaries_in_distributed_corpus",
+        "images",
+        "whole_html"
+      ],
+      "conditions": [
+        "The page footer links the same Microsoft terms; no article-specific open-content license found.",
+        "Retain metadata/link only for the public project."
+      ],
+      "policy_evidence_ids": [
+        "microsoft-terms-use",
+        "microsoft-content-permissions",
+        "microsoft-log4j-candidate"
+      ],
+      "terms_urls": [
+        "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions",
+        "https://www.microsoft.com/en-us/legal/terms-of-use"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": false,
+      "title": "Guidance for preventing, detecting, and hunting for exploitation of the Log4j 2 vulnerability",
+      "publication_date": "2021-12-11",
+      "candidate_url": "https://www.microsoft.com/en-us/security/blog/2021/12/11/guidance-for-preventing-detecting-and-hunting-for-cve-2021-44228-log4j-2-exploitation/",
+      "permission_requested": false
+    },
+    {
+      "id": "ncsc-irgc-candidate",
+      "publisher": "UK National Cyber Security Centre",
+      "source_ids": [
+        "NCSC-IRGC-2022-09-20"
+      ],
+      "decision_category": "redistributable_full_text",
+      "decision_label": "Redistributable full text",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "NCSC-authored article body only; not the separately linked joint advisory or images/layout.",
+      "allowed_representations": [
+        "ncsc_authored_article_text_with_ogl_attribution",
+        "project_authored_factual_summary",
+        "metadata_and_links"
+      ],
+      "not_approved": [
+        "logos",
+        "third_party_images",
+        "linked_joint_advisory_without_separate_review"
+      ],
+      "conditions": [
+        "Attribute NCSC and Crown copyright, link OGL v3.0 and preserve its required attribution.",
+        "Use: Contains public sector information licensed under the Open Government Licence v3.0.",
+        "Exclude separately licensed or third-party material and do not imply endorsement.",
+        "Recheck the exact selected article snapshot before any future import."
+      ],
+      "policy_evidence_ids": [
+        "ncsc-terms",
+        "ogl-v3",
+        "ncsc-irgc-candidate"
+      ],
+      "terms_urls": [
+        "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+        "https://www.ncsc.gov.uk/section/about-this-website/terms-and-conditions"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": false,
+      "title": "UK and allies expose Iranian state agency for exploiting cyber vulnerabilities for ransomware operations",
+      "publication_date": "2022-09-20",
+      "candidate_url": "https://www.ncsc.gov.uk/news/uk-and-allies-expose-iranian-state-agency-for-exploiting-cyber-vulnerabilities-for-ransom-operations",
+      "license": "OGL-UK-3.0"
+    },
+    {
+      "id": "ncsc-linked-joint-advisory",
+      "publisher": "Multiple international coauthors / hosted by CISA",
+      "source_ids": [
+        "AA22-257A"
+      ],
+      "decision_category": "excluded_sources",
+      "decision_label": "Excluded sources",
+      "decision_status": "final_project_decision_with_stated_conditions",
+      "decision_scope": "Separate advisory linked from the NCSC candidate; not acquired or independently rights-reviewed in this milestone.",
+      "allowed_representations": [],
+      "not_approved": [
+        "corpus_ingestion",
+        "report_text",
+        "excerpts_or_summaries_as_evidence"
+      ],
+      "conditions": [
+        "Retain audit link only; perform an independent source and rights review before admission.",
+        "Exclusion is due to unreviewed source status, not a finding of legal prohibition."
+      ],
+      "policy_evidence_ids": [
+        "ncsc-irgc-candidate",
+        "ncsc-terms"
+      ],
+      "terms_urls": [
+        "https://www.ncsc.gov.uk/section/about-this-website/terms-and-conditions"
+      ],
+      "reviewed_date": "2026-10-15",
+      "included_in_fixture": false,
+      "candidate_url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-257a",
+      "independent_content_review_complete": false
     }
   ],
   "downloads": [
@@ -258,5 +491,409 @@
       "review_content_status": "retrieved"
     }
   ],
-  "review_notes_path": "data/fixtures/SOURCE_REVIEW.md"
+  "review_notes_path": "data/fixtures/SOURCE_REVIEW.md",
+  "review_revision": 2,
+  "supersedes_sha256": "3702e0830b0038667881cdb7f5745feaf03d1037fa85e06bcffaf2113a5c94a7",
+  "decision_history": [
+    {
+      "review_revision": 1,
+      "reviewed_date": "2026-10-15",
+      "decisions": [
+        {
+          "id": "nvd-cve",
+          "publisher": "NIST NVD / CVE CNA Apache Software Foundation",
+          "source_ids": [
+            "CVE-2021-44228",
+            "CVE-2021-45046"
+          ],
+          "decision": "attributed_metadata_and_original_factual_summary_only",
+          "original_text_redistribution": "not_exercised",
+          "terms_urls": [
+            "https://www.nist.gov/open/license",
+            "https://www.cve.org/legal/termsofuse",
+            "https://nvd.nist.gov/developers/start-here"
+          ],
+          "limitations": [
+            "CNA descriptions are not assumed NIST-employee works.",
+            "CVE terms visible via indexed first-party search; direct page is JavaScript-only.",
+            "NVD API access-policy content was not verified; must review before bulk access."
+          ]
+        },
+        {
+          "id": "mitre-attack",
+          "publisher": "The MITRE Corporation",
+          "source_ids": [
+            "T1190",
+            "T1059.001"
+          ],
+          "decision": "permitted_with_pinned_copyright_and_license",
+          "original_text_redistribution": "license_notice_only_technique_text_summarized",
+          "terms_urls": [
+            "https://attack.mitre.org/resources/terms-of-use/",
+            "https://attack.mitre.org/resources/faq/"
+          ],
+          "notice_path": "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt",
+          "limitations": [
+            "Do not imply endorsement.",
+            "License does not clear linked third-party reports."
+          ]
+        },
+        {
+          "id": "cisa-aa22-320a",
+          "publisher": "CISA / FBI",
+          "source_ids": [
+            "AA22-320A"
+          ],
+          "decision": "attributed_original_factual_summary_only",
+          "original_text_redistribution": "not_cleared",
+          "terms_urls": [
+            "https://www.cisa.gov/about/website-policies",
+            "https://www.first.org/tlp/"
+          ],
+          "sharing_marking": "TLP:CLEAR",
+          "notice_locator": {
+            "pdf_page": 1
+          },
+          "limitations": [
+            "CISA website policies returned HTTP 403.",
+            "TLP is not a copyright license.",
+            "Do not redistribute PDF or original prose under repository MIT license."
+          ]
+        },
+        {
+          "id": "cisa-aa22-174a",
+          "publisher": "CISA / United States Coast Guard Cyber Command",
+          "source_ids": [
+            "AA22-174A"
+          ],
+          "decision": "attributed_original_factual_summary_only",
+          "original_text_redistribution": "not_cleared",
+          "terms_urls": [
+            "https://www.cisa.gov/about/website-policies",
+            "https://www.first.org/tlp/"
+          ],
+          "sharing_marking": "TLP:WHITE",
+          "notice_locator": {
+            "pdf_page": 1
+          },
+          "limitations": [
+            "CISA website policies returned HTTP 403.",
+            "Retain original historical sharing label.",
+            "Advisory summarizes two response engagements; it is not a single incident identity."
+          ]
+        },
+        {
+          "id": "microsoft-candidate",
+          "publisher": "Microsoft",
+          "source_ids": [],
+          "decision": "link_only_candidate_excluded_from_corpus",
+          "candidate_url": "https://www.microsoft.com/security/blog/2021/03/02/hafnium-targeting-exchange-",
+          "original_text_redistribution": "not_cleared",
+          "terms_urls": [
+            "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions"
+          ],
+          "limitations": [
+            "General content permission policy is not a report-specific redistribution grant.",
+            "No original report downloaded or permission requested."
+          ]
+        }
+      ]
+    }
+  ],
+  "redistribution_context": "Local development in India and potential public, international repository distribution. Categories state approved project use, not a universal legal opinion.",
+  "decision_categories": {
+    "redistributable_full_text": "Redistributable full text",
+    "permitted_excerpts_summaries_only": "Permitted excerpts/summaries only",
+    "metadata_and_links_only": "Metadata and links only",
+    "excluded_sources": "Excluded sources"
+  },
+  "policy_evidence": [
+    {
+      "id": "nvd-start-here",
+      "url": "https://nvd.nist.gov/developers/start-here",
+      "title": "NVD - Start Here",
+      "retrieved_at": "2026-10-14T20:46:51.649Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/nvd-start-here.txt",
+      "sha256": "3f2e959af187c0c73beec266b906ede71052f7d81df81785f05029dcd4cd709a",
+      "bytes": 7910,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "nvd-api-key-terms",
+      "url": "https://nvd.nist.gov/developers/request-an-api-key",
+      "title": "NVD - API Key Request",
+      "retrieved_at": "2026-10-14T20:46:51.727Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/nvd-api-key-terms.txt",
+      "sha256": "16145bb91cc3bc9a47939686d324a8d21de82714a780a5d1c8b33b3e1da22a21",
+      "bytes": 5342,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "cisa-terms-use",
+      "url": "https://www.cisa.gov/terms-use",
+      "title": "Terms of Use | CISA",
+      "retrieved_at": "2026-10-14T20:46:51.775Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/cisa-terms-use.txt",
+      "sha256": "1210652f63195538e5ca9ce06436fea42ba86b4fb3f88b81ba0e798893940dc2",
+      "bytes": 6377,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "cisa-intellectual-property",
+      "url": "https://www.cisa.gov/intellectual-property-policy",
+      "title": "Intellectual Property Policy | CISA",
+      "retrieved_at": "2026-10-14T20:46:57.578Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/cisa-intellectual-property.txt",
+      "sha256": "0162ddd9c94bc0af0287e692ccef783fafaf5e151d74d37c33c4d355707b0626",
+      "bytes": 2566,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "nvd-api-workflows",
+      "url": "https://nvd.nist.gov/developers/api-workflows",
+      "title": "API User Workflows",
+      "retrieved_at": "2026-10-14T20:47:23.410Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/nvd-api-workflows.txt",
+      "sha256": "bc6d354e798fc5970cc64c51374c77f744b681f8bb458d13b5f33818f325fb4a",
+      "bytes": 2702,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "cve-terms",
+      "url": "https://www.cve.org/legal/termsofuse",
+      "title": "CVE: Common Vulnerabilities and Exposures",
+      "retrieved_at": "2026-10-14T20:47:23.471Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/cve-terms.txt",
+      "sha256": "37bf05312a51f44f40421c71ebf1f3f7766f56f2ac29bf14542f196eefd795dc",
+      "bytes": 2887,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "nvd-api-workflows-expanded",
+      "url": "https://nvd.nist.gov/developers/api-workflows",
+      "title": "API User Workflows",
+      "retrieved_at": "2026-10-14T20:47:39.967Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/nvd-api-workflows-expanded.txt",
+      "sha256": "ed3fbc8a28ddc872b04e63e5ee3e4ac4574c69cebb70c78a10b2a3c6f8f138af",
+      "bytes": 4699,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "microsoft-terms-use",
+      "url": "https://www.microsoft.com/en-us/legal/terms-of-use",
+      "title": "Microsoft Terms of Use | Microsoft Legal",
+      "retrieved_at": "2026-10-14T20:49:37.004Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/microsoft-terms-use.txt",
+      "sha256": "32cda462d6b906c214f1a0323c2282944a4ef540573c208705190b8d3143bde8",
+      "bytes": 22825,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "microsoft-hafnium-candidate",
+      "url": "https://www.microsoft.com/en-us/security/blog/2021/03/02/hafnium-targeting-exchange-servers/",
+      "title": "HAFNIUM targeting Exchange Servers with 0-day exploits | Microsoft Security Blog",
+      "retrieved_at": "2026-10-14T20:48:10.590Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/microsoft-hafnium-candidate.txt",
+      "sha256": "c6cd3415a8992f22750abadbc039fe88523fb40843c1ac8c6099e0da075dab51",
+      "bytes": 19471,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "nvd-data-feeds",
+      "url": "https://nvd.nist.gov/vuln/data-feeds",
+      "title": "NVD - Data Feeds",
+      "retrieved_at": "2026-10-14T20:49:48.363Z",
+      "method": "rendered_browser_body_text",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/nvd-data-feeds.txt",
+      "sha256": "6d073b51cc9daf6a7292ffe5f7349be5cd66d9bcf955b4799832ccc6f4e9b45f",
+      "bytes": 10120,
+      "content_review_status": "reviewed_rendered_text",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": false
+    },
+    {
+      "id": "microsoft-content-permissions",
+      "url": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions",
+      "retrieved_at": "2026-10-14T20:49:24.417431+00:00",
+      "method": "bounded_http_get",
+      "status": 200,
+      "resolved_url": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/permissions",
+      "bytes": 186077,
+      "sha256": "ea7a8a76e145d8c7e6bf554ae7500c6c6862cb8966b59bd7029c30657d3eb47b",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/microsoft-content-permissions.html",
+      "content_review_status": "reviewed_http_content",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": true
+    },
+    {
+      "id": "microsoft-log4j-candidate",
+      "url": "https://www.microsoft.com/en-us/security/blog/2021/12/11/guidance-for-preventing-detecting-and-hunting-for-cve-2021-44228-log4j-2-exploitation/",
+      "retrieved_at": "2026-10-14T20:49:27.102034+00:00",
+      "method": "bounded_http_get",
+      "status": 200,
+      "resolved_url": "https://www.microsoft.com/en-us/security/blog/2021/12/11/guidance-for-preventing-detecting-and-hunting-for-cve-2021-44228-log4j-2-exploitation/",
+      "bytes": 383439,
+      "sha256": "868faa53bf7c5c45c92e681fc3fea350429bafe8331180810ebc4bc7eecb1ed4",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/microsoft-log4j-candidate.html",
+      "content_review_status": "reviewed_http_content",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": true
+    },
+    {
+      "id": "ncsc-terms",
+      "url": "https://www.ncsc.gov.uk/section/about-this-website/terms-and-conditions",
+      "retrieved_at": "2026-10-14T20:49:31.666242+00:00",
+      "method": "bounded_http_get",
+      "status": 200,
+      "resolved_url": "https://www.ncsc.gov.uk/section/about-this-website/terms-and-conditions",
+      "bytes": 228069,
+      "sha256": "4937aee532b22d4b6a36e090a5e7f0b77365eac74e27264db32ff2030f34b87a",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/ncsc-terms.html",
+      "content_review_status": "reviewed_http_content",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": true
+    },
+    {
+      "id": "ncsc-irgc-candidate",
+      "url": "https://www.ncsc.gov.uk/news/uk-and-allies-expose-iranian-state-agency-for-exploiting-cyber-vulnerabilities-for-ransom-operations",
+      "retrieved_at": "2026-10-14T20:49:34.111622+00:00",
+      "method": "bounded_http_get",
+      "status": 200,
+      "resolved_url": "https://www.ncsc.gov.uk/news/uk-and-allies-expose-iranian-state-agency-for-exploiting-cyber-vulnerabilities-for-ransom-operations",
+      "bytes": 229167,
+      "sha256": "86cba80aa8000b1756957b4e067f701566a67d03db3c0f5020cc90036491854a",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/ncsc-irgc-candidate.html",
+      "content_review_status": "reviewed_http_content",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": true
+    },
+    {
+      "id": "ogl-v3",
+      "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "retrieved_at": "2026-10-14T20:49:34.795097+00:00",
+      "method": "bounded_http_get",
+      "status": 200,
+      "resolved_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "bytes": 10450,
+      "sha256": "f5b2b9f2af63647cde889fa6c3508f5705925295b74912c68caa28dd37e64aa5",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/ogl-v3.html",
+      "content_review_status": "reviewed_http_content",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": true
+    },
+    {
+      "id": "us-government-works",
+      "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-chap1-sec105.htm",
+      "retrieved_at": "2026-10-14T20:49:36.096507+00:00",
+      "method": "bounded_http_get",
+      "status": 200,
+      "resolved_url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-chap1-sec105.htm",
+      "bytes": 18316,
+      "sha256": "be9a8a2918c3f674506e80087565ce9f5479ea358394313daf02e3aa0a1491ba",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/us-government-works.html",
+      "content_review_status": "reviewed_http_content",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": true
+    },
+    {
+      "id": "nist-data-license",
+      "url": "https://www.nist.gov/open/license",
+      "retrieved_at": "2026-10-14T20:49:37.491092+00:00",
+      "method": "bounded_http_get",
+      "status": 200,
+      "resolved_url": "https://www.nist.gov/open/copyright-fair-use-and-licensing-statements-srd-data-software-and-technical-series-publications",
+      "bytes": 93930,
+      "sha256": "1793d54e5459a41c8da4adfb14c63cc25b60aca89e3038cfb9a138e07e08dbdd",
+      "local_ignored_path": "data/raw/reuse-review-2026-10-15/nist-data-license.html",
+      "content_review_status": "reviewed_http_content",
+      "reviewed_date": "2026-10-15",
+      "body_extraction_is_http_response": true
+    }
+  ],
+  "decision_counts": {
+    "redistributable_full_text": 3,
+    "permitted_excerpts_summaries_only": 2,
+    "metadata_and_links_only": 2,
+    "excluded_sources": 1
+  },
+  "nvd_api_policy": {
+    "status": "review_complete_no_implementation_or_key_registration",
+    "reviewed_date": "2026-10-15",
+    "policy_evidence_ids": [
+      "nvd-start-here",
+      "nvd-api-key-terms",
+      "nvd-api-workflows-expanded",
+      "nvd-data-feeds"
+    ],
+    "published_rate_limits": {
+      "window_seconds": 30,
+      "without_key": 5,
+      "with_key": 50,
+      "shared_proxy_limit": true
+    },
+    "recommended_request_interval_seconds": 6,
+    "initial_population": "GET; startIndex=0; advance by returned resultsPerPage until all returned totalResults covered; use default page size.",
+    "incremental_guidance": "No more than once per two hours; use lastModStartDate/lastModEndDate. Scheduled refresh not enabled or added.",
+    "traditional_feeds": {
+      "meta_before_archive": true,
+      "meta_sha256_covers": "uncompressed_file",
+      "recent_modified_window_days": 8,
+      "reasonable_request_budget_guidance_per_day": "less_than_200_not_an_api_rate_limit"
+    },
+    "non_endorsement_notice": "This product uses data from the NVD API but is not endorsed or certified by the NVD.",
+    "modified_content_rule": "Do not attribute modified API content as NVD content. Project-authored summaries identify ThreatVector as author; original record provenance is separate.",
+    "key_policy": "Original requestor only; do not share. Header apiKey; server-side storage. No key requested or terms form accepted.",
+    "documentation_path": "data/fixtures/NVD_API_POLICY.md"
+  },
+  "resolved_gaps": [
+    "NVD JavaScript-shell gap resolved through rendered policy, key terms, workflows and feed pages.",
+    "CISA policy-access gap resolved through live Site Links: current Terms of Use and Intellectual Property Policy reviewed; old URL is Page Not Found.",
+    "Microsoft report-linked terms reviewed; explicit final metadata/link-only project decision."
+  ],
+  "remaining_rights_boundaries": [
+    "Worldwide original CISA report-text grant not established; approved summaries only.",
+    "Microsoft original text reuse requires separate permission/license; metadata/links only.",
+    "AA22-257A is excluded until independently reviewed."
+  ],
+  "review_completion": {
+    "confirmed_date": "2026-10-15",
+    "timezone": "Asia/Calcutta",
+    "cisa_and_named_incident_report_reuse_decisions": "complete_for_current_project_scope",
+    "nvd_api_bulk_usage_policy_review": "complete_for_reviewed_api_2_0_and_traditional_feed_routes",
+    "completion_basis": "Named source decisions and policy evidence finalized; existing restrictions are final admission decisions, not unfinished permission requests.",
+    "not_claimed": [
+      "worldwide_full_text_permission_for_cisa_reports",
+      "microsoft_report_redistribution_permission",
+      "independent_review_of_excluded_AA22-257A",
+      "completed_20_report_curation",
+      "implemented_or_validated_ingestion"
+    ]
+  }
 }

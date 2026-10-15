@@ -14,7 +14,7 @@
       "retrieved_at": "2026-10-14T20:17:11.146152+00:00",
       "retrieved_date_local": "2026-10-15",
       "retrieval_timezone": "Asia/Calcutta",
-      "attribution": "National Institute of Standards and Technology, National Vulnerability Database; CVE description source: Apache Software Foundation (security@apache.org). Summary authored for ThreatVector on 2026-10-15.",
+      "attribution": "ThreatVector. Original factual summary authored on 2026-10-15; not an NVD-authored description or an NVD API response. Original source-record provenance is recorded separately.",
       "upstream_snapshot": {
         "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-44228",
         "sha256": "1c38ab4756d5b3189f14e0b2b9fa29780f73167a8073229ae5df16af7412ae3d",
@@ -40,7 +40,10 @@
       "source_record_locator": "/vulnerabilities/0/cve",
       "cna_source_identifier": "security@apache.org",
       "reuse_review_id": "nvd-cve",
-      "original_source_text_redistributed": false
+      "original_source_text_redistributed": false,
+      "decision_category": "redistributable_full_text",
+      "summary_author": "ThreatVector",
+      "upstream_attribution": "NIST National Vulnerability Database; CVE CNA source Apache Software Foundation (security@apache.org)."
     },
     {
       "id": "nvd:CVE-2021-45046",
@@ -52,7 +55,7 @@
       "retrieved_at": "2026-10-14T20:17:19.293812+00:00",
       "retrieved_date_local": "2026-10-15",
       "retrieval_timezone": "Asia/Calcutta",
-      "attribution": "National Institute of Standards and Technology, National Vulnerability Database; CVE description source: Apache Software Foundation (security@apache.org). Summary authored for ThreatVector on 2026-10-15.",
+      "attribution": "ThreatVector. Original factual summary authored on 2026-10-15; not an NVD-authored description or an NVD API response. Original source-record provenance is recorded separately.",
       "upstream_snapshot": {
         "url": "https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2021-45046",
         "sha256": "29243acc21c8fee92688c49dccee4da17c81027f7263ef39ffc0e085d30def33",
@@ -78,7 +81,10 @@
       "source_record_locator": "/vulnerabilities/0/cve",
       "cna_source_identifier": "security@apache.org",
       "reuse_review_id": "nvd-cve",
-      "original_source_text_redistributed": false
+      "original_source_text_redistributed": false,
+      "decision_category": "redistributable_full_text",
+      "summary_author": "ThreatVector",
+      "upstream_attribution": "NIST National Vulnerability Database; CVE CNA source Apache Software Foundation (security@apache.org)."
     },
     {
       "id": "attack:T1190",
@@ -123,7 +129,9 @@
       "attack_release": "17.1",
       "attack_commit": "dc2ea9270f1a91398c750a6dceb3591b86082ce8",
       "reuse_review_id": "mitre-attack",
-      "original_source_text_redistributed": false
+      "original_source_text_redistributed": false,
+      "decision_category": "redistributable_full_text",
+      "summary_author": "ThreatVector"
     },
     {
       "id": "attack:T1059.001",
@@ -168,7 +176,9 @@
       "attack_release": "17.1",
       "attack_commit": "dc2ea9270f1a91398c750a6dceb3591b86082ce8",
       "reuse_review_id": "mitre-attack",
-      "original_source_text_redistributed": false
+      "original_source_text_redistributed": false,
+      "decision_category": "redistributable_full_text",
+      "summary_author": "ThreatVector"
     },
     {
       "id": "incident:AA22-320A",
@@ -215,7 +225,9 @@
       "sharing_marking": "TLP:CLEAR",
       "report_attack_release": "12",
       "reuse_review_id": "cisa-aa22-320a",
-      "original_source_text_redistributed": false
+      "original_source_text_redistributed": false,
+      "decision_category": "permitted_excerpts_summaries_only",
+      "summary_author": "ThreatVector"
     },
     {
       "id": "incident:AA22-174A",
@@ -261,7 +273,9 @@
       "content_sha256": "dd2df0e0ae34124a62463100e48db86c09757bdd28fc15b7be49c106b7e4bf7b",
       "sharing_marking": "TLP:WHITE",
       "reuse_review_id": "cisa-aa22-174a",
-      "original_source_text_redistributed": false
+      "original_source_text_redistributed": false,
+      "decision_category": "permitted_excerpts_summaries_only",
+      "summary_author": "ThreatVector"
     }
   ],
   "relationships": [

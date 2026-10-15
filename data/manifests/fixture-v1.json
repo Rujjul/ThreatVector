@@ -18,7 +18,7 @@
     "explicit_relationships": 5,
     "negative_cases": 2
   },
-  "corpus_sha256": "8fe6d4333549845380568ce84a0dac1ac0983cfa927ebcf604d55bf676fa3f6d",
+  "corpus_sha256": "6f9f33f61cd8bcd354482f0bad753ebf1928acf8af718e44c8013815fc7aa373",
   "hash_format": "File hashes: exact bytes. Record hashes: UTF-8 JSON sorted keys, ensure_ascii=false, separators comma/colon. Section text hashes: UTF-8 text bytes.",
   "attack": {
     "release": "17.1",
@@ -29,23 +29,23 @@
   "artifacts": [
     {
       "path": "data/fixtures/corpus.json",
-      "sha256": "8fe6d4333549845380568ce84a0dac1ac0983cfa927ebcf604d55bf676fa3f6d",
-      "bytes": 19422
+      "sha256": "6f9f33f61cd8bcd354482f0bad753ebf1928acf8af718e44c8013815fc7aa373",
+      "bytes": 19880
     },
     {
       "path": "data/fixtures/README.md",
-      "sha256": "47625c007d4062360947de3c09f20e982c673f86a049a443b36d51a5da04ad55",
-      "bytes": 3932
+      "sha256": "8007a2aa7bc5017d068182375325a67a2aac0091230d5fe569ea518dfc0401df",
+      "bytes": 5566
     },
     {
       "path": "data/fixtures/SOURCE_REVIEW.md",
-      "sha256": "80136976d21587d52f28d2b7d5098b29e1ed2e0859199840789f71d994f93800",
-      "bytes": 7235
+      "sha256": "54e5ccac0e85b4dcb0b48a92df2b8a6bd81c599a2a70ecd3e832a781cba39671",
+      "bytes": 9578
     },
     {
       "path": "data/fixtures/verify_fixture.py",
-      "sha256": "588d089b90e936cab12915aadf5bb3cff459db1cf8af0bb83f8fb6b6834bb905",
-      "bytes": 6515
+      "sha256": "50e65f30fe2c133024e8119274924535a15c812a8dcdd7db0133afbb9bcee5b9",
+      "bytes": 8826
     },
     {
       "path": "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt",
@@ -54,15 +54,62 @@
     },
     {
       "path": "data/manifests/source-review-2026-10-15.json",
-      "sha256": "3702e0830b0038667881cdb7f5745feaf03d1037fa85e06bcffaf2113a5c94a7",
-      "bytes": 11813
+      "sha256": "5466a06a7c64de1750b4e467931b58516f2ac5672845622cc0f0408c45933242",
+      "bytes": 40852
+    },
+    {
+      "path": "data/fixtures/NVD_API_POLICY.md",
+      "sha256": "e36e6a21b8fee5e63c177537b07300c57ccfe714cd03f1fcd93e549a56a75ef7",
+      "bytes": 4653
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/nvd-44228.json",
+      "sha256": "1c38ab4756d5b3189f14e0b2b9fa29780f73167a8073229ae5df16af7412ae3d",
+      "bytes": 87139
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/nvd-45046.json",
+      "sha256": "29243acc21c8fee92688c49dccee4da17c81027f7263ef39ffc0e085d30def33",
+      "bytes": 26544
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/attack-enterprise-17.1.json",
+      "sha256": "bd2e680194cea7fe10a314c6b2055b9bcbef64eee7430fb1a491806df6766a33",
+      "bytes": 28033
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/incident-summaries.json",
+      "sha256": "55e0d9c1764ebe347689fdb9eda4c7a6e5c30fd2ec8e71f7401d65c9c8caa175",
+      "bytes": 5196
+    },
+    {
+      "path": "data/fixtures/raw_normalizers/README.md",
+      "sha256": "fda0888e384c7bdfe082384ca801fbe8b0b7d607e4f83d11ff856acf5a4fdc33",
+      "bytes": 4149
+    },
+    {
+      "path": "data/fixtures/notices/NIST-DATA-NOTICE.txt",
+      "sha256": "58a613e72f911c1f8fc04a17b566d3ba16956100e79ed7325c474dec0b24fa8d",
+      "bytes": 2376
+    },
+    {
+      "path": "data/fixtures/notices/CVE-TERMS.txt",
+      "sha256": "3b275db7857f7051d9954816d90897e027b6ba087177bd086483d1b1f6485491",
+      "bytes": 1830
+    },
+    {
+      "path": "data/manifests/raw-normalizers-v1.json",
+      "sha256": "f500f38dc558d59b5b3c2e09ff2438542a1706d1e3a9311b659dc65927a38386",
+      "bytes": 9674
     }
   ],
   "limitations": [
-    "No full target corpus or raw ingestion-normalizer fixture.",
-    "No tokenizer-based chunking, imports, indexes, provider calls or evaluation.",
+    "The six-document curated summary seed and separate raw normalizer fixtures exist; the full target corpus remains unavailable.",
+    "Pure normalization is implemented; no tokenizer-based chunking, database ingestion, indexes, provider calls or evaluation.",
     "Mutable NVD/API and CISA URLs may change; byte equality on future downloads is not guaranteed.",
     "Raw downloads are ignored local artifacts; clean clones can verify committed fixture artifacts only.",
-    "Original report prose is not cleared for redistribution; fixtures contain project-authored factual summaries."
-  ]
+    "CISA original prose is not approved for worldwide redistribution; fixture text remains original factual summaries. Candidate eligibility does not add candidate text to this fixture."
+  ],
+  "source_review_revision": 2,
+  "raw_normalizer_manifest": "data/manifests/raw-normalizers-v1.json"
 }
