@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "fixture_id": "threatvector-phase1-attack-complete",
+  "source_review_manifest": "data/manifests/source-review-2026-10-15.json",
+  "entries": [
+    {
+      "path": "data/fixtures/phase1/attack-complete-subset.json",
+      "format": "stix_bundle",
+      "representation": "original_source_text",
+      "snapshot_kind": "bundle_subset_objects_unchanged_not_original_response",
+      "source_url": "urn:threatvector:fixture:phase1-attack-complete",
+      "retrieved_at": "2026-10-14T20:17:44.300442+00:00",
+      "sha256": "ea3dfdbe6d7cc46dc09ebf0d01f859c48e6cf79a858ee08d46ab56a06af0d80a",
+      "bytes": 11695,
+      "upstream_url": "https://raw.githubusercontent.com/mitre/cti/dc2ea9270f1a91398c750a6dceb3591b86082ce8/enterprise-attack/enterprise-attack.json",
+      "upstream_sha256": "9537a22166367a5b3c1434f5b17b27361cb9c88b34926e655344768fdbda3e85",
+      "attack_release": "17.1",
+      "attack_commit": "dc2ea9270f1a91398c750a6dceb3591b86082ce8",
+      "reuse_review_id": "mitre-attack",
+      "attribution": "MITRE ATT&CK Enterprise 17.1. Copyright 2025 The MITRE Corporation. Selected STIX objects unchanged; bundle reduced. See MITRE-ATTACK-LICENSE.txt.",
+      "required_notices": [
+        "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt"
+      ],
+      "normalization_profile": "enterprise_complete_v1",
+      "selected_stix_ids": [
+        "relationship--00069454-a469-4905-97fd-b4057e86d29b",
+        "x-mitre-data-component--a7f22107-02e5-4982-9067-6625d4a1765a",
+        "x-mitre-data-source--c000cd5c-bbb3-4606-af6f-6c6d9de0bbe3",
+        "x-mitre-matrix--eafc1b4c-5e56-4965-bd4e-66a6a89c88cc",
+        "attack-pattern--18cffc21-3260-437e-80e4-4ab8bf2ba5e9",
+        "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5",
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168"
+      ],
+      "selected_record_sha256": {
+        "relationship--00069454-a469-4905-97fd-b4057e86d29b": "8a2b4df82576c1d0811fd6034986aa1487edfd324c51d3d54ab31855634244a2",
+        "x-mitre-data-component--a7f22107-02e5-4982-9067-6625d4a1765a": "715e2604639b88402732c17e0fca4ebe67bc38c03e0fcfb91602a8a8194edc0f",
+        "x-mitre-data-source--c000cd5c-bbb3-4606-af6f-6c6d9de0bbe3": "5e217b67c10fddd7e862d9cb6000703668c78df6b2c8511936383633ec72d45b",
+        "x-mitre-matrix--eafc1b4c-5e56-4965-bd4e-66a6a89c88cc": "f3b1d57e4dc452b51e4138180c71f98089cb5f19fb57368285679fb072e696ff",
+        "attack-pattern--18cffc21-3260-437e-80e4-4ab8bf2ba5e9": "d9eb67ac985c12cb407676a550a710e9fc6ea39e2f87e0f34ef71bf553a663ed",
+        "identity--c78cb6e5-0c4b-4611-8297-d1b8b55e40b5": "07b98cd17560c5e57c8fae085ec2338c6c1a3e566e93d66be352c324b6d489d7",
+        "marking-definition--fa42a846-8d90-4e51-bc29-71d5b4802168": "a40276f5733c7e7ec150a66acb0336294f9a02ec4a97f9079b3d0c7a3cf5612a"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "data/fixtures/phase1/attack-complete-subset.json",
+      "sha256": "ea3dfdbe6d7cc46dc09ebf0d01f859c48e6cf79a858ee08d46ab56a06af0d80a",
+      "bytes": 11695
+    },
+    {
+      "path": "data/fixtures/notices/MITRE-ATTACK-LICENSE.txt",
+      "sha256": "0019296a8f089883b36484dc92cb07ea779caabc7a950d7798366015f57a5bf7",
+      "bytes": 2311
+    }
+  ],
+  "notes": [
+    "Selected objects are unchanged from the pinned MITRE bundle; this reduced bundle is not an original HTTP response.",
+    "Matrix/data-source/data-component and an actual detects relationship; no invented public evidence."
+  ]
+}

@@ -19,6 +19,11 @@ def normalize_manifest(manifest_path, *, root=ROOT, reviewed_annotations=False):
     root = Path(root)
     raw_manifest = Path(manifest_path).read_bytes()
     manifest = json.loads(raw_manifest)
+    require(type(manifest.get('schema_version')) is int and manifest['schema_version'] == 1, 'Unsupported ingestion manifest schema version')
+    require(isinstance(manifest.get('entries'), list) and bool(manifest['entries']), 'Manifest must list source entries')
+    for artifact in manifest.get('artifacts', []):
+        body = local_path(root, artifact['path']).read_bytes()
+        require(len(body) == artifact['bytes'] and digest(body) == artifact['sha256'], 'Manifest artifact hash mismatch: ' + artifact['path'])
     review_raw = local_path(root, manifest['source_review_manifest']).read_bytes()
     require('source_review_sha256' not in manifest or digest(review_raw) == manifest['source_review_sha256'], 'Source review hash mismatch')
     review = json.loads(review_raw)
@@ -35,7 +40,7 @@ def normalize_manifest(manifest_path, *, root=ROOT, reviewed_annotations=False):
         if entry['format'] == 'nvd_api_2_0':
             batch = normalize_nvd(raw, context=context(entry))
         elif entry['format'] == 'stix_bundle':
-            batch = normalize_attack(raw, context=context(entry))
+            batch = normalize_attack(raw, context=context(entry), profile=entry.get('normalization_profile', 'core_v1'))
         elif entry['format'] == 'threatvector_incident_manifest_1':
             batch = normalize_incidents(raw, contexts={k: context(v) for k, v in entry['context_by_source_id'].items()}, reviewed_annotations=reviewed_annotations)
         else:

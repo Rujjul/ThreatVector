@@ -70,11 +70,11 @@ Normalization preserves provenance, rejects conflicting revisions, retains inact
 
 ## SQLite and the full corpus
 
-The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, frozen manifests and offline verification. The local corpus contains **10,000 NVD CVEs, 2,091 pinned Enterprise ATT&CK records and 20 incident summaries**. A full replay changed zero database rows; checks are saved in `data/manifests/full-corpus-validation-v1.json`. Downloads and the database stay outside Git. Exact replay requires archived snapshots because upstream URLs are mutable.
+The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, frozen manifests and offline verification. Current corpus v2 contains **10,000 CVEs, 2,239 ATT&CK records and 20 incident summaries**, preserving every nonstructural entity and all 20,411 STIX relationships from pinned Enterprise 17.1 with resolved STIX endpoints. Full replay changed zero rows; source-pointer/SQL checks are saved in `data/manifests/full-corpus-validation-v2.json`. Downloads/databases stay outside Git; exact replay requires archived bytes. The [phase-1 acceptance matrix](backend/PHASE1_ACCEPTANCE.md) records completion and retained corpus boundaries. Frozen v1 artifacts remain available.
 
 ```powershell
-.\.venv\Scripts\python.exe -m backend.cli ingest --manifest data/manifests/full-corpus-v1.json --database data/corpus.sqlite3 --reviewed-annotations --check-idempotence
-.\.venv\Scripts\python.exe -m backend.cli inspect --database data/corpus.sqlite3
+.\.venv\Scripts\python.exe -m backend.cli ingest --manifest data/manifests/full-corpus-v2.json --database data/corpus-v2.sqlite3 --reviewed-annotations --check-idempotence
+.\.venv\Scripts\python.exe -m backend.cli inspect
 ```
 
 The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. Tokenized chunks, embeddings, indexes and live application integration remain unimplemented.

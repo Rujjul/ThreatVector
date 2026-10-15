@@ -94,3 +94,22 @@ def prepare_corpus(*, root=ROOT, directory='data/raw/full-v1', attack_path=None,
                     'Tokenized chunks, embeddings, retrieval and generation are separate later phases.']}
     write_json(local_path(root, output), manifest)
     return {'manifest': output, 'sha256': digest(local_path(root, output).read_bytes()), 'targets': manifest['targets']}
+
+
+def prepare_complete_corpus(*, root=ROOT, output='data/manifests/full-corpus-v2.json'):
+    """New normalization revision over the frozen v1 sources; leave v1 unchanged."""
+    root = Path(root)
+    manifest = json.loads(local_path(root, 'data/manifests/full-corpus-v1.json').read_bytes())
+    manifest['corpus_id'] = 'threatvector-full-v2'
+    manifest['parent_manifest_sha256'] = digest(local_path(root, 'data/manifests/full-corpus-v1.json').read_bytes())
+    attack = next(e for e in manifest['entries'] if e['format'] == 'stix_bundle')
+    attack['normalization_profile'] = 'enterprise_complete_v1'
+    fixture = json.loads(local_path(root, 'data/manifests/raw-normalizers-v1.json').read_bytes())
+    notices = {n for entry in manifest['entries'] for n in entry['required_notices']}
+    manifest['artifacts'] = [a for a in fixture['artifacts'] if a['path'] in notices]
+    require({a['path'] for a in manifest['artifacts']} == notices, 'Missing frozen notice hashes')
+    manifest['targets']['attack'] = 2239
+    manifest['limitations'] = [v for v in manifest['limitations'] if not v.startswith('Unsupported STIX object')]
+    manifest['limitations'].append('All relationship endpoints in the pinned ATT&CK bundle are supported; five incident CVE mentions remain outside the selected CVE sample.')
+    write_json(local_path(root, output), manifest)
+    return {'manifest': output, 'sha256': digest(local_path(root, output).read_bytes()), 'targets': manifest['targets']}

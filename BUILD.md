@@ -58,6 +58,8 @@ Phase 1 now has transactional SQLite storage, hash-verified offline ingestion, b
 
 SQLite retains documents, evidence sections, explicit relationships, provenance, diagnostics and import receipts. Conflicting same-identity revisions abort the entire import; updated corpora use a separate database. Inactive records and unresolved endpoints are retained explicitly. The reserved chunks table is empty until phase 2 implements tokenizer-aware chunking. Ingestion and storage are CLI services; the HTTP foundation and frontend remain unwired. Earlier fixture/normalizer milestone descriptions above are historical, not current missing-work claims.
 
+Phase-1 closure audit (2026-10-15): the earlier v1 completion claim omitted 148 ATT&CK metadata entities. Current `full-corpus-v2.json` selects `enterprise_complete_v1`, adding data sources, data components and the matrix. It contains 2,239 ATT&CK records and resolves all 20,411 STIX relationship endpoints. Source bytes and frozen v1 artifacts are unchanged. The v2 database has 10,000 CVEs and 20 incident summaries; five out-of-sample incident CVE mentions stay unresolved. `backend/PHASE1_ACCEPTANCE.md` maps every phase-1 deliverable/exit criterion to verified checks, including raw-pointer replay, notice hashes, SQL integrity and zero-write idempotence. Phase 1 is complete; tokenizer chunks and application integration remain later work.
+
 ## API and generation contract
 
 | Interface | Behavior |
