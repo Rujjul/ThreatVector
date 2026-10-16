@@ -4,6 +4,7 @@ import json
 
 from .ingestion import ingest
 from .storage import CorpusStore, corpus_hash
+from .retrieval_contract import DEFAULT_TOP_K
 
 DEFAULT_DATABASE = 'data/corpus-v2.sqlite3'
 
@@ -53,7 +54,7 @@ def main():
     search.add_argument('--directory', default='data/indexes')
     search.add_argument('--index', choices=('flat','ivf','hnsw'), default='flat')
     search.add_argument('--source-types', nargs='*', choices=('cve','attack','incident'), default=None)
-    search.add_argument('--top-k', type=int, default=10)
+    search.add_argument('--top-k', type=int, default=DEFAULT_TOP_K)
     args = parser.parse_args()
     if args.command == 'search':
         from .retrieval import RetrievalService

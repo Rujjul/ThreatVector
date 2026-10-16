@@ -116,6 +116,14 @@ Readers reject changed corpus/chunks, model assets/revision, versions, vector
 properties, row order, parameters or damaged files. Rebuild after an intentional
 corpus/model/runtime change rather than editing manifests to bypass rejection.
 
+Missing/malformed/incomplete generations are surfaced as `IndexValidationError`
+(a `ValueError` subclass), including file/JSON/structure failures. Typed manifest
+comparisons reject boolean schema versions, float row indexes and integer flags
+that could otherwise compare equal to the expected JSON values. Validation still
+checks every required artifact before native deserialization. Native searches
+reject invalid result labels/nonfinite scores and deduplicate chunk IDs while
+preserving the best original score; the shared top-k limit is 50 (default 10).
+
 `IndexBundle.search` is a low-level vector interface with Flat as default, a
 single explicit partition and a 1–50 result cap. It excludes FAISS's `-1` padding
 IDs and maps row numbers back to chunk IDs. [Filtered semantic retrieval](RETRIEVAL.md)

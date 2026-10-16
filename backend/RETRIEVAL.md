@@ -15,6 +15,7 @@ described in [INDEXES.md](INDEXES.md). Run from the repository root:
 .\.venv\Scripts\python.exe -m backend.cli search "remote code execution" --source-types
 
 .\.venv\Scripts\python.exe -m backend.verify_retrieval
+.\.venv\Scripts\python.exe -m backend.verify_safeguards
 .\.venv\Scripts\python.exe -m pytest --basetemp=data/test-temp-retrieval
 ```
 
@@ -24,7 +25,11 @@ query worker is closed. Reload the service after changing corpus/index versions;
 automatic refresh and HTTP integration are not implemented. Returned evidence
 contains original chunk excerpts, document/source IDs, public links, available
 publication dates, attribution, section locators, snapshot hashes and character
-offsets. Missing dates stay absent. Similarity scores do not establish incident
+offsets. Evidence also retains complete document provenance (including retrieval
+timestamps), source modification date, reuse-review identity/category, text kind,
+upstream locators, token offsets, content hash and tokenizer revision. Nested
+provenance/locator data is copied so editing a response cannot change the stored
+snapshot. Missing dates stay absent. Similarity scores do not establish incident
 exploitation or source-supported relationships.
 
 ## Filter semantics
@@ -50,6 +55,35 @@ exploitation or source-supported relationships.
 - `top_k` defaults to 10 and is limited to 1–50. Queries must be nonblank, at
   most 2,000 characters and within the pinned model's 256-token limit. Longer
   tokenizations are explicitly rejected instead of silently truncated.
+
+## Retrieval safeguards
+
+The native index, retrieval service and CLI share the same default and maximum
+constants. Out-of-range values, booleans, strings and noninteger limits are
+rejected before embedding or search. Deduplication uses **chunk IDs**, retaining
+the highest original score; distinct chunks from one document are preserved.
+Native `-1` padding is omitted, while invalid labels and nonfinite scores fail
+closed. Scores are never normalized again, rounded or presented as probabilities.
+
+Loading verifies the complete declared generation, not merely the requested
+partition. Missing files, partition/strategy entries, malformed JSON, invalid
+pointer hashes and mismatched metadata raise `IndexValidationError` before
+query-model startup. Typed comparisons prevent values such as float row indexes
+or integer normalization flags from passing as valid metadata. Existing hash,
+model/runtime, vector reconstruction and native structure checks remain active.
+Retrieval snapshot construction also rejects duplicate/missing chunk IDs,
+inactive or missing documents, incorrect source types and broken section/offset
+joins. Unavailable legitimate skipped configurations remain explicit errors for
+selected nonempty partitions. No fallback to another generation, strategy or
+synthetic evidence is performed.
+
+`verify_safeguards` records actual default/50-result queries for all three
+strategies, exact score/metadata preservation, unique IDs and rejected invalid
+limits. Mismatch/incompleteness probes use isolated temporary manifests and never
+modify active files. Its report is
+`data/manifests/retrieval-safeguards-validation-v1.json`. The optional-dependency
+suite passed **167 tests**, including these regression cases. These are functional
+checks, not relevance or performance benchmarks.
 
 ## CPU query embedding
 

@@ -4,6 +4,7 @@ import os
 import platform
 import re
 import uuid
+from functools import wraps
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -15,9 +16,27 @@ import numpy as np
 
 from .vector_artifacts import (DIMENSION, SEED, build_vectors, check_file, current_chunks,
                                file_hash, inventory, validate_vectors, write_json)
+from .normalization.common import canonical
+from .retrieval_contract import DEFAULT_TOP_K, validate_top_k
 
 STRATEGIES = ('flat', 'ivf', 'hnsw')
 PARTITIONS = ('all', 'cve', 'attack', 'incident')
+
+
+class IndexValidationError(ValueError):
+    """A missing, malformed, mismatched or incomplete artifact cannot be used."""
+
+
+def validated_artifact(loader):
+    @wraps(loader)
+    def checked(*args, **kwargs):
+        try:
+            return loader(*args, **kwargs)
+        except IndexValidationError:
+            raise
+        except (OSError, ValueError, TypeError, KeyError, AttributeError, RuntimeError) as exc:
+            raise IndexValidationError(f'Cannot load a complete, matching index generation: {exc}') from exc
+    return checked
 
 
 @dataclass(frozen=True)
@@ -153,30 +172,43 @@ class IndexBundle:
             raise ValueError(entry['reason'])
         return self.indexes[(partition, strategy)]
 
-    def search(self, query_vector, strategy='flat', partition='all', top_k=10):
+    def search(self, query_vector, strategy='flat', partition='all', top_k=DEFAULT_TOP_K):
         """Low-level vector search; text/identifier retrieval remains separate."""
-        if strategy not in STRATEGIES or partition not in PARTITIONS or type(top_k) is not int or not 1 <= top_k <= 50:
+        validate_top_k(top_k)
+        if strategy not in STRATEGIES or partition not in PARTITIONS:
             raise ValueError('Invalid strategy, partition or top_k')
         validate_vectors(query_vector, 1)
         key = (partition, strategy)
-        if key not in self.indexes:
-            raise ValueError(self.manifest['partitions'][partition]['indexes'][strategy]['reason'])
+        entry = self.manifest['partitions'][partition]['indexes'].get(strategy, {})
+        if key not in self.indexes or entry.get('status') != 'ready':
+            raise IndexValidationError(entry.get('reason', 'Missing or incomplete selected index'))
         with one_thread():
             scores, labels = self.indexes[key].search(query_vector, top_k)
         mapping = self.manifest['partitions'][partition]['rows']
-        return [{'chunk_id': self.rows[mapping[int(label)]]['chunk_id'], 'score': float(score)}
-                for score, label in zip(scores[0], labels[0]) if label >= 0]
+        candidates = {}
+        for score, label in zip(scores[0], labels[0]):
+            if label == -1:  # Native padding is not evidence.
+                continue
+            if label < 0 or label >= len(mapping) or not np.isfinite(score):
+                raise IndexValidationError('Invalid native result label or score')
+            chunk_id = self.rows[mapping[int(label)]]['chunk_id']
+            score = float(score)
+            if chunk_id not in candidates or score > candidates[chunk_id]['score']:
+                candidates[chunk_id] = {'chunk_id': chunk_id, 'score': score}
+        return sorted(candidates.values(), key=lambda h: (-h['score'], h['chunk_id']))[:top_k]
 
 
+@validated_artifact
 def load_directory(directory, context, manifest_sha256):
     """Validate all checksums before native deserialization. Local artifacts only."""
     directory = Path(directory)
     if directory.is_symlink() or (directory / 'manifest.json').is_symlink() or file_hash(directory / 'manifest.json') != manifest_sha256:
         raise ValueError('Index manifest checksum mismatch')
     manifest = json.loads((directory / 'manifest.json').read_bytes())
-    if (manifest.get('schema_version') not in (1, 2) or manifest.get('identity') != context.identity
+    if (type(manifest.get('schema_version')) is not int or manifest.get('schema_version') not in (1, 2)
+            or canonical(manifest.get('identity')) != canonical(context.identity)
             or manifest.get('faiss_version') != faiss.__version__ or manifest.get('metric') != 'inner_product'
-            or manifest.get('count') != len(context.rows)):
+            or type(manifest.get('count')) is not int or manifest.get('count') != len(context.rows)):
         raise ValueError('Index manifest does not match active corpus/embedder/runtime')
     config = IndexConfig(**manifest['config'])
     config.validate()
@@ -189,13 +221,13 @@ def load_directory(directory, context, manifest_sha256):
     expected_files = {'vectors.npy', 'rows.json'}
     for partition, mapping in partitions.items():
         item = manifest['partitions'][partition]
-        if item['rows'] != mapping or set(item['indexes']) != set(STRATEGIES):
+        if canonical(item['rows']) != canonical(mapping) or set(item['indexes']) != set(STRATEGIES):
             raise ValueError('Partition row mapping or strategy mismatch')
         for strategy in STRATEGIES:
             entry = item['indexes'][strategy]
             reason = skip_reason(strategy, len(mapping), config, partition=partition, incident_single_list=reduced_incident)
             if reduced_incident and strategy == 'ivf' and not reason:
-                if entry.get('ivf_configuration') != ivf_configuration(partition, config):
+                if canonical(entry.get('ivf_configuration')) != canonical(ivf_configuration(partition, config)):
                     raise ValueError('IVF partition configuration/comparison group mismatch')
             if reason:
                 if entry != {'status': 'skipped', 'reason': reason}:
@@ -214,7 +246,7 @@ def load_directory(directory, context, manifest_sha256):
     for name in expected_files:
         check_file(directory, name, manifest['files'][name])
     rows = json.loads((directory / 'rows.json').read_bytes())
-    if rows != list(context.rows):
+    if canonical(rows) != canonical(list(context.rows)):
         raise ValueError('Index chunk-ID mapping mismatch')
     vectors = np.load(directory / 'vectors.npy', allow_pickle=False)
     validate_vectors(vectors, len(rows))
@@ -230,6 +262,7 @@ def load_directory(directory, context, manifest_sha256):
     return IndexBundle(directory, manifest, vectors, rows, indexes)
 
 
+@validated_artifact
 def load_indexes(database, root='data/indexes'):
     context = current_chunks(database)
     root = Path(root)
@@ -240,6 +273,9 @@ def load_indexes(database, root='data/indexes'):
     directory = root / generation
     if directory.resolve().parent != root.resolve():
         raise ValueError('Generation escapes artifact directory')
+    if (set(pointer) != {'generation', 'manifest_sha256'} or not isinstance(pointer['manifest_sha256'], str)
+            or not re.fullmatch(r'[a-f0-9]{64}', pointer['manifest_sha256'])):
+        raise ValueError('Invalid active generation manifest hash')
     return load_directory(directory, context, pointer['manifest_sha256'])
 
 

@@ -188,3 +188,75 @@ def test_worker_adapter_lifecycle_and_invalid_embeddings(service):
     loaded.model_factory = lambda:SimpleNamespace(encode_query=lambda _:np.zeros((1,384),dtype=np.float32))
     with pytest.raises(ValueError,match='unit-normalized'):
         loaded.search('query')
+
+
+def test_default_and_maximum_result_caps_for_all_indexes(controlled_bundle):
+    bundle, strategy = controlled_bundle
+    assert len(filtered_search(bundle, query_vector(), strategy=strategy)) == 10
+    hits = filtered_search(bundle, query_vector(), strategy=strategy, source_types=['cve','attack'], top_k=50)
+    assert len(hits) == len({h['chunk_id'] for h in hits}) == 50
+    assert hits == sorted(hits, key=lambda h:(-h['score'],h['chunk_id']))
+
+
+@pytest.mark.parametrize('top_k', [0,51,True,False,None,10.5,'10'])
+def test_service_rejects_bad_caps_before_model_initialization(service, top_k):
+    loaded, model = service
+    with pytest.raises(ValueError,match='top_k'):
+        loaded.search('query',top_k=top_k)
+    assert loaded.model is None and not model.calls
+
+
+def test_dedup_preserves_distinct_chunks_from_same_document(monkeypatch):
+    bundle, _ = tiny_bundle()
+    for row in bundle.rows:
+        row.update(source_type='cve',document_id='synthetic:one-document')
+    bundle.manifest['partitions']['cve']['rows'] = [0,1]
+    monkeypatch.setattr(bundle,'search',lambda *_:[{'chunk_id':'z','score':.4},
+                                                  {'chunk_id':'a','score':.6},
+                                                  {'chunk_id':'z','score':.8}])
+    assert filtered_search(bundle,query_vector(),source_types=['cve']) == [
+        {'chunk_id':'z','score':.8},{'chunk_id':'a','score':.6}]
+
+
+def test_evidence_preserves_raw_scores_dates_and_provenance_without_aliasing(service):
+    from dataclasses import asdict
+    loaded, _ = service
+    expected = {h['chunk_id']:h['score'] for h in filtered_search(loaded.bundle,loaded.bundle.vectors[:1].copy(),top_k=50)}
+    result = loaded.search('query',top_k=50)
+    assert len(result['evidence']) == len(expected)
+    for e in result['evidence']:
+        doc = loaded.documents[e['document_id']]
+        chunk = loaded.chunks[e['chunk_id']]
+        section = next(s for s in doc.sections if s.id==e['section_id'])
+        assert e['score'] == expected[e['chunk_id']]
+        assert e['source_id'] == doc.source_id and e['publication_date'] == doc.publication_date
+        assert e['source_modified_at'] == doc.source_modified_at and e['url'] == doc.url
+        assert e['provenance'] == [asdict(p) for p in doc.provenance]
+        assert e['reuse_review_id'] == doc.reuse_review_id and e['decision_category'] == doc.decision_category
+        for key in ('content_sha256','tokenizer_revision','token_start','token_end'):
+            assert e[key] == chunk[key]
+        assert e['text_kind'] == section.text_kind and e['upstream_locator'] == section.upstream_locator
+        e['upstream_locator']['synthetic-mutation'] = True
+        assert 'synthetic-mutation' not in section.upstream_locator
+        if e['provenance']:
+            e['provenance'][0]['snapshot']['retrieved_at'] = 'synthetic-mutation'
+            assert doc.provenance[0].snapshot.retrieved_at != 'synthetic-mutation'
+
+
+@pytest.mark.parametrize('mutation', ['missing','duplicate','document','section','text','inactive'])
+def test_incomplete_or_mismatched_evidence_snapshot_is_rejected(service, mutation):
+    from copy import deepcopy
+    from dataclasses import replace
+    loaded, model = service
+    docs = list(loaded.documents.values())
+    chunks = deepcopy(list(loaded.chunks.values()))
+    if mutation == 'missing':
+        chunks.pop()
+    elif mutation == 'duplicate':
+        chunks.append(chunks[0])
+    elif mutation == 'inactive':
+        docs = [replace(d,active=False) if d.id==chunks[0]['document_id'] else d for d in docs]
+    else:
+        chunks[0][{'document':'document_id','section':'section_id','text':'text'}[mutation]] = 'synthetic mismatch'
+    with pytest.raises(ValueError,match='evidence'):
+        RetrievalService(loaded.bundle,docs,chunks,model_factory=lambda:model)

@@ -361,3 +361,68 @@ def test_legacy_schema_keeps_historical_incident_skip(bundle):
     historical = load_indexes(database, root)
     with pytest.raises(ValueError, match='Undertrained'):
         historical.search(historical.vectors[:1], 'ivf', 'incident')
+
+
+@pytest.mark.parametrize('missing', ['native','manifest','inventory','strategy','partition'])
+def test_incomplete_artifacts_fail_before_native_deserialization(bundle, monkeypatch, missing):
+    from backend.indexes import IndexValidationError
+    database, root, loaded, _ = bundle
+    if missing == 'native':
+        (loaded.directory/'all-flat.faiss').unlink()
+    elif missing == 'manifest':
+        (loaded.directory/'manifest.json').unlink()
+    else:
+        if missing == 'inventory':
+            loaded.manifest['files'].pop('all-flat.faiss')
+        elif missing == 'strategy':
+            loaded.manifest['partitions']['all']['indexes'].pop('hnsw')
+        else:
+            loaded.manifest['partitions'].pop('incident')
+        refresh_manifest(root,loaded)
+    monkeypatch.setattr(faiss,'read_index',lambda *_:pytest.fail('Native parser reached incomplete generation'))
+    with pytest.raises(IndexValidationError):
+        load_indexes(database,root)
+
+
+@pytest.mark.parametrize('malformed', ['pointer','json','schema_bool','identity_bool','row_float'])
+def test_malformed_artifact_metadata_is_a_validation_error(bundle, monkeypatch, malformed):
+    from backend.indexes import IndexValidationError
+    database, root, loaded, _ = bundle
+    if malformed == 'pointer':
+        write_json(root/'active.json',{'generation':loaded.directory.name})
+    elif malformed == 'json':
+        (loaded.directory/'manifest.json').write_bytes(b'{incomplete')
+        pointer = json.loads((root/'active.json').read_bytes())
+        pointer['manifest_sha256'] = file_hash(loaded.directory/'manifest.json')
+        write_json(root/'active.json',pointer)
+    else:
+        if malformed == 'schema_bool':
+            loaded.manifest['schema_version'] = True
+        elif malformed == 'identity_bool':
+            loaded.manifest['identity']['normalized'] = 1
+        else:
+            loaded.manifest['partitions']['all']['rows'][0] = 0.0
+        refresh_manifest(root,loaded)
+    monkeypatch.setattr(faiss,'read_index',lambda *_:pytest.fail('Native parser reached malformed metadata'))
+    with pytest.raises(IndexValidationError):
+        load_indexes(database,root)
+
+
+@pytest.mark.parametrize('label,score', [(-2,.5),(999,.5),(0,float('nan')),(0,float('inf'))])
+def test_invalid_native_results_fail_closed(bundle, label, score):
+    from types import SimpleNamespace
+    from backend.indexes import IndexValidationError
+    _, _, loaded, _ = bundle
+    loaded.indexes[('all','flat')] = SimpleNamespace(search=lambda *_:(np.array([[score]]),np.array([[label]])))
+    with pytest.raises(IndexValidationError,match='native result'):
+        loaded.search(loaded.vectors[:1])
+
+
+def test_native_duplicate_labels_keep_best_score_and_padding_is_omitted(bundle):
+    from types import SimpleNamespace
+    _, _, loaded, _ = bundle
+    loaded.indexes[('all','flat')] = SimpleNamespace(search=lambda *_:(np.array([[.4,.8,.5,float('inf')]]),np.array([[0,0,1,-1]])))
+    hits = loaded.search(loaded.vectors[:1])
+    mapping = loaded.manifest['partitions']['all']['rows']
+    assert hits == [{'chunk_id':loaded.rows[mapping[0]]['chunk_id'],'score':.8},
+                    {'chunk_id':loaded.rows[mapping[1]]['chunk_id'],'score':.5}]

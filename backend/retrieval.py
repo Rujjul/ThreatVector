@@ -1,19 +1,23 @@
 """Partition-first semantic retrieval. Identifier/correlation logic stays separate."""
 import json
+from copy import deepcopy
+from dataclasses import asdict
 from time import perf_counter
 
 import numpy as np
 
-from .indexes import PARTITIONS, STRATEGIES, load_indexes
+from .indexes import PARTITIONS, STRATEGIES, IndexValidationError, load_indexes
 from .query_embedding import QueryEncoder
 from .storage import CorpusStore, corpus_hash
 from .vector_artifacts import validate_vectors
+from .retrieval_contract import DEFAULT_TOP_K, validate_top_k
 
 SOURCE_TYPES = PARTITIONS[1:]
 
 
 def search_partitions(bundle, source_types, strategy, top_k):
-    if strategy not in STRATEGIES or type(top_k) is not int or not 1 <= top_k <= 50:
+    validate_top_k(top_k)
+    if strategy not in STRATEGIES:
         raise ValueError('Invalid index or top_k (must be 1–50)')
     if source_types is None:
         requested = ('all',)
@@ -25,14 +29,15 @@ def search_partitions(bundle, source_types, strategy, top_k):
     for partition in requested:
         if not bundle.manifest['partitions'][partition]['rows']:
             continue
-        if (partition, strategy) not in bundle.indexes:
-            reason = bundle.manifest['partitions'][partition]['indexes'][strategy]['reason']
-            raise ValueError(f'{strategy} unavailable for {partition}: {reason}')
+        entry = bundle.manifest['partitions'][partition]['indexes'].get(strategy, {})
+        if (partition, strategy) not in bundle.indexes or entry.get('status') != 'ready':
+            reason = entry.get('reason', 'Missing or incomplete selected index')
+            raise IndexValidationError(f'{strategy} unavailable for {partition}: {reason}')
         nonempty.append(partition)
     return tuple(nonempty)
 
 
-def filtered_search(bundle, query_vector, *, source_types=None, strategy='flat', top_k=10):
+def filtered_search(bundle, query_vector, *, source_types=None, strategy='flat', top_k=DEFAULT_TOP_K):
     """Fetch k from each selected partition, merge raw IP scores, deduplicate IDs.
 
     None selects the full index; [] explicitly selects nothing. No global search
@@ -49,17 +54,30 @@ def filtered_search(bundle, query_vector, *, source_types=None, strategy='flat',
                 raise ValueError('Index returned invalid partition membership or score')
             old = candidates.get(hit['chunk_id'])
             if old is None or hit['score'] > old['score']:
-                candidates[hit['chunk_id']] = hit
+                candidates[hit['chunk_id']] = {'chunk_id': hit['chunk_id'], 'score': float(hit['score'])}
     return sorted(candidates.values(), key=lambda h: (-h['score'], h['chunk_id']))[:top_k]
 
 
 class RetrievalService:
     """Immutable evidence snapshot paired with one validated index generation."""
     def __init__(self, bundle, documents, chunks, *, model_factory=None):
+        documents, chunks = tuple(documents), deepcopy(list(chunks))
         self.bundle = bundle
         self.documents = {d.id: d for d in documents}
         self.chunks = {c['id']: c for c in chunks}
         self.rows = {r['chunk_id']: r for r in bundle.rows}
+        if (len(self.documents) != len(documents) or len(self.chunks) != len(chunks)
+                or len(self.rows) != len(bundle.rows) or set(self.rows) != set(self.chunks)):
+            raise ValueError('Incomplete or duplicate evidence snapshot')
+        for chunk_id, row in self.rows.items():
+            chunk = self.chunks[chunk_id]
+            doc = self.documents.get(row['document_id'])
+            section = next((s for s in doc.sections if s.id == row['section_id']), None) if doc else None
+            if (doc is None or not doc.active or section is None or chunk['document_id'] != doc.id
+                    or chunk['section_id'] != section.id or row['source_type'] != doc.source_type
+                    or not 0 <= chunk['char_start'] < chunk['char_end'] <= len(section.text)
+                    or chunk['text'] != section.text[chunk['char_start']:chunk['char_end']]):
+                raise ValueError('Mismatched evidence metadata or source offsets')
         self.model_factory = model_factory or QueryEncoder
         self.model = None
 
@@ -88,7 +106,7 @@ class RetrievalService:
     def __exit__(self, *_):
         self.close()
 
-    def search(self, query, *, source_types=None, strategy='flat', top_k=10):
+    def search(self, query, *, source_types=None, strategy='flat', top_k=DEFAULT_TOP_K):
         if not isinstance(query, str) or not query.strip() or len(query) > 2000:
             raise ValueError('Query must be nonblank and at most 2,000 characters')
         partitions = search_partitions(self.bundle, source_types, strategy, top_k)
@@ -120,7 +138,12 @@ class RetrievalService:
                              'publication_date': document.publication_date, 'score': hit['score'],
                              'section_id': section.id, 'char_start': chunk['char_start'], 'char_end': chunk['char_end'],
                              'source_locator': section.source_locator, 'source_snapshot_sha256': section.source_snapshot_sha256,
-                             'attribution': document.attribution})
+                             'attribution': document.attribution, 'source_modified_at': document.source_modified_at,
+                             'provenance': [asdict(p) for p in document.provenance],
+                             'reuse_review_id': document.reuse_review_id, 'decision_category': document.decision_category,
+                             'text_kind': section.text_kind, 'upstream_locator': deepcopy(section.upstream_locator),
+                             'token_start': chunk['token_start'], 'token_end': chunk['token_end'],
+                             'content_sha256': chunk['content_sha256'], 'tokenizer_revision': chunk['tokenizer_revision']})
         return {'evidence': evidence, 'index': strategy, 'partitions_searched': list(partitions),
                 'source_types': None if source_types is None else [s for s in SOURCE_TYPES if s in source_types],
                 'embedding_ms': embedding_ms, 'retrieval_ms': (perf_counter() - start) * 1000,
