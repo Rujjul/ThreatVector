@@ -47,8 +47,19 @@ def main():
     validate.add_argument('--database', default=DEFAULT_DATABASE)
     validate.add_argument('--directory', default='data/indexes')
     validate.add_argument('--output', help='Save the actual integrity/persistence validation report')
+    search = sub.add_parser('search', help='Search the full corpus or selected source partitions offline')
+    search.add_argument('query')
+    search.add_argument('--database', default=DEFAULT_DATABASE)
+    search.add_argument('--directory', default='data/indexes')
+    search.add_argument('--index', choices=('flat','ivf','hnsw'), default='flat')
+    search.add_argument('--source-types', nargs='*', choices=('cve','attack','incident'), default=None)
+    search.add_argument('--top-k', type=int, default=10)
     args = parser.parse_args()
-    if args.command == 'build-indexes':
+    if args.command == 'search':
+        from .retrieval import RetrievalService
+        with RetrievalService.from_database(args.database, args.directory) as service:
+            report = service.search(args.query, source_types=args.source_types, strategy=args.index, top_k=args.top_k)
+    elif args.command == 'build-indexes':
         from .indexes import IndexConfig, build_indexes
         report = build_indexes(args.database, args.directory, args.embedding_directory,
                                IndexConfig(nlist=args.nlist, nprobe=args.nprobe, m=args.m, ef_search=args.ef_search))

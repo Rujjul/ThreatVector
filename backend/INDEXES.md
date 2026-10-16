@@ -118,9 +118,10 @@ corpus/model/runtime change rather than editing manifests to bypass rejection.
 
 `IndexBundle.search` is a low-level vector interface with Flat as default, a
 single explicit partition and a 1–50 result cap. It excludes FAISS's `-1` padding
-IDs and maps row numbers back to chunk IDs. Natural-language embedding, exact-ID
-supplementation, merging multiple source partitions and HTTP/frontend integration
-remain separate retrieval work. The index milestone does not complete phase 2.
+IDs and maps row numbers back to chunk IDs. [Filtered semantic retrieval](RETRIEVAL.md)
+now adds query embedding and multi-source partition merging through a separate
+service/CLI. Exact-ID supplementation and HTTP/frontend integration remain open.
+The index milestone does not complete phase 2.
 
 `validate-indexes` exports actual integrity, vector reconstruction, partition
 membership and repeated-search checks. Per-index build durations and embedding
