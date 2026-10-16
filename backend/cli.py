@@ -35,8 +35,30 @@ def main():
     verify.add_argument('--output')
     chunk = sub.add_parser('chunk', help='Build pinned-tokenizer chunks offline')
     chunk.add_argument('--database', default=DEFAULT_DATABASE)
+    index = sub.add_parser('build-indexes', help='Embed current chunks and publish validated FAISS strategies/partitions')
+    index.add_argument('--database', default=DEFAULT_DATABASE)
+    index.add_argument('--directory', default='data/indexes')
+    index.add_argument('--embedding-directory', default='data/embeddings')
+    index.add_argument('--nlist', type=int, choices=(64,128,256), default=64)
+    index.add_argument('--nprobe', type=int, default=4)
+    index.add_argument('--m', type=int, choices=(16,32), default=16)
+    index.add_argument('--ef-search', type=int, choices=(16,64,128), default=64)
+    validate = sub.add_parser('validate-indexes', help='Verify the active generation against current SQLite/model/runtime')
+    validate.add_argument('--database', default=DEFAULT_DATABASE)
+    validate.add_argument('--directory', default='data/indexes')
+    validate.add_argument('--output', help='Save the actual integrity/persistence validation report')
     args = parser.parse_args()
-    if args.command == 'chunk':
+    if args.command == 'build-indexes':
+        from .indexes import IndexConfig, build_indexes
+        report = build_indexes(args.database, args.directory, args.embedding_directory,
+                               IndexConfig(nlist=args.nlist, nprobe=args.nprobe, m=args.m, ef_search=args.ef_search))
+    elif args.command == 'validate-indexes':
+        from .indexes import verify_indexes
+        report = verify_indexes(args.database, args.directory)
+        if args.output:
+            from .vector_artifacts import write_json
+            write_json(args.output, report)
+    elif args.command == 'chunk':
         from pathlib import Path
         from .embedding import load_tokenizer
         from .chunking import persist_chunks

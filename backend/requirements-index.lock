@@ -1,0 +1,3 @@
+# Verified optional CPU indexing dependencies; install the CPU torch wheel first.
+-r requirements-embedding.lock
+faiss-cpu==1.10.0

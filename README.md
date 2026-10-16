@@ -1,6 +1,6 @@
 # ThreatVector
 
-ThreatVector focuses on semantic vulnerability correlation, hybrid identifier/semantic retrieval, evidence-grounded explanations, and FAISS Flat/IVF/HNSW indexing. Public incident reports serve as supporting evidence. Generic log monitoring, incident dashboards, alert feeds, and SIEM workflows are excluded. The UI demonstrates these concepts; the retrieval and FAISS backend remain unimplemented.
+ThreatVector focuses on semantic vulnerability correlation, hybrid identifier/semantic retrieval, evidence-grounded explanations, and FAISS Flat/IVF/HNSW indexing. Public incident reports serve as supporting evidence. Generic log monitoring, incident dashboards, alert feeds, and SIEM workflows are excluded. The local backend can build and validate FAISS artifacts; retrieval and live application integration remain incomplete.
 
 React/TypeScript demo landing page and local investigation frontend. The interactive demo uses explicitly fictional content. Live mode calls the local API; it never silently substitutes demo content. There are no measured benchmark runs yet.
 
@@ -77,4 +77,4 @@ The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, fro
 .\.venv\Scripts\python.exe -m backend.cli inspect
 ```
 
-The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. [Tokenizer-aware chunking and pinned MiniLM setup](backend/CHUNKING.md) provides local chunk construction and model verification. Bulk corpus embeddings, indexes and live application integration remain unimplemented.
+The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. [Tokenizer-aware chunking and pinned MiniLM setup](backend/CHUNKING.md) provides local chunk construction and model verification. [FAISS setup and persistence](backend/INDEXES.md) covers shared CPU embeddings, Flat/IVF/HNSW strategies, source partitions, atomic generations and validation. Natural-language/identifier retrieval and live application integration remain incomplete.

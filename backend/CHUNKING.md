@@ -63,5 +63,6 @@ is saved separately from frozen phase-1 reports. Unit tests use an offline
 deterministic tokenizer double and synthetic boundary cases; the real tokenizer
 and CPU model checks above are explicit local integration checks.
 
-Bulk embedding generation, FAISS artifacts, retrieval, filtering and application
-wiring are subsequent work. Phase 2 remains incomplete.
+Bulk embedding generation and FAISS persistence now have a separate
+[index guide](INDEXES.md). Retrieval, filtering and application wiring remain
+subsequent work. Phase 2 remains incomplete.

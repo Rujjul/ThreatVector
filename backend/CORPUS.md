@@ -46,4 +46,4 @@ The corpus hash covers content, activity, provenance and diagnostics in determin
 python data/fixtures/verify_fixture.py
 ```
 
-A workspace-local temporary directory avoids a Windows sandbox rename denial in the system temporary directory. Tests use deterministic HTTP substitutes, without network or paid providers. Unsupported STIX types remain diagnosed. CLI storage is not wired to the placeholder HTTP corpus endpoint or frontend. Chunking and model verification are documented separately; bulk embeddings, FAISS, retrieval, analysis and evaluation remain later work.
+A workspace-local temporary directory avoids a Windows sandbox rename denial in the system temporary directory. Tests use deterministic HTTP substitutes, without network or paid providers. Unsupported STIX types remain diagnosed. CLI storage is not wired to the placeholder HTTP corpus endpoint or frontend. Chunking/model verification and [CPU embeddings/FAISS artifacts](INDEXES.md) are documented separately; retrieval, analysis and evaluation remain later work.
