@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "corpus_sha256": "c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a",
+  "chunk_sha256": "176c3045c2b36a4f5be2b28cbfecb1ee7841d7da60f235c5f354777394c73e9f",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "max_tokens": 220,
+  "overlap": 30,
+  "prefix_max_tokens": 48,
+  "chunks": 13150,
+  "changed": true,
+  "verified_at": "2026-10-16T03:24:25.138362+00:00",
+  "max_observed_tokens": 220,
+  "sections_verified": 11526,
+  "replay_row_changes": 0,
+  "source_offsets_verified": true,
+  "token_coverage_verified": true,
+  "integrity_check": "ok",
+  "foreign_key_errors": [],
+  "scope": "Chunk boundary/source/storage checks; no retrieval quality or performance benchmark"
+}

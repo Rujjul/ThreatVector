@@ -1,0 +1,26 @@
+{
+  "verified_at": "2026-10-16T03:22:32.180683+00:00",
+  "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "asset_files_verified": 11,
+  "dimension": 384,
+  "max_sequence_length": 256,
+  "device": "cpu",
+  "dtype": "float32",
+  "finite": true,
+  "normalized": true,
+  "repeatable_within_atol": 1e-07,
+  "python": "3.10.11",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "threads": 1,
+  "versions": {
+    "torch": "2.6.0+cpu",
+    "sentence-transformers": "3.4.1",
+    "transformers": "4.48.3",
+    "tokenizers": "0.21.4",
+    "numpy": "1.26.4",
+    "huggingface-hub": "0.28.1",
+    "safetensors": "0.5.3"
+  },
+  "scope": "Two fixed inputs; compatibility smoke check, not a relevance or performance benchmark"
+}

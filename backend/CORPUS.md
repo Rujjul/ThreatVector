@@ -39,11 +39,11 @@ The database and downloads stay ignored. Small original summaries, manifests and
 
 Schema version 1 stores documents, sections, relationships, provenance, diagnostics, import receipts and corpus state. Source identities are indexed. Endpoint identifiers may be unresolved; supporting section references have foreign keys. Imports are atomic transactions. Conflicting revisions reject the entire import and roll back writes. Replays merge provenance without duplicates. Automatic replacement/deletion is absent: use a fresh database for an updated revision.
 
-The corpus hash covers content, activity, provenance and diagnostics in deterministic order. Verification re-normalizes hashed inputs, replays raw record/section JSON pointers, compares complete records and SQL projections, checks integrity/foreign keys and proves another replay changes zero rows. The complete profile also checks every source STIX entity/relationship is preserved. Manifest versions and notice hashes are validated before import. The chunk table is reserved for phase 2 and empty; sections are not tokenizer-generated chunks.
+The corpus hash covers content, activity, provenance and diagnostics in deterministic order. Verification re-normalizes hashed inputs, replays raw record/section JSON pointers, compares complete records and SQL projections, checks integrity/foreign keys and proves another replay changes zero rows. The complete profile also checks every source STIX entity/relationship is preserved. Manifest versions and notice hashes are validated before import. Phase-1 reports describe empty chunk tables; the separate [phase-2 chunk command](CHUNKING.md) now populates tokenizer-generated chunks without changing corpus records or their hash.
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest --basetemp=data/test-temp-corpus-v1
 python data/fixtures/verify_fixture.py
 ```
 
-A workspace-local temporary directory avoids a Windows sandbox rename denial in the system temporary directory. Tests use deterministic HTTP substitutes, without network or paid providers. Unsupported STIX types remain diagnosed. CLI storage is not wired to the placeholder HTTP corpus endpoint or frontend. Chunking, embeddings, FAISS, retrieval, analysis and evaluation remain later work.
+A workspace-local temporary directory avoids a Windows sandbox rename denial in the system temporary directory. Tests use deterministic HTTP substitutes, without network or paid providers. Unsupported STIX types remain diagnosed. CLI storage is not wired to the placeholder HTTP corpus endpoint or frontend. Chunking and model verification are documented separately; bulk embeddings, FAISS, retrieval, analysis and evaluation remain later work.

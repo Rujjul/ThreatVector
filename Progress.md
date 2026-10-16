@@ -1,8 +1,12 @@
 # ThreatVector progress
 
-Last updated: 2026-10-15 (Asia/Calcutta).
+Last updated: 2026-10-16 (Asia/Calcutta).
 
 ## Current state
+
+2026-10-16 chunk/model milestone: **Both requested tasks are complete.** The pinned MiniLM fast tokenizer produced **13,150 chunks from 11,526 active evidence sections** in the full v2 corpus. Every complete embedding input is at most 220 tokens including title/metadata and special tokens; adjacent windows overlap by 30 body tokens. Exact source substrings, character/token offsets, active-only selection, complete token coverage, SQL integrity and zero-write replay passed. The corpus hash remains unchanged. `data/manifests/chunk-validation-v1.json` records the measured results and chunk hash. Bulk corpus embeddings and retrieval remain unimplemented; phase 2 is in progress.
+
+MiniLM revision `1110a243fdf4706b3f48f1d95db1a4f5529b4d41` is pinned with SHA-256/byte counts for eleven assets. The actual local CPU smoke check passed: 384-dimensional finite float32 unit vectors, repeatability within 1e-7, matching tokenizer and a 256-token model limit. `data/manifests/embedding-validation-v1.json` records versions and actual checks; `backend/requirements-embedding.lock` pins the verified optional environment. All loads are offline with remote code disabled. Initial downloads needed permitted network access; the live check caught an overlapping-install NumPy incompatibility, repaired with a clean NumPy 1.26.4 reinstall before successful verification. These are compatibility checks, not relevance or latency benchmarks. Model downloads and databases remain ignored. See `backend/CHUNKING.md` for setup and commands.
 
 2026-10-15 focus clarification: semantic vulnerability correlation, hybrid exact-identifier/semantic retrieval, evidence-grounded explanations, and FAISS indexing are the core product. Generic log monitoring and incident dashboards are explicitly excluded. Historical reports remain supporting evidence. Landing/workspace copy now emphasizes this focus; backend implementation status is unchanged.
 
@@ -12,7 +16,7 @@ A minimal FastAPI foundation serves health, placeholder corpus metadata, and emp
 
 Phase 1 closure audit: **Complete**, with every deliverable and exit criterion mapped to measured evidence in `backend/PHASE1_ACCEPTANCE.md`. The earlier v1 completion claim was too broad: it omitted 148 ATT&CK data-source/component/matrix records and left 2,116 in-bundle relationship endpoints unresolved. The new `enterprise_complete_v1` profile closes that gap while retaining frozen v1 artifacts. Current ignored database `data/corpus-v2.sqlite3` contains **12,259 documents: 10,000 CVEs, 2,239 ATT&CK records and 20 incident summaries**, with 12,257 sections and 20,432 relationships; 11,524 documents and 20,285 relationships are active. Every nonstructural entity and all 20,411 relationships in the pinned ATT&CK bundle are preserved, with all STIX endpoints resolved.
 
-Full v2 replay matched SHA-256 `c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a` and wrote zero rows. Integrity, foreign keys and SQL projections passed; 32,685 record references and 12,257 section pointers were replayed against exact raw source bytes. Only five incident CVE mentions remain outside the historical CVE sample; they remain explicit inactive/unresolved mentions. The 345 rejected CVEs, 390 inactive ATT&CK records and four missing ATT&CK descriptions retain provenance. The NVD META check, pinned MITRE bundle and 20 original incident summaries use the same reviewed source bytes as v1. Downloads/databases stay ignored; exact replay requires those archived bytes. The chunk table remains empty until phase 2.
+Full v2 replay matched SHA-256 `c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a` and wrote zero rows. Integrity, foreign keys and SQL projections passed; 32,685 record references and 12,257 section pointers were replayed against exact raw source bytes. Only five incident CVE mentions remain outside the historical CVE sample; they remain explicit inactive/unresolved mentions. The 345 rejected CVEs, 390 inactive ATT&CK records and four missing ATT&CK descriptions retain provenance. The NVD META check, pinned MITRE bundle and 20 original incident summaries use the same reviewed source bytes as v1. Downloads/databases stay ignored; exact replay requires those archived bytes. The chunk table was empty at phase-1 closure; the phase-2 milestone below records subsequent chunk construction.
 
 Raw-fixture/normalizer milestone: four source-shaped inputs now cover two exact NVD API responses, an object-preserving pinned STIX subset (including a real deprecated legacy mitigation and two relationships), and a project-authored incident-summary manifest. NIST/CVE notices accompany the original NVD text; the pinned MITRE notice is retained. Pure adapters in `backend/normalization/` preserve metadata, hashes and evidence references; deduplicate repeated content; retain inactive/unresolved evidence with explicit issues; and reject conflicting identities or disallowed source representations. Identifier occurrences remain mentions; stronger incident annotations require a trusted caller's explicit review setting. The existing six-document summary seed is unchanged in content; raw normalization produces nine documents/ten relationships in memory. No database import, provider calls, retrieval or UI wiring was added.
 
@@ -36,13 +40,15 @@ The remaining rights questions matter only if a later scope change seeks broader
 | Planning | Complete | Requirements, build guide, agent instructions, updated progress | Keep aligned with scope. |
 | 0 — Foundation | Complete | React/Vite/TypeScript, FastAPI health, dependency pins/locks, configuration, ignore rules, README | Separate clean-machine installation during delivery. |
 | 1 — Corpus | Complete | All pinned ATT&CK entity/relationship types; SQLite/atomic imports; attributed fixtures and notice hashes; full v2 manifests/database; source-pointer replay; zero-write idempotence; 60 passing tests; acceptance matrix and measured report | No phase-1 deliverable remains open. Preserve archived raw bytes; chunking/retrieval/API wiring belong to later phases. Existing reuse restrictions remain in force. |
-| 2 — Retrieval | Not started | Frontend request shapes only | Chunking, embeddings, indexes, artifact validation, identifier/filter cases. |
+| 2 — Retrieval | In progress | Tokenizer-aware chunking, source offsets, atomic chunk storage and pinned MiniLM assets; local validation details below | Bulk embeddings, indexes, artifact validation, identifier/filter cases and API wiring. |
 | 3 — Analysis | Not started | Frontend citation guard and failure fallback only | Server correlation, provider adapter, grounding validation, mocked cases. |
 | 4 — Interface | In progress | Landing, investigation, evidence drawer, benchmark views; demo browser workflow; live health; loading/empty/failure states; six passing frontend tests | Real API workflow, document retrieval, provider fallback, chart-to-export verification and mobile visual QA. |
 | 5 — Evaluation | Not started | No invented metrics displayed | Reviewed questions, actual benchmark exports, answer reviews. |
 | 6 — Delivery | In progress | Windows setup and frontend integration documentation | Clean setup, real end-to-end checks, final backend tests, live-provider record. |
 
 ## Validation record
+
+- Chunk/model milestone (2026-10-16): **71 tests passed** using workspace-local test storage, including boundary/overlap/coverage, long metadata, empty/inactive sections, stable IDs, source offsets, atomic replacement rollback, zero-write replay, corrupt corpus state and model-asset tampering. Real-tokenizer full-corpus verification passed for 13,150 chunks, with maximum observed input 220 tokens, complete token coverage across 11,526 active sections, integrity `ok`, no foreign-key errors and zero replay writes. The explicit CPU model smoke check passed. `pip check`, backend compilation and whitespace checks passed. No frontend changes, paid provider calls, bulk embeddings or retrieval benchmarks occurred.
 
 - Final phase-1 audit: full v2 ingestion and replay succeeded with 10,000/2,239/20 source counts. `full-corpus-validation-v2.json` verifies every nonstructural STIX entity and all 20,411 STIX relationships, all STIX endpoints resolved, 32,685 raw record references, 12,257 section references, SQL projections, `integrity_check=ok`, no foreign-key errors and zero replay writes. Original v1 artifacts were not changed.
 - **60 tests passed** with workspace-local test storage. Added real MITRE fixture coverage for matrix/data-source/component records and detection relationships, inactive detection endpoints, trusted profiles, malformed embedded references, manifest version/notice rejection, raw-pointer tampering and corrupt corpus-state rejection. Original seed integrity, `compileall`, `pip check` and whitespace checks passed. No new downloads, paid provider calls, frontend changes or retrieval benchmarks occurred in this audit. Phase-1 completion is documented in `backend/PHASE1_ACCEPTANCE.md`.
@@ -83,7 +89,7 @@ The remaining rights questions matter only if a later scope change seeks broader
 - Proposed response shapes are in `frontend/src/api.ts` and README.md. Actual backend integration remains unverified.
 - `/analyze`, `/search`, and `/documents/{id}` do not exist yet. Live investigation displays an API failure; live benchmarks are empty.
 - The full v2 target corpus and SQLite CLI are verified locally; HTTP/frontend integration remains open. Every nonstructural type in pinned Enterprise ATT&CK 17.1 is supported; unknown future types still produce diagnostics. Five incident CVE mentions fall outside the historical sample. Conflicting revisions are rejected atomically; a newer snapshot uses a separate database. The historical 2021 CVE sample is not a current-risk census. Exact replay needs archived bytes; live sources can change. CISA use remains original summaries; Microsoft is metadata/link-only and AA22-257A excluded. Reports include campaign advisories/recovery guidance, not necessarily 20 unique victims.
-- Embedding revision, FAISS compatibility, relevance thresholds, tuning/held-out labels, performance and answer quality remain unverified.
+- FAISS compatibility, relevance thresholds, tuning/held-out labels, performance and answer quality remain unverified. Embedding/chunking validation is recorded in the current milestone below.
 - Frontend validates citation membership only. Server must validate ATT&CK IDs and grounding; semantic support requires manual review.
 - Optional Google Fonts loads fall back to system fonts offline.
 - Separate clean Windows installation, mobile visual verification, real saved benchmark rendering and production browser verification remain open.
@@ -91,12 +97,13 @@ The remaining rights questions matter only if a later scope change seeks broader
 
 ## Next work
 
-Current user scope (SQLite, ingestion/idempotence and the full target corpus) is implemented and verified. Next is phase 2: tokenizer-aware chunking, a verified pinned embedding revision, embeddings and FAISS artifacts/retrieval. Connect storage and retrieval to the HTTP application before marking the live interface complete. Compare charts with actual exports during evaluation.
+Current user scope adds tokenizer-aware chunking and embedding-model pin/verification. Continue phase 2 with bulk embeddings and FAISS artifacts/retrieval after these checks. Connect storage and retrieval to the HTTP application before marking the live interface complete. Compare charts with actual exports during evaluation.
 
 ## Milestone log
 
 | Date | Milestone | Evidence |
 | --- | --- | --- |
+| 2026-10-16 | Tokenizer-aware chunking and verified pinned MiniLM | 13,150 full-corpus chunks with exact source offsets, 220-token total limit and 30-token overlap; zero-write replay; eleven hashed model assets; CPU inference compatibility check; 71 tests. Phase 2 remains in progress. |
 | 2026-10-14 | Planning documents | Documentation only. |
 | 2026-10-15 | User requested frontend-first delivery | Scope adjustment in BUILD.md. |
 | 2026-10-15 | Foundation and React frontend delivered | Type/build and six tests passed; HTTP health and desktop demo browser checks passed. Live retrieval/evaluation incomplete. |

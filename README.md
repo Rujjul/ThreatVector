@@ -77,4 +77,4 @@ The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, fro
 .\.venv\Scripts\python.exe -m backend.cli inspect
 ```
 
-The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. Tokenized chunks, embeddings, indexes and live application integration remain unimplemented.
+The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. [Tokenizer-aware chunking and pinned MiniLM setup](backend/CHUNKING.md) provides local chunk construction and model verification. Bulk corpus embeddings, indexes and live application integration remain unimplemented.

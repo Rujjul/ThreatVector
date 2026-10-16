@@ -33,8 +33,19 @@ def main():
     verify.add_argument('--database', default=DEFAULT_DATABASE)
     verify.add_argument('--reviewed-annotations', action='store_true')
     verify.add_argument('--output')
+    chunk = sub.add_parser('chunk', help='Build pinned-tokenizer chunks offline')
+    chunk.add_argument('--database', default=DEFAULT_DATABASE)
     args = parser.parse_args()
-    if args.command == 'ingest':
+    if args.command == 'chunk':
+        from pathlib import Path
+        from .embedding import load_tokenizer
+        from .chunking import persist_chunks
+        if not Path(args.database).is_file():
+            parser.error('Database does not exist; ingest a corpus first')
+        tokenizer = load_tokenizer()
+        with CorpusStore(args.database) as store:
+            report = persist_chunks(store, tokenizer)
+    elif args.command == 'ingest':
         report = ingest(args.manifest, args.database, reviewed_annotations=args.reviewed_annotations)
         if args.check_idempotence:
             again = ingest(args.manifest, args.database, reviewed_annotations=args.reviewed_annotations)
