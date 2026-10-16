@@ -62,33 +62,48 @@ def training_parameters(config):
             'maximum_sample': 100_000, 'sampling': 'numpy-default_rng-sorted-choice'}
 
 
-def skip_reason(strategy, count, config):
+def ivf_configuration(partition, config, *, incident_single_list=True):
+    if partition not in PARTITIONS:
+        raise ValueError('Unknown source partition')
+    reduced = partition == 'incident' and incident_single_list
+    return {'nlist': 1 if reduced else config.nlist,
+            'nprobe': 1 if reduced else config.nprobe,
+            'minimum_per_centroid': 1 if reduced else 39,
+            'profile': 'incident_single_list' if reduced else 'standard',
+            'standard_benchmark_eligible': not reduced,
+            'comparison_group': 'incident_retrieval_only' if reduced else 'standard_ivf'}
+
+
+def skip_reason(strategy, count, config, *, partition='all', incident_single_list=True):
     if count == 0:
         return 'Empty source partition'
-    if strategy == 'ivf' and min(count, 100_000) < 39 * config.nlist:
-        return f'Undertrained IVF: {min(count, 100_000)} training vectors; need at least {39 * config.nlist} (39 per centroid)'
+    settings = ivf_configuration(partition, config, incident_single_list=incident_single_list)
+    minimum = settings['minimum_per_centroid'] * settings['nlist']
+    if strategy == 'ivf' and min(count, 100_000) < minimum:
+        return f"Undertrained IVF: {min(count, 100_000)} training vectors; need at least {minimum} ({settings['minimum_per_centroid']} per centroid)"
     return None
 
 
-def make_index(strategy, vectors, config):
+def make_index(strategy, vectors, config, *, partition='all'):
     config.validate()
     validate_vectors(vectors, len(vectors))
     if strategy not in STRATEGIES:
         raise ValueError('Unknown index strategy')
-    reason = skip_reason(strategy, len(vectors), config)
+    settings = ivf_configuration(partition, config)
+    reason = skip_reason(strategy, len(vectors), config, partition=partition)
     if reason:
         raise ValueError(reason)
     with one_thread():
         if strategy == 'flat':
             index = faiss.IndexFlatIP(DIMENSION)
         elif strategy == 'ivf':
-            index = faiss.IndexIVFFlat(faiss.IndexFlatIP(DIMENSION), DIMENSION, config.nlist, faiss.METRIC_INNER_PRODUCT)
+            index = faiss.IndexIVFFlat(faiss.IndexFlatIP(DIMENSION), DIMENSION, settings['nlist'], faiss.METRIC_INNER_PRODUCT)
             index.cp.seed = config.seed
             index.cp.niter = 25
-            index.cp.min_points_per_centroid = 39
+            index.cp.min_points_per_centroid = settings['minimum_per_centroid']
             index.cp.max_points_per_centroid = 100_000
             index.train(vectors[training_rows(len(vectors), config)])
-            index.nprobe = config.nprobe
+            index.nprobe = settings['nprobe']
         else:
             index = faiss.IndexHNSWFlat(DIMENSION, config.m, faiss.METRIC_INNER_PRODUCT)
             index.hnsw.efConstruction = config.ef_construction
@@ -98,20 +113,21 @@ def make_index(strategy, vectors, config):
     return index
 
 
-def validate_index(index, strategy, vectors, config):
+def validate_index(index, strategy, vectors, config, *, partition='all', incident_single_list=True):
     expected_types = {'flat': faiss.IndexFlatIP, 'ivf': faiss.IndexIVFFlat, 'hnsw': faiss.IndexHNSWFlat}
     if (type(index) is not expected_types[strategy] or index.d != DIMENSION
             or index.ntotal != len(vectors) or index.metric_type != faiss.METRIC_INNER_PRODUCT
             or not index.is_trained):
         raise ValueError(f'FAISS type/dimension/count/metric mismatch: {strategy}')
     if strategy == 'ivf':
+        settings = ivf_configuration(partition, config, incident_single_list=incident_single_list)
         # FAISS does not serialize ClusteringParameters (cp); seed/niter are
         # build provenance in the manifest, not reloadable search parameters.
-        if (index.nlist != config.nlist or index.nprobe != config.nprobe
+        if (index.nlist != settings['nlist'] or index.nprobe != settings['nprobe']
                 or index.quantizer.metric_type != faiss.METRIC_INNER_PRODUCT
                 or type(faiss.downcast_index(index.quantizer)) is not faiss.IndexFlatIP
                 or index.quantizer.d != DIMENSION
-                or index.quantizer.ntotal != config.nlist):
+                or index.quantizer.ntotal != settings['nlist']):
             raise ValueError('IVF parameter mismatch')
     if strategy == 'hnsw':
         if (index.hnsw.nb_neighbors(1) != config.m or index.hnsw.nb_neighbors(0) != 2 * config.m
@@ -125,6 +141,17 @@ def validate_index(index, strategy, vectors, config):
 class IndexBundle:
     def __init__(self, directory, manifest, vectors, rows, indexes):
         self.directory, self.manifest, self.vectors, self.rows, self.indexes = directory, manifest, vectors, rows, indexes
+
+    def benchmark_index(self, strategy, partition='all'):
+        """Gate standard comparisons; the incident exception is retrieval-only."""
+        if strategy not in STRATEGIES or partition not in PARTITIONS:
+            raise ValueError('Invalid strategy or partition')
+        entry = self.manifest['partitions'][partition]['indexes'][strategy]
+        if strategy == 'ivf' and entry.get('ivf_configuration', {}).get('standard_benchmark_eligible') is False:
+            raise ValueError('Incident single-list IVF is excluded from standard benchmark comparisons')
+        if (partition, strategy) not in self.indexes:
+            raise ValueError(entry['reason'])
+        return self.indexes[(partition, strategy)]
 
     def search(self, query_vector, strategy='flat', partition='all', top_k=10):
         """Low-level vector search; text/identifier retrieval remains separate."""
@@ -147,12 +174,13 @@ def load_directory(directory, context, manifest_sha256):
     if directory.is_symlink() or (directory / 'manifest.json').is_symlink() or file_hash(directory / 'manifest.json') != manifest_sha256:
         raise ValueError('Index manifest checksum mismatch')
     manifest = json.loads((directory / 'manifest.json').read_bytes())
-    if (manifest.get('schema_version') != 1 or manifest.get('identity') != context.identity
+    if (manifest.get('schema_version') not in (1, 2) or manifest.get('identity') != context.identity
             or manifest.get('faiss_version') != faiss.__version__ or manifest.get('metric') != 'inner_product'
             or manifest.get('count') != len(context.rows)):
         raise ValueError('Index manifest does not match active corpus/embedder/runtime')
     config = IndexConfig(**manifest['config'])
     config.validate()
+    reduced_incident = manifest['schema_version'] == 2
     if manifest.get('ivf_training') != training_parameters(config):
         raise ValueError('IVF training provenance mismatch')
     partitions = partition_rows(context.rows)
@@ -165,7 +193,10 @@ def load_directory(directory, context, manifest_sha256):
             raise ValueError('Partition row mapping or strategy mismatch')
         for strategy in STRATEGIES:
             entry = item['indexes'][strategy]
-            reason = skip_reason(strategy, len(mapping), config)
+            reason = skip_reason(strategy, len(mapping), config, partition=partition, incident_single_list=reduced_incident)
+            if reduced_incident and strategy == 'ivf' and not reason:
+                if entry.get('ivf_configuration') != ivf_configuration(partition, config):
+                    raise ValueError('IVF partition configuration/comparison group mismatch')
             if reason:
                 if entry != {'status': 'skipped', 'reason': reason}:
                     raise ValueError('Incorrect skipped-index declaration')
@@ -194,7 +225,7 @@ def load_directory(directory, context, manifest_sha256):
             entry = manifest['partitions'][partition]['indexes'][strategy]
             if entry['status'] == 'ready':
                 index = faiss.read_index(str(directory / entry['file']))
-                validate_index(index, strategy, subset, config)
+                validate_index(index, strategy, subset, config, partition=partition, incident_single_list=reduced_incident)
                 indexes[(partition, strategy)] = index
     return IndexBundle(directory, manifest, vectors, rows, indexes)
 
@@ -225,7 +256,7 @@ def build_indexes(database, root='data/indexes', embedding_root='data/embeddings
     directory.mkdir()
     np.save(directory / 'vectors.npy', vectors, allow_pickle=False)
     write_json(directory / 'rows.json', list(context.rows))
-    manifest = {'schema_version': 1, 'identity': context.identity, 'faiss_version': faiss.__version__,
+    manifest = {'schema_version': 2, 'identity': context.identity, 'faiss_version': faiss.__version__,
                 'metric': 'inner_product', 'count': len(vectors), 'config': asdict(config),
                 'created_at': datetime.now(timezone.utc).isoformat(), 'partitions': {},
                 'ivf_training': training_parameters(config),
@@ -237,17 +268,19 @@ def build_indexes(database, root='data/indexes', embedding_root='data/embeddings
         item = {'rows': mapping, 'indexes': {}}
         manifest['partitions'][partition] = item
         for strategy in STRATEGIES:
-            reason = skip_reason(strategy, len(mapping), config)
+            reason = skip_reason(strategy, len(mapping), config, partition=partition)
             if reason:
                 item['indexes'][strategy] = {'status': 'skipped', 'reason': reason}
                 continue
             start = perf_counter()
-            index = make_index(strategy, subset, config)
+            index = make_index(strategy, subset, config, partition=partition)
             filename = f'{partition}-{strategy}.faiss'
             faiss.write_index(index, str(directory / filename))
             item['indexes'][strategy] = {'status': 'ready', 'file': filename,
                                          'build_seconds': perf_counter() - start,
                                          'training_vectors': min(100_000, len(subset)) if strategy == 'ivf' else 0}
+            if strategy == 'ivf':
+                item['indexes'][strategy]['ivf_configuration'] = ivf_configuration(partition, config)
             manifest['files'][filename] = inventory(directory / filename)
             with one_thread():
                 probes[(partition, strategy)] = index.search(subset[:min(3, len(subset))], min(10, len(subset)))
@@ -293,6 +326,25 @@ def verify_indexes(database, root='data/indexes'):
             raise ValueError('Reload changed search results')
         count += index.ntotal
     manifest = bundle.manifest
+    incident_verified = False
+    incident_entry = manifest['partitions']['incident']['indexes']['ivf']
+    if incident_entry.get('ivf_configuration', {}).get('profile') == 'incident_single_list':
+        mapping = manifest['partitions']['incident']['rows']
+        queries = bundle.vectors[mapping].copy()
+        with one_thread():
+            scores, labels = bundle.indexes[('incident', 'ivf')].search(queries, len(mapping))
+            flat_scores, flat_labels = bundle.indexes[('incident', 'flat')].search(queries, len(mapping))
+        # Compare per-ID scores, allowing equally scored rows to change rank.
+        if (not np.array_equal(np.sort(labels, axis=1), np.sort(flat_labels, axis=1))
+                or not np.allclose(np.take_along_axis(scores, np.argsort(labels, axis=1), axis=1),
+                                   np.take_along_axis(flat_scores, np.argsort(flat_labels, axis=1), axis=1), atol=1e-6, rtol=0)):
+            raise ValueError('Incident single-list IVF disagrees with exhaustive Flat search')
+        try:
+            bundle.benchmark_index('ivf', 'incident')
+        except ValueError:
+            incident_verified = True
+        else:
+            raise ValueError('Incident IVF was admitted to standard benchmarks')
     return {'verified_at': datetime.now(timezone.utc).isoformat(),
             'manifest_sha256': file_hash(bundle.directory / 'manifest.json'),
             'identity': manifest['identity'], 'faiss_version': faiss.__version__,
@@ -301,6 +353,8 @@ def verify_indexes(database, root='data/indexes'):
             'indexes_verified': len(bundle.indexes), 'index_vectors_verified': count,
             'file_checksums_verified': True, 'source_row_mapping_verified': True,
             'reconstructed_vectors_match': True, 'repeated_search_verified': True, 'reload_search_verified': True,
+            'incident_single_list_flat_equivalence_verified': incident_verified,
+            'incident_standard_benchmark_exclusion_verified': incident_verified,
             'embedding_prepare_seconds': manifest['embedding_prepare_seconds'],
             'partitions': {p: {'count': len(v['rows']), 'indexes': v['indexes']}
                            for p, v in manifest['partitions'].items()},

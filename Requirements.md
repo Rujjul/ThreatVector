@@ -37,6 +37,7 @@ Excluded from v1: generic log monitoring, incident dashboards, SIEM workflows, a
 - Begin with a small attributed fixture corpus. Verify source availability and reuse terms before distributing report text.
 - Use 60 manually reviewed questions: 30 tuning queries and 30 held-out queries. Include vulnerability lookup, technique discovery, incident correlation, and unsupported questions.
 - Report ANN recall@10 against Flat separately from document relevance recall@10 and MRR.
+- Keep the incident-only `nlist=1`, `nprobe=1` IVF retrieval configuration separate from standard `nlist=64/128/256` benchmark comparisons. Its reduced training minimum must be explicit in the manifest.
 - Measure p50/p95 search latency, build time, serialized index size, and peak process memory; report embedding and generation timing separately.
 - Manually assess 20 held-out answers for evidence support, technique accuracy, and mitigation relevance. Record the rubric and results.
 

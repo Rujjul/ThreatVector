@@ -83,8 +83,14 @@ def test_fixture_partitions_exact_flat_and_reload(bundle):
             assert hits[0]['score'] == pytest.approx(1, abs=1e-5)
             again = load_indexes(database, root)
             assert hits == again.search(subset[:1], strategy, partition, 50)
-        with pytest.raises(ValueError, match='Undertrained'):
-            loaded.search(subset[:1], 'ivf', partition)
+        if partition == 'incident':
+            ivf_hits = loaded.search(subset[:1], 'ivf', partition, 50)
+            flat_hits = loaded.search(subset[:1], 'flat', partition, 50)
+            assert [h['chunk_id'] for h in ivf_hits] == [h['chunk_id'] for h in flat_hits]
+            np.testing.assert_allclose([h['score'] for h in ivf_hits], [h['score'] for h in flat_hits], atol=1e-6)
+        else:
+            with pytest.raises(ValueError, match='Undertrained'):
+                loaded.search(subset[:1], 'ivf', partition)
     scores = loaded.vectors @ loaded.vectors[0]
     expected = np.argsort(-scores)[:min(10, len(scores))]
     hits = loaded.search(loaded.vectors[:1])
@@ -191,7 +197,7 @@ def test_failed_build_retains_previous_active_generation(bundle, tmp_path, monke
     import backend.indexes as indexes
     database, root, _, _ = bundle
     old = (root / 'active.json').read_bytes()
-    monkeypatch.setattr(indexes, 'make_index', lambda *_: (_ for _ in ()).throw(RuntimeError('build failed')))
+    monkeypatch.setattr(indexes, 'make_index', lambda *_, **__: (_ for _ in ()).throw(RuntimeError('build failed')))
     with pytest.raises(RuntimeError, match='build failed'):
         build_indexes(database, root, tmp_path / 'embeddings', encoder=Encoder())
     assert (root / 'active.json').read_bytes() == old
@@ -289,6 +295,8 @@ def test_validation_report_uses_actual_reload_and_partition_checks(bundle):
     assert report['count'] == len(loaded.rows)
     assert report['indexes_verified'] == len(loaded.indexes)
     assert report['index_vectors_verified'] == sum(i.ntotal for i in loaded.indexes.values())
+    assert report['incident_single_list_flat_equivalence_verified']
+    assert report['incident_standard_benchmark_exclusion_verified']
     assert report['partitions']['all']['indexes']['ivf']['status'] == 'skipped'
 
 
@@ -301,3 +309,55 @@ def test_modified_active_model_assets_fail_before_native_loading(bundle, monkeyp
     monkeypatch.setattr(faiss, 'read_index', lambda *_: pytest.fail('Native loader reached mismatched model assets'))
     with pytest.raises(ValueError, match='Embedding asset mismatch'):
         load_indexes(database, root)
+
+
+def test_incident_ivf_22_vectors_train_save_reload_and_search(tmp_path):
+    x = vectors(22)
+    config = IndexConfig()
+    index = make_index('ivf', x, config, partition='incident')
+    assert index.is_trained and index.ntotal == 22
+    assert index.nlist == index.nprobe == index.cp.min_points_per_centroid == 1
+    path = tmp_path / 'incident-ivf.faiss'
+    faiss.write_index(index, str(path))
+    restored = faiss.read_index(str(path))
+    validate_index(restored, 'ivf', x, config, partition='incident')
+    flat = make_index('flat', x, config)
+    with one_thread():
+        scores, labels = index.search(x, 22)
+        new_scores, new_labels = restored.search(x, 22)
+        flat_scores, flat_labels = flat.search(x, 22)
+    np.testing.assert_array_equal(labels, new_labels)
+    np.testing.assert_array_equal(labels, flat_labels)
+    np.testing.assert_allclose(scores, new_scores, atol=1e-6)
+    np.testing.assert_allclose(scores, flat_scores, atol=1e-6)
+    with pytest.raises(ValueError, match='Undertrained'):
+        make_index('ivf', x, config, partition='cve')
+
+
+def test_incident_configuration_manifest_and_benchmark_exclusion(bundle):
+    database, root, loaded, _ = bundle
+    entry = loaded.manifest['partitions']['incident']['indexes']['ivf']
+    assert entry['status'] == 'ready'
+    assert entry['ivf_configuration'] == {
+        'nlist': 1, 'nprobe': 1, 'minimum_per_centroid': 1,
+        'profile': 'incident_single_list', 'standard_benchmark_eligible': False,
+        'comparison_group': 'incident_retrieval_only'}
+    assert loaded.manifest['config']['nlist'] == 64
+    with pytest.raises(ValueError, match='excluded from standard benchmark'):
+        loaded.benchmark_index('ivf', 'incident')
+    entry['ivf_configuration']['standard_benchmark_eligible'] = True
+    refresh_manifest(root, loaded)
+    with pytest.raises(ValueError, match='comparison group mismatch'):
+        load_indexes(database, root)
+
+
+def test_legacy_schema_keeps_historical_incident_skip(bundle):
+    database, root, loaded, _ = bundle
+    loaded.manifest['schema_version'] = 1
+    loaded.manifest['partitions']['incident']['indexes']['ivf'] = {
+        'status': 'skipped', 'reason': 'Undertrained IVF: ' + str(len(loaded.manifest['partitions']['incident']['rows'])) + ' training vectors; need at least 2496 (39 per centroid)'}
+    loaded.manifest['files'].pop('incident-ivf.faiss')
+    refresh_manifest(root, loaded)
+    historical = load_indexes(database, root)
+    with pytest.raises(ValueError, match='Undertrained'):
+        historical.search(historical.vectors[:1], 'ivf', 'incident')

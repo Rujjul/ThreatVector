@@ -8,7 +8,7 @@ and [chunk construction](CHUNKING.md) first. Run from the repository root:
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements-index.lock
 .\.venv\Scripts\python.exe -m backend.prepare_embedding
 .\.venv\Scripts\python.exe -m backend.cli build-indexes
-.\.venv\Scripts\python.exe -m backend.cli validate-indexes --output data/manifests/index-validation-v1.json
+.\.venv\Scripts\python.exe -m backend.cli validate-indexes --output data/manifests/index-validation-v2.json
 .\.venv\Scripts\python.exe -m pytest --basetemp=data/test-temp-indexes
 ```
 
@@ -23,17 +23,21 @@ used. Downloading the pinned model is explicit; building and loading are offline
 
 The actual full-corpus CPU run produced shared embeddings for 13,150 chunks.
 Independent reload validation passed; the measured report is
-`data/manifests/index-validation-v1.json`. All 78,878 indexed vector instances
-across 11 native indexes exactly matched the saved embedding rows.
+`data/manifests/index-validation-v1.json` freezes the original 11-index build.
+The incident exception is recorded separately in `index-validation-v2.json`;
+the original report remains unchanged.
 
 | Partition | Chunks | FlatIP | IVFFlat | HNSWFlat |
 | --- | --- | --- | --- | --- |
 | Complete corpus | 13,150 | Ready | Ready | Ready |
 | CVE | 10,177 | Ready | Ready | Ready |
 | ATT&CK | 2,951 | Ready | Ready | Ready |
-| Incident | 22 | Ready | Skipped: requires 2,496 training vectors | Ready |
+| Incident | 22 | Ready | Ready: retrieval-only `nlist=1`, `nprobe=1` | Ready |
 
-The complete optional-dependency test suite passed **106 tests**. Full-corpus
+The original optional-dependency suite passed 106 tests; the incident-IVF
+follow-up passed **109 tests**. Schema-2 validation verified **12 indexes** and
+**78,900 indexed vector instances**, including all-incident exhaustive Flat
+equivalence, persistence and benchmark exclusion. Full-corpus
 validation uses actual model assets/vectors; automated tests substitute the
 encoder and model-asset check, and use real FAISS. Initial embedding preparation
 took about 1,336 seconds on one CPU thread including model setup and cache
@@ -57,11 +61,25 @@ embedding input lengths are checked against the actual pinned tokenizer before
 encoding. Nonfinite, zero, nonunit, wrong-dimension or wrong-dtype vectors fail.
 
 Each generation includes the complete corpus plus CVE, ATT&CK and incident
-partitions built from slices of that same matrix. A partition with fewer than
-39 training vectors per centroid **skips IVF with an explicit reason**. It never
-trains on unrelated sources, changes `nlist` or silently substitutes Flat.
-Flat/HNSW remain available for nonempty small partitions; empty partitions skip
-all strategies. Future retrieval must handle unavailable strategies explicitly.
+partitions built from slices of that same matrix. Standard IVF partitions with
+fewer than 39 training vectors per centroid skip with an explicit reason.
+The user-directed incident-only exception always uses `nlist=1`, `nprobe=1` and
+`minimum_per_centroid=1`. The 22 vectors therefore train without applying the
+standard 39-vector minimum. Empty partitions still skip every strategy.
+
+Schema-2 manifests record each ready IVF entry's effective `ivf_configuration`:
+list/probe counts, training minimum, profile, comparison group and benchmark
+eligibility. Incident IVF has `profile=incident_single_list`,
+`comparison_group=incident_retrieval_only` and
+`standard_benchmark_eligible=false`. All other IVF entries use the global
+standard configuration; `--nlist 1` remains invalid globally. The loader checks
+these declarations against the partition policy and native index. Schema-1
+generations remain readable with their original incident-skip behavior.
+
+`IndexBundle.benchmark_index` rejects the reduced incident IVF configuration
+for standard comparisons. Retrieval can use it through `search`; with its one
+list fully probed it searches the complete incident subset. This configuration
+is not an ANN performance comparison or evidence of an indexing advantage.
 
 ## Persistence and validation
 
