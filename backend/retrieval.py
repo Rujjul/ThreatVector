@@ -11,6 +11,7 @@ from .query_embedding import QueryEncoder
 from .storage import CorpusStore, corpus_hash
 from .vector_artifacts import validate_vectors
 from .retrieval_contract import DEFAULT_TOP_K, validate_top_k
+from .identifiers import lookup_identifiers
 
 SOURCE_TYPES = PARTITIONS[1:]
 
@@ -66,6 +67,7 @@ class RetrievalService:
         self.documents = {d.id: d for d in documents}
         self.chunks = {c['id']: c for c in chunks}
         self.rows = {r['chunk_id']: r for r in bundle.rows}
+        self.vector_rows = {r['chunk_id']:i for i,r in enumerate(bundle.rows)}
         if (len(self.documents) != len(documents) or len(self.chunks) != len(chunks)
                 or len(self.rows) != len(bundle.rows) or set(self.rows) != set(self.chunks)):
             raise ValueError('Incomplete or duplicate evidence snapshot')
@@ -93,7 +95,22 @@ class RetrievalService:
             if (corpus_hash(batch) != bundle.manifest['identity']['corpus_sha256']
                     or chunk_hash(tuple(Chunk(**c) for c in chunks)) != bundle.manifest['identity']['chunk_sha256']):
                 raise ValueError('Corpus changed while loading retrieval evidence')
-        return cls(bundle, batch.documents, chunks, model_factory=model_factory)
+        service = cls(bundle, batch.documents, chunks, model_factory=model_factory)
+        service.database, service.directory = database, directory
+        return service
+
+    def validate_current(self):
+        """API requests reject changed/corrupt artifacts after initial caching."""
+        from pathlib import Path
+        from .vector_artifacts import current_chunks, check_file, file_hash
+        context = current_chunks(self.database)
+        pointer = json.loads((Path(self.directory)/'active.json').read_bytes())
+        if (context.identity != self.bundle.manifest['identity']
+                or pointer != {'generation':self.bundle.directory.name,'manifest_sha256':self.bundle.manifest_sha256}
+                or file_hash(self.bundle.directory/'manifest.json') != self.bundle.manifest_sha256):
+            raise IndexValidationError('Active corpus/index generation changed; reload the search service')
+        for name, expected in self.bundle.manifest['files'].items():
+            check_file(self.bundle.directory,name,expected)
 
     def close(self):
         if self.model is not None and hasattr(self.model, 'close'):
@@ -125,7 +142,18 @@ class RetrievalService:
             validate_vectors(vector, 1)
         embedding_ms = (perf_counter() - embedding_start) * 1000 if partitions else 0.0
         start = perf_counter()
-        hits = filtered_search(self.bundle, vector, source_types=source_types, strategy=strategy, top_k=top_k) if partitions else []
+        semantic = filtered_search(self.bundle, vector, source_types=source_types, strategy=strategy, top_k=top_k) if partitions else []
+        exact, identifier_status = lookup_identifiers(query,self.documents,self.chunks,source_types)
+        hits, seen = [], set()
+        for _, _, chunk_id, identifier in exact:
+            if chunk_id not in seen and len(hits)<top_k:
+                hits.append({'chunk_id':chunk_id,'score':float(self.bundle.vectors[self.vector_rows[chunk_id]] @ vector[0]),
+                             'match_type':'exact_identifier','matched_identifiers':[identifier]})
+                seen.add(chunk_id)
+        for hit in semantic:
+            if hit['chunk_id'] not in seen and len(hits)<top_k:
+                hits.append({**hit,'match_type':'semantic','matched_identifiers':[]})
+                seen.add(hit['chunk_id'])
         evidence = []
         for hit in hits:
             row = self.rows[hit['chunk_id']]
@@ -136,6 +164,7 @@ class RetrievalService:
                              'source_type': document.source_type, 'source_id': document.source_id,
                              'title': document.title, 'text': chunk['text'], 'url': document.url,
                              'publication_date': document.publication_date, 'score': hit['score'],
+                             'match_type':hit['match_type'],'matched_identifiers':hit['matched_identifiers'],
                              'section_id': section.id, 'char_start': chunk['char_start'], 'char_end': chunk['char_end'],
                              'source_locator': section.source_locator, 'source_snapshot_sha256': section.source_snapshot_sha256,
                              'attribution': document.attribution, 'source_modified_at': document.source_modified_at,
@@ -145,6 +174,7 @@ class RetrievalService:
                              'token_start': chunk['token_start'], 'token_end': chunk['token_end'],
                              'content_sha256': chunk['content_sha256'], 'tokenizer_revision': chunk['tokenizer_revision']})
         return {'evidence': evidence, 'index': strategy, 'partitions_searched': list(partitions),
+                'identifier_lookup':identifier_status,
                 'source_types': None if source_types is None else [s for s in SOURCE_TYPES if s in source_types],
                 'embedding_ms': embedding_ms, 'retrieval_ms': (perf_counter() - start) * 1000,
                 'corpus_sha256': self.bundle.manifest['identity']['corpus_sha256'],

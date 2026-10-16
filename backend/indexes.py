@@ -259,7 +259,9 @@ def load_directory(directory, context, manifest_sha256):
                 index = faiss.read_index(str(directory / entry['file']))
                 validate_index(index, strategy, subset, config, partition=partition, incident_single_list=reduced_incident)
                 indexes[(partition, strategy)] = index
-    return IndexBundle(directory, manifest, vectors, rows, indexes)
+    bundle = IndexBundle(directory, manifest, vectors, rows, indexes)
+    bundle.manifest_sha256 = manifest_sha256
+    return bundle
 
 
 @validated_artifact

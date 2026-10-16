@@ -1,6 +1,6 @@
 # ThreatVector
 
-ThreatVector focuses on semantic vulnerability correlation, hybrid identifier/semantic retrieval, evidence-grounded explanations, and FAISS Flat/IVF/HNSW indexing. Public incident reports serve as supporting evidence. Generic log monitoring, incident dashboards, alert feeds, and SIEM workflows are excluded. The local backend can build and validate FAISS artifacts; retrieval and live application integration remain incomplete.
+ThreatVector focuses on semantic vulnerability correlation, hybrid identifier/semantic retrieval, evidence-grounded explanations, and FAISS Flat/IVF/HNSW indexing. Public incident reports serve as supporting evidence. Generic log monitoring, incident dashboards, alert feeds, and SIEM workflows are excluded. The local backend supports verified semantic and exact-identifier retrieval through the CLI and `POST /search`; complete live frontend integration remains incomplete.
 
 React/TypeScript demo landing page and local investigation frontend. The interactive demo uses explicitly fictional content. Live mode calls the local API; it never silently substitutes demo content. There are no measured benchmark runs yet.
 
@@ -24,7 +24,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-The HTTP foundation serves `/health`, placeholder `/corpus`, and an empty `/benchmarks`. SQLite storage and ingestion now exist through the separate CLI; these routes are not wired to the database. Live investigations show failures until retrieval and analysis exist.
+The HTTP foundation serves `/health`, placeholder `/corpus`, and an empty `/benchmarks`. SQLite storage and ingestion now exist through the separate CLI; these routes are not wired to the database. `POST /search` now serves real local retrieval after the optional model/index setup below; analysis and complete live investigations remain later work.
 
 ## Frontend verification
 
@@ -77,4 +77,4 @@ The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, fro
 .\.venv\Scripts\python.exe -m backend.cli inspect
 ```
 
-The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. [Tokenizer-aware chunking and pinned MiniLM setup](backend/CHUNKING.md) provides local chunk construction and model verification. [FAISS setup and persistence](backend/INDEXES.md) covers shared CPU embeddings, Flat/IVF/HNSW strategies, source partitions, atomic generations and validation. [Filtered retrieval](backend/RETRIEVAL.md) supports local natural-language searches over the full corpus or selected source partitions through the CLI. Exact identifier lookup and live application integration remain incomplete.
+The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. [Tokenizer-aware chunking and pinned MiniLM setup](backend/CHUNKING.md) provides local chunk construction and model verification. [FAISS setup and persistence](backend/INDEXES.md) covers shared CPU embeddings, Flat/IVF/HNSW strategies, source partitions, atomic generations and validation. [Filtered retrieval](backend/RETRIEVAL.md) supports local natural-language searches over the full corpus or selected source partitions through the CLI. Exact CVE/ATT&CK lookup and `POST /search` are verified. The [Phase 2 acceptance matrix](backend/PHASE2_ACCEPTANCE.md) records 196 passing backend tests and 15 local HTTP cases; complete frontend integration remains later work.

@@ -1,0 +1,20 @@
+# Phase 2 acceptance
+
+Status: **Complete**, verified 2026-10-16. Scope is retrieval only; no later-phase completion is implied.
+
+| Deliverable / exit criterion | Verified evidence |
+| --- | --- |
+| Tokenizer chunk/token limits | `data/manifests/chunk-validation-v1.json`: 13,150 chunks, maximum complete input 220 tokens, overlap 30, 11,526 sections, exact offsets, full token coverage and zero-write replay. Its corpus/chunk fingerprints match the final acceptance report. |
+| Pinned local embedder | `backend/embedding-model.json` pins revision `1110a243fdf4706b3f48f1d95db1a4f5529b4d41` and asset hashes; `data/manifests/embedding-validation-v1.json` records actual finite normalized 384-dimensional CPU outputs. Final queries use this local model. |
+| Three index strategies and manifests | Existing Flat/IVF/HNSW full/source indexes reused unchanged. `data/manifests/phase2-acceptance-v1.json` independently verifies all 12 indexes and 78,900 vector instances, including stable reloads. Incident IVF remains nlist/nprobe=1 and excluded from standard benchmarks. |
+| Natural-language and exact identifier retrieval | Deterministic tests in `tests/test_identifiers_api.py` verify canonical CVE, ATT&CK technique/subtechnique and mitigation lookup, case/prose boundaries, multiple IDs, unknown/inactive/evidence-free/filtered statuses, exact-first ranking and semantic supplementation. Actual HTTP cases verify semantic, CVE, subtechnique and mixed-ID requests. |
+| Correct full/single/multi-source filters | `tests/test_retrieval.py` and prior native filter tests cover source subsets, empty/duplicate/invalid filters and partition merging. `data/manifests/filtered-retrieval-validation-v1.json` records 27 cases and the actual starvation counterexample: global post-filtering yields zero incident hits while incident partition search yields ten. Final HTTP checks include single, mixed and empty selections. |
+| Deduplication, ranking, metadata and limits | Deterministic native/service/API tests verify best-score chunk deduplication, distinct same-document chunks, stable ties, exact raw scores/provenance, exact-first order, default 10, maximum 50 and invalid limits. `data/manifests/retrieval-safeguards-validation-v1.json` records real all-strategy limit checks; final HTTP evidence offsets/URLs are checked against stored source sections. |
+| Mismatched/incomplete artifacts rejected | Tests cover corpus/chunk/model/runtime/hash/row mapping/native shape and parameter mismatches, missing partitions/files, malformed metadata, invalid vectors and evidence joins. Actual cached API corruption test deletes a native artifact after a successful request and confirms 503 without evidence. Load-time and cached validation fail closed. |
+| POST /search | Strict request schema; deterministic ASGI tests exercise status codes and lifecycle. Actual bounded localhost run exercises 15 cases: nine successful searches and six expected 422 responses, with clean worker/server shutdown. |
+
+Final full suite: `python -m pytest --basetemp=data/test-temp-phase2-final` — **196 passed in 64.67 seconds**. Automated encoders/provider-independent transport are deterministic; native FAISS is real. Actual acceptance: `python -m backend.verify_phase2` — passed, report in `data/manifests/phase2-acceptance-v1.json`. Windows restricted execution initially blocked Python's asynchronous loopback socket pair; both checks passed with loopback permission.
+
+Active index manifest SHA-256: `5888f87c17ca4adb91d4864351179e44612c79ebb4c3003cb6d1ad18c7165782`. Final corpus/chunk identities match the earlier chunk and index reports; no stored embeddings, chunks or indexes were regenerated.
+
+These checks establish functional integrity, not relevance, ANN recall, latency advantages or answer quality. Correlation/generation, threshold calibration, provider checks, complete frontend integration and formal evaluation remain later-phase work. Foundation GET health/corpus placeholders remain unchanged; only POST /search is integrated in this scope. Generated databases, models and indexes remain outside version control.

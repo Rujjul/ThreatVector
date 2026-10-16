@@ -119,3 +119,9 @@ Implement a fixture-based vertical slice first, then scale to the full corpus an
 Test source normalization and deduplication, chunk boundaries, provenance, index persistence, manifest mismatch rejection, exact IDs, filtered search, relationship evidence, invalid citations, conflicting evidence, unsupported questions, prompt injection, missing keys, and provider timeouts. UI checks cover evidence navigation and visible failure states. Verify one full ingestion-to-answer workflow and compare chart values with saved metrics.
 
 Public sources may omit mappings or conflict. The general-purpose embedder may miss security-specific language. Citation validation cannot prove semantic support. Small corpora may favor Flat; CPU, network, and provider performance vary. Report these limits and actual findings in `Progress.md` and delivery documentation.
+
+## Phase 2 closure (2026-10-16)
+
+The historical milestone notes above describe their state at the time. Phase 2 is now complete: canonical CVE/ATT&CK lookup precedes semantic supplementation, obeys selected source partitions, preserves raw scores/provenance and shares chunk-ID deduplication and default 10/maximum 50 limits. `POST /search` validates inputs, lazily loads existing artifacts, rejects stale/corrupt cached generations, and cleans up its local embedding worker. No embeddings or indexes were rebuilt in this closure.
+
+[Phase 2 acceptance](backend/PHASE2_ACCEPTANCE.md) maps every deliverable and exit criterion to frozen reports and tests. Final backend suite: 196 passed. Actual localhost verification: 15 cases passed; 12 indexes / 78,900 vector instances verified with stable reloads and traceable evidence. The incident IVF exception remains excluded from standard benchmarks. Later phases, provider integration, frontend completion and formal evaluation were not begun in this request.

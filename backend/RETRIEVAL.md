@@ -1,4 +1,4 @@
-# Filtered semantic retrieval
+# Semantic and identifier retrieval
 
 Install the optional index environment and prepare the corpus/chunks/indexes as
 described in [INDEXES.md](INDEXES.md). Run from the repository root:
@@ -22,7 +22,7 @@ described in [INDEXES.md](INDEXES.md). Run from the repository root:
 `RetrievalService.from_database` validates the active generation and loads a
 matching immutable evidence snapshot. Use it as a context manager so its local
 query worker is closed. Reload the service after changing corpus/index versions;
-automatic refresh and HTTP integration are not implemented. Returned evidence
+automatic refresh is not implemented. The HTTP service checks cached artifacts before reuse. Returned evidence
 contains original chunk excerpts, document/source IDs, public links, available
 publication dates, attribution, section locators, snapshot hashes and character
 offsets. Evidence also retains complete document provenance (including retrieval
@@ -122,6 +122,28 @@ strategies, deduplication, deterministic ties, evidence joins, model limits,
 worker failures/timeouts and lifecycle. This is functional filter validation,
 not relevance labeling or an ANN quality comparison.
 
-Exact CVE/ATT&CK lookup, correlation/generation, threshold calibration and
-HTTP/frontend wiring remain separate work. No benchmark figures are inferred
-from these functional checks; phase 2 remains in progress.
+Phase 2 is complete; see [PHASE2_ACCEPTANCE.md](PHASE2_ACCEPTANCE.md). Correlation/generation, threshold calibration and complete frontend integration remain separate later-phase work. No benchmark figures are inferred from these functional checks.
+
+## Exact identifiers and ranking
+
+Complete CVE and ATT&CK identifiers are recognized case-insensitively in prose, including technique/subtechnique, tactic, mitigation, group, software, campaign and data-source IDs. Matching uses canonical source identities, never incidental mentions or legacy external-reference aliases. Filters apply before lookup. `identifier_lookup` reports `matched`, `not_found`, `filtered_out`, `inactive` or `no_retrievable_evidence`; unavailable identifiers never produce invented exact evidence.
+
+Exact chunks precede semantic supplementation. Exact order is chunk ordinal, then identifier occurrence order, then chunk ID; this puts the first chunk of each requested identifier before later chunks. Remaining semantic candidates keep descending raw score and deterministic chunk-ID ties. Both groups share one chunk-ID deduplication set and global cap. `match_type` and `matched_identifiers` identify exact evidence. Exact scores are actual normalized-vector dot products, not boosted constants or probabilities. A matched document with many chunks can fill the cap. Unknown identifiers can still return semantic results with an explicit lookup status.
+
+## Local HTTP search
+
+Start from the repository root after preparing the optional embedding/index environment:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/search -ContentType application/json -Body '{"query":"CVE-2021-44228 T1190","index":"flat","source_types":["cve","attack"],"top_k":10}'
+.\.venv\Scripts\python.exe -m backend.verify_phase2
+```
+
+`POST /search` accepts only `query`, `index`, `source_types`, and `top_k`. Omitted/null source types search the full corpus; `[]` returns empty evidence. Responses contain evidence, identifier statuses, partitions, snapshot identities and embedding/retrieval timings. Invalid requests (including unknown fields, noninteger limits and overlong tokenizations) return 422. Missing dependencies, unavailable indexes, artifact mismatch or local encoder failures return 503 without substitute evidence or local error-path disclosure.
+
+The service lazily loads a validated immutable snapshot, serializes worker use, rechecks corpus/model/index hashes before cached requests, and closes the worker on shutdown. Changed or corrupt cached artifacts fail the current request and clear the service for a later retry. Server-side `THREATVECTOR_DATABASE` and `THREATVECTOR_INDEX_DIRECTORY` optionally override default local paths. Requests cannot select arbitrary paths. No credentials or hosted providers are needed.
+
+`/health` and `/corpus` still expose foundation placeholders; `/benchmarks` remains empty. `/analyze` and `/documents/{id}` are later-phase work. Search availability does not imply the full live frontend is complete.
+
+Final verification: **196 backend tests passed**, with deterministic encoders and actual native FAISS. The actual localhost acceptance passed 15 cases against existing artifacts, verified 12 indexes / 78,900 vector instances and clean shutdown. Report: `data/manifests/phase2-acceptance-v1.json`. On the restricted Windows runner, async tests and local HTTP checks require loopback permission for Python's event-loop socket pair.
