@@ -1,6 +1,6 @@
 # Phase 3 correlation and provider foundations
 
-These services are independent of HTTP routing and generation. Phase 3 remains incomplete: analysis orchestration, untrusted-context prompt construction, grounded output validation/retry and `/analyze` are not implemented by this milestone.
+These correlation/transport foundations remain independent of HTTP routing. The subsequent [structured analysis service](ANALYSIS.md) now supplies orchestration, untrusted-context prompts and extractive output validation/retry. Phase 3 remains incomplete pending semantic relevance calibration and `/analyze` integration.
 
 ## Correlation
 
@@ -27,7 +27,7 @@ Supporting section chunks are fetched from the matching immutable chunk snapshot
 
 Use the names in [provider.env.example](provider.env.example) as **server environment variables**. No environment file is loaded automatically. Endpoint is a complete chat-completions URL; model and key have no defaults. Timeout defaults to 60 seconds (valid range greater than zero through 300); it is the HTTP socket-operation timeout, not a guaranteed wall-clock deadline across DNS and all reads. HTTPS is required except local HTTP. URL credentials/query parameters and authorization redirects are rejected. Keys/endpoints are omitted from config representations. Neither secrets nor upstream response bodies/exceptions appear in failure results or logs.
 
-The default mode requests strict `json_schema`. Explicit `json_object` supports endpoints lacking strict schemas; callers must instruct JSON output and validate it themselves. There is no silent capability downgrade, request retry or tool execution. The transport bounds response bytes at 2 MB. Tool calls, incomplete envelopes and non-stop completions fail explicitly. The result contains status and, on success, raw content. Parsing/grounding/schema validation of that content belongs to the next generation milestone.
+The default mode requests strict `json_schema`. Explicit `json_object` supports endpoints lacking strict schemas; callers must instruct JSON output and validate it themselves. There is no silent capability downgrade, request retry or tool execution. The transport bounds response bytes at 2 MB. Tool calls, incomplete envelopes and non-stop completions fail explicitly. The result contains status and, on success, raw content. Parsing/grounding/schema validation is implemented separately in the [analysis service](ANALYSIS.md).
 
 Statuses include `ok`, `missing_credentials`, `not_configured`, `timeout`, `provider_error`, `invalid_response`, and `refused`. HTTP failures retain only the numeric status. Missing credentials cause no network request. The caller owns retrieved evidence; provider failures cannot remove it. These services are not yet wired to an analysis response, so no end-to-end generation-failure UI claim is made.
 

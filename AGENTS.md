@@ -23,6 +23,8 @@ Direct user instructions take precedence. Keep these documents consistent when t
 
 ## Progress and completion
 
+After an implementation is finished, run the relevant test suites and required checks. Once they pass, commit the implementation and push it to GitHub, as requested by the user. Do not commit or push an implementation with failing required tests.
+
 Update `Progress.md` after each meaningful implementation milestone or discovered blocker. Record completed work, remaining work, checks actually run and their outcomes, and known limitations. Mark partially implemented or unverified work accurately.
 
 Before reporting completion, run checks appropriate to the change and review the relevant acceptance criteria. A phase is complete only when its deliverables and exit criteria are verified. If verification is blocked, describe the missing dependency or evidence and leave the phase incomplete.

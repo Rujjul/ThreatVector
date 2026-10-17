@@ -129,3 +129,9 @@ The historical milestone notes above describe their state at the time. Phase 2 i
 ## Phase 3 foundations (2026-10-16)
 
 The user authorized correlation and provider adapter only. `backend/correlation.py` implements bounded one-hop explicit relationship expansion with source support and separately labeled query similarity. `backend/provider.py` supplies the server-only compatible `generate(messages, response_schema)` transport, default 60-second HTTP operation timeout, explicit schema capability mode and sanitized failures. No dependency changes or live provider calls. See `backend/CORRELATION_PROVIDER.md`. Phase 3 remains incomplete until generation orchestration, grounding validation/retry and the remaining exit cases pass.
+
+## Structured analysis milestone (2026-10-17)
+
+`backend/analysis.py` implements a provider-independent structured analysis service, at most eight deduplicated context chunks, explicit insufficient/error statuses, and one repair attempt. `backend/analysis_contract.py` validates schema, sent-context citation membership, active canonical entities, mitigation source eligibility and conservative extractive support. Factual text must equal its complete cited excerpt; inferred text is controlled and cannot promote similarity to exploitation. Potential conflict references preserve both excerpts without claiming automated contradiction detection. See `backend/ANALYSIS.md`.
+
+This deliberately conservative grounding policy does not certify source truth or arbitrary paraphrase entailment. No relevance threshold has been invented: semantic-only generation remains unavailable until calibrated tuning evidence exists. `/analyze` integration and full Phase 3 completion remain open. Existing retrieval, correlation, provider transport and artifacts are reused; no dependencies, frontend or evaluation data are changed.

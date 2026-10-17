@@ -81,4 +81,6 @@ The historical CVE sample includes inactive records. Incident evidence uses orig
 
 ## Phase 3 foundations
 
-[Correlation and provider services](backend/CORRELATION_PROVIDER.md) expand explicit source relationships and keep semantic associations separate. The configurable provider adapter keeps endpoint/model/key/timeout server-side and supports missing credentials, timeout and upstream errors. Automated checks use deterministic mocks; no live provider calls were made. Generation, grounding validation and `/analyze` remain incomplete.
+[Correlation and provider services](backend/CORRELATION_PROVIDER.md) expand explicit source relationships and keep semantic associations separate. The configurable provider adapter keeps endpoint/model/key/timeout server-side and supports missing credentials, timeout and upstream errors. Automated checks use deterministic mocks; no live provider calls were made. The subsequent structured analysis service is described below; `/analyze` integration remains incomplete.
+
+[Structured analysis and grounding](backend/ANALYSIS.md) now provides strict schema output, eight-chunk context selection, excerpt/citation/entity validation, one repair attempt and evidence-preserving failures. Generation is conservative and extractive; semantic-only relevance is not yet calibrated. `/analyze` HTTP integration and Phase 3 completion remain open. No live provider calls were made.

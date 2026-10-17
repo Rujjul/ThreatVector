@@ -1,0 +1,15 @@
+{
+  "verified_at": "2026-10-17T04:13:25.852790+00:00",
+  "corpus_sha256": "c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a",
+  "chunk_sha256": "176c3045c2b36a4f5be2b28cbfecb1ee7841d7da60f235c5f354777394c73e9f",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "query": "CVE-2021-44228",
+  "context_chunks": 4,
+  "validated_claims": 1,
+  "valid_attempts": 1,
+  "invalid_citation_attempts": 2,
+  "invalid_output_status": "generation_error",
+  "evidence_preserved": true,
+  "exact_text_and_citations_verified": true,
+  "scope": "Actual local retrieval/correlation with deterministic mock generation only; no live provider or semantic entailment benchmark"
+}
