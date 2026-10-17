@@ -158,7 +158,9 @@ def test_untrusted_text_is_only_data_and_cannot_change_system(case):
     assert response['status']=='generation_error'
     messages=provider.calls[0][0]
     assert attack not in messages[0]['content']
-    assert json.loads(messages[1]['content'])['untrusted_evidence'][1]['text']==attack
+    assert attack not in messages[1]['content']
+    assert 's' in response['safety']['excluded_chunk_ids']
+    assert any(c['text']==attack for c in response['evidence'])
     assert all(m['role'] in ('system','user') for m in messages)
     assert 'tools' not in provider.calls[0][1]
 

@@ -1,9 +1,11 @@
 """Strict provider output and deterministic extractive grounding checks."""
 from typing import Literal
+import json
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from .identifiers import extract_identifiers
+from .analysis_safety import instruction_like
 
 
 INFERENCE = 'This is a semantic association with the query; it does not establish exploitation or a source-supported relationship.'
@@ -48,13 +50,37 @@ class GroundingError(ValueError):
     """Contains a safe error code, never provider text or source instructions."""
 
 
+def mitigation_source(chunk, documents):
+    doc = documents[chunk['document_id']]
+    section = next(s for s in doc.sections if s.id == chunk['section_id'])
+    return (doc.metadata.get('stix_type') == 'course-of-action'
+            or any(word in section.heading.lower() for word in ('mitigat','remediat','recommend','solution')))
+
+
+def unique_object(pairs):
+    result = {}
+    for key,value in pairs:
+        if key in result:
+            raise ValueError('Duplicate JSON key')
+        result[key] = value
+    return result
+
+
+def reject_constant(_):
+    raise ValueError('Non-JSON constant')
+
+
 def validate_analysis(content, evidence, documents):
     if not isinstance(content,str) or len(content)>100_000:
         raise GroundingError('invalid_shape')
     try:
-        output = StructuredAnalysis.model_validate_json(content)
-    except ValidationError:
+        decoded = json.loads(content,object_pairs_hook=unique_object,parse_constant=reject_constant)
+        output = StructuredAnalysis.model_validate(decoded)
+    except (ValidationError,ValueError,RecursionError):
         raise GroundingError('invalid_shape') from None
+    if any(instruction_like(item.text) for item in [*output.claims,*output.mitigations]) or any(
+            instruction_like(entity.label) for entity in output.related_entities):
+        raise GroundingError('unsafe_output')
     chunks = {c['chunk_id']:c for c in evidence}
     if len(chunks) != len(evidence):
         raise GroundingError('duplicate_context')
@@ -81,11 +107,7 @@ def validate_analysis(content, evidence, documents):
         if mitigation.inferred:
             raise GroundingError('unsupported_mitigation')
         for chunk in citations(mitigation.citation_chunk_ids):
-            doc = documents[chunk['document_id']]
-            section = next(s for s in doc.sections if s.id == chunk['section_id'])
-            heading = section.heading.lower()
-            if (doc.metadata.get('stix_type') != 'course-of-action'
-                    and not any(word in heading for word in ('mitigat','remediat','recommend','solution'))):
+            if not mitigation_source(chunk,documents):
                 raise GroundingError('unsupported_mitigation')
     for entity in output.related_entities:
         cited = citations(entity.citation_chunk_ids)
