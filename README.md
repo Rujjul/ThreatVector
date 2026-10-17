@@ -78,3 +78,7 @@ The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, fro
 ```
 
 The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. [Tokenizer-aware chunking and pinned MiniLM setup](backend/CHUNKING.md) provides local chunk construction and model verification. [FAISS setup and persistence](backend/INDEXES.md) covers shared CPU embeddings, Flat/IVF/HNSW strategies, source partitions, atomic generations and validation. [Filtered retrieval](backend/RETRIEVAL.md) supports local natural-language searches over the full corpus or selected source partitions through the CLI. Exact CVE/ATT&CK lookup and `POST /search` are verified. The [Phase 2 acceptance matrix](backend/PHASE2_ACCEPTANCE.md) records 196 passing backend tests and 15 local HTTP cases; complete frontend integration remains later work.
+
+## Phase 3 foundations
+
+[Correlation and provider services](backend/CORRELATION_PROVIDER.md) expand explicit source relationships and keep semantic associations separate. The configurable provider adapter keeps endpoint/model/key/timeout server-side and supports missing credentials, timeout and upstream errors. Automated checks use deterministic mocks; no live provider calls were made. Generation, grounding validation and `/analyze` remain incomplete.

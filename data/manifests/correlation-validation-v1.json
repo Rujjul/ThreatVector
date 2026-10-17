@@ -1,0 +1,16 @@
+{
+  "verified_at": "2026-10-16T18:27:17.889874+00:00",
+  "corpus_sha256": "c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a",
+  "chunk_sha256": "176c3045c2b36a4f5be2b28cbfecb1ee7841d7da60f235c5f354777394c73e9f",
+  "query": "CVE-2021-44228",
+  "retrieved_chunks": 1,
+  "source_relationships": 5,
+  "supporting_chunks": 3,
+  "relationship_types": [
+    "mentions_identifier",
+    "reports_exploitation_of"
+  ],
+  "filtered_cross_source_relationships": 0,
+  "traceability_verified": true,
+  "scope": "Phase 3 correlation functional check only; no generation or live provider calls"
+}
