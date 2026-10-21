@@ -139,3 +139,7 @@ This deliberately conservative grounding policy does not certify source truth or
 ## Failure and safety milestone (2026-10-17)
 
 Analysis retains the two-attempt maximum for invalid structured output, with centralized evidence-only failure responses and isolation of unexpected provider failures. Prompt input is projected to explicit fields; conservative injection indicators quarantine instruction-like chunks/titles without deleting search evidence. Unsafe requests/context skip generation; unsafe generated instructions fail validation even when copied from a real excerpt. Strict JSON rejects duplicate keys/non-JSON constants. Indicators are not a universal detector; independent fixed instruction roles, strict grounding, no tools/secrets in prompts and non-reflection during repair remain enforced. See `backend/ANALYSIS.md`. This scope does not add `/analyze`, calibrate relevance or complete Phase 3.
+
+## Full-project continuation (2026-10-21)
+
+The user authorized all remaining phases, in order, with a tested commit/push after each feature. `POST /analyze` now composes validated retrieval, correlation and structured analysis; provider failures return HTTP 200 evidence-only responses, while invalid inputs/artifacts remain 422/503. The user elected to continue without a live provider; its smoke record remains explicitly unperformed.

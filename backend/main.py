@@ -1,4 +1,4 @@
-"""Local search API; analysis/generation and other later-phase routes stay absent."""
+"""Local retrieval and evidence-preserving analysis HTTP application."""
 import os
 import sqlite3
 import threading
@@ -32,7 +32,7 @@ def default_service():
                                          os.environ.get('THREATVECTOR_INDEX_DIRECTORY','data/indexes'))
 
 
-def create_app(service_factory=None):
+def create_app(service_factory=None, *, provider=None):
     lock = threading.RLock()
     @asynccontextmanager
     async def lifespan(app):
@@ -46,8 +46,7 @@ def create_app(service_factory=None):
     application.add_middleware(CORSMiddleware,allow_origins=['http://127.0.0.1:5173','http://localhost:5173'],
                               allow_methods=['GET','POST'],allow_headers=['Content-Type'])
 
-    @application.post('/search')
-    def search(request: SearchRequest):
+    def execute(request, *, analyze=False):
         # Serialize lazy initialization and worker use; never create duplicate
         # workers on concurrent first requests. Validate artifacts before reuse.
         with lock:
@@ -62,6 +61,12 @@ def create_app(service_factory=None):
                     application.state.retrieval = None
                 raise HTTPException(503,'Search unavailable: verify the corpus and index artifacts, then retry.') from exc
             try:
+                if analyze:
+                    from .analysis import AnalysisService
+                    from .correlation import CorrelationService
+                    correlation = CorrelationService.from_retrieval(application.state.retrieval)
+                    return AnalysisService(correlation,provider).analyze(request.query,strategy=request.index,
+                                                                        source_types=request.source_types,top_k=request.top_k)
                 return application.state.retrieval.search(request.query,strategy=request.index,
                                                           source_types=request.source_types,top_k=request.top_k)
             except ValueError as exc:
@@ -77,6 +82,14 @@ def create_app(service_factory=None):
                 application.state.retrieval.close()
                 application.state.retrieval = None
                 raise HTTPException(503,'Local query embedding failed; retry the search.') from exc
+
+    @application.post('/search')
+    def search(request: SearchRequest):
+        return execute(request)
+
+    @application.post('/analyze')
+    def analyze(request: SearchRequest):
+        return execute(request,analyze=True)
 
     application.add_api_route('/health',health,methods=['GET'])
     application.add_api_route('/corpus',corpus,methods=['GET'])

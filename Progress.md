@@ -1,8 +1,10 @@
 # ThreatVector progress
 
-Last updated: 2026-10-17 (Asia/Calcutta).
+Last updated: 2026-10-21 (Asia/Calcutta).
 
 ## Current state
+
+2026-10-21 full-project continuation: implementing remaining phases in order, with a tested commit/push per feature. `POST /analyze` now composes the existing correlation/analysis service, shares strict search request validation and rejects invalid artifacts before returning evidence. Seven deterministic ASGI cases pass, including grounding, provider failures, empty/unsafe/unsupported requests and artifact rejection. Full backend suite: **290 passed in 77.39 seconds**. Provider configuration is absent; the user explicitly chose to continue without a live provider for now. Live-provider delivery validation remains open, not silently substituted by mocks. Semantic calibration and later phases remain in progress.
 
 2026-10-17 failure/safety milestone: two-attempt invalid-output handling now has a centralized terminal fallback that clears generated fields, labels responses `evidence_only` and retains original retrieval/correlation evidence. Unexpected provider initialization/invocation errors and malformed result objects are contained without exposing details. Prompt input uses explicit fields only; conservative normalized-text indicators withhold recognized instruction/role/tool/secret-exfiltration payloads from generation and reject unsafe generated excerpts. Flagged evidence remains inspectable and omitted chunk IDs are reported. Strict JSON rejects duplicate keys and non-JSON constants. Pattern detection is not universal and may withhold legitimate attack quotations; strict schema/grounding, immutable roles, no tools/prompt secrets and safe repair feedback remain independent controls. **283 backend tests passed in 64.96 seconds**, including 29 new regressions; six frontend tests and the TypeScript/production build passed. Dependency, compilation and whitespace checks passed. No live provider calls. Phase 3 remains incomplete; calibration and `/analyze` integration are unchanged.
 

@@ -3,13 +3,13 @@ import asyncio
 import json
 
 
-def requests(app, bodies):
+def requests(app, bodies, *, path="/search", method="POST"):
     async def run():
         results = []
         async with app.router.lifespan_context(app):
             for body in bodies:
-                scope = {'type':'http','asgi':{'version':'3.0'},'http_version':'1.1','method':'POST',
-                         'scheme':'http','path':'/search','raw_path':b'/search','query_string':b'',
+                scope = {'type':'http','asgi':{'version':'3.0'},'http_version':'1.1','method':method,
+                         'scheme':'http','path':path,'raw_path':path.encode(),'query_string':b'',
                          'headers':[(b'content-type',b'application/json')],
                          'server':('127.0.0.1',8000),'client':('127.0.0.1',1234),'root_path':''}
                 messages = []
