@@ -1,3 +1,6 @@
 # Fixture manifests hash exact bytes; preserve those bytes across Windows/Linux clones.
 /data/fixtures/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
 /data/manifests/** -text whitespace=trailing-space,space-before-tab,cr-at-eol
+
+# Reviewed question bytes are included in calibration and benchmark hashes.
+/evaluation/** -text whitespace=trailing-space,space-before-tab,cr-at-eol

@@ -1,6 +1,6 @@
 # Structured analysis and grounding
 
-`AnalysisService` composes the existing correlation service with the provider-neutral adapter. It is a callable backend service; this milestone does not add `/analyze` or change the frontend.
+`AnalysisService` composes the existing correlation service with the provider-neutral adapter. It is exposed through `POST /analyze`, sharing strict search inputs and artifact validation. The frontend consumes the same core response fields.
 
 ```python
 from backend.analysis import AnalysisService
@@ -41,7 +41,7 @@ Conservative indicators screen instruction-like text, role markers, tool-call re
 
 These are defense-in-depth boundaries, not a complete prompt-injection detector or a guarantee about a live model's internal instruction following. Recognized patterns may also flag legitimate security material that quotes attacks; unknown, encoded or multilingual attacks may evade the indicator check. Strict schema, exact-excerpt validation, no tools, no prompt secrets and no provider configuration from evidence remain independent controls. No flagged source is deleted or silently rewritten, and deterministic tests do not establish universal live-model resistance.
 
-Empty context returns `insufficient_evidence` without calling a provider. Semantic-only context also returns evidence without generation because no tuning-calibrated relevance threshold exists yet (`relevance_not_calibrated`). This preserves the BUILD.md calibration requirement without inventing a threshold or relevance result. Exact-ID context can proceed; the provider may still return structured insufficient evidence. Phase 3 remains incomplete pending relevance calibration and analysis HTTP integration; formal answer evaluation and live-provider checks also remain unperformed.
+Empty context returns `insufficient_evidence` without calling a provider. Semantic-only context uses the frozen, identity-bound policy in `data/manifests/relevance-policy-v1.json`; scores below its tuning threshold are excluded from generation. Missing/mismatched policies retain the evidence-only `relevance_not_calibrated` fallback. The threshold was fitted to 30 agent-source-reviewed tuning questions only, with one false accept and one false reject; it is not a probability or proof of relevance. Exact-ID context can proceed; the provider may still return structured insufficient evidence. Phase 3 functional checks are mapped in `PHASE3_ACCEPTANCE.md`; formal answer evaluation and live-provider checks remain separate, unperformed validations.
 
 Run deterministic checks with `python -m pytest backend/tests/test_analysis.py backend/tests/test_analysis_integration.py`. Local actual retrieval with mock generation is recorded separately in `data/manifests/analysis-validation-v1.json`; it is not a relevance/performance benchmark or live provider result.
 

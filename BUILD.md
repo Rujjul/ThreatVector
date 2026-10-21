@@ -143,3 +143,5 @@ Analysis retains the two-attempt maximum for invalid structured output, with cen
 ## Full-project continuation (2026-10-21)
 
 The user authorized all remaining phases, in order, with a tested commit/push after each feature. `POST /analyze` now composes validated retrieval, correlation and structured analysis; provider failures return HTTP 200 evidence-only responses, while invalid inputs/artifacts remain 422/503. The user elected to continue without a live provider; its smoke record remains explicitly unperformed.
+
+Phase 3 closure (2026-10-21): 293 backend tests passed; the HTTP analysis path and tuning-only, snapshot-bound relevance policy are implemented. `backend/PHASE3_ACCEPTANCE.md` records functional closure and observed tuning errors. Agent-reviewed labels are not independent human review. Live-provider and answer-quality checks remain open under the user choice to continue without a provider.

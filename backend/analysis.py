@@ -6,6 +6,7 @@ from time import perf_counter
 from .analysis_contract import StructuredAnalysis, GroundingError, INFERENCE, UNCERTAINTY, validate_analysis
 from .provider import OpenAICompatibleProvider, ProviderResult
 from .analysis_safety import instruction_like, prompt_chunk
+from .relevance import load_policy
 
 MAX_GENERATION_ATTEMPTS = 2
 
@@ -62,6 +63,9 @@ class AnalysisService:
                     if any(instruction_like(c.get(key)) for key in ('text','chunk_id','document_id','section_id'))
                     or instruction_like(retrieval.documents[c['document_id']].title)}
         context = select_context(result,retrieval,exclude_ids=excluded)
+        policy=load_policy(retrieval.bundle.manifest['identity'])
+        if policy is not None:
+            context=[c for c in context if c['match_type']!='semantic' or c['score']>=policy['threshold']]
         # Preserve retrieval even when generation is absent or rejected.
         all_evidence = {}
         for hit in [*result['evidence'],*result['supporting_evidence']]:
@@ -75,18 +79,20 @@ class AnalysisService:
                     'generation':{'attempts':0,'error':None},
                     'grounding_mode':'extractive_with_controlled_inference','response_mode':'evidence_only',
                     'safety':{'excluded_chunk_ids':sorted(excluded),'untrusted_context':True}}
+        response['relevance']={'calibrated':policy is not None,'threshold':policy['threshold'] if policy else None}
         if instruction_like(query):
             return evidence_only(response,'unsafe_request')
         if not context:
             if excluded:
                 return evidence_only(response,'unsafe_context')
-            response['uncertainty'] = ['No evidence is available for the selected sources.']
+            response['uncertainty'] = ['No evidence qualifies for generation; stored search evidence remains available.']
             return response
-        if not any(c['match_type']=='exact_identifier' for c in context):
+        if not any(c['match_type']=='exact_identifier' for c in context) and not (
+                policy is not None and any(c['match_type']=='semantic' for c in context)):
             # Do not invent an uncalibrated semantic relevance threshold. This
             # guard can be replaced only after the tuning work in BUILD.md.
-            response['uncertainty'] = ['Semantic-only relevance has not been calibrated; retrieved evidence remains available.']
-            response['generation']['error'] = 'relevance_not_calibrated'
+            response['uncertainty'] = ['No semantic evidence qualifies under the relevance policy; retrieved evidence remains available.' if policy else 'Semantic-only relevance has not been calibrated; retrieved evidence remains available.']
+            response['generation']['error'] = 'insufficient_relevance' if policy else 'relevance_not_calibrated'
             return response
         cited_docs = {c['document_id'] for c in context}
         ids_in_text = set()

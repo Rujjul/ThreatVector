@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "split": "tuning",
+  "question_count": 30,
+  "identity": {
+    "corpus_sha256": "c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a",
+    "chunk_sha256": "176c3045c2b36a4f5be2b28cbfecb1ee7841d7da60f235c5f354777394c73e9f",
+    "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+  },
+  "query_set_sha256": "ddc400a386d4aeaac6f6b997b896fd123592c352682f514197ea5c1a7086ab57",
+  "verified_at": "2026-10-21T04:16:46.934348+00:00",
+  "threshold": 0.5398210883140564,
+  "tuning_f1": 0.9583333333333334,
+  "true_positive": 23,
+  "false_positive": 1,
+  "false_negative": 1,
+  "observations": [
+    {
+      "id": "tune-01",
+      "supported": true,
+      "score": 0.7112349271774292,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-02",
+      "supported": true,
+      "score": 0.6170691847801208,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-03",
+      "supported": true,
+      "score": 0.7211286425590515,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-04",
+      "supported": true,
+      "score": 0.7185298800468445,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-05",
+      "supported": true,
+      "score": 0.6275267601013184,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-06",
+      "supported": true,
+      "score": 0.750789999961853,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-07",
+      "supported": true,
+      "score": 0.6263291239738464,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-08",
+      "supported": true,
+      "score": 0.7048542499542236,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-09",
+      "supported": true,
+      "score": 0.5588423013687134,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-10",
+      "supported": true,
+      "score": 0.5917177200317383,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-11",
+      "supported": true,
+      "score": 0.6635854840278625,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-12",
+      "supported": true,
+      "score": 0.6404483318328857,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-13",
+      "supported": true,
+      "score": 0.5622416138648987,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-14",
+      "supported": true,
+      "score": 0.6756040453910828,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-15",
+      "supported": true,
+      "score": 0.5582401752471924,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-16",
+      "supported": true,
+      "score": 0.5890674591064453,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-17",
+      "supported": true,
+      "score": 0.5900968313217163,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-18",
+      "supported": true,
+      "score": 0.6639256477355957,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-19",
+      "supported": true,
+      "score": 0.7162158489227295,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-20",
+      "supported": true,
+      "score": 0.6143504977226257,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-21",
+      "supported": true,
+      "score": 0.4479808211326599,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-22",
+      "supported": true,
+      "score": 0.5398210883140564,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-23",
+      "supported": true,
+      "score": 0.6778079271316528,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-24",
+      "supported": true,
+      "score": 0.7028840184211731,
+      "target_in_top10": true
+    },
+    {
+      "id": "tune-25",
+      "supported": false,
+      "score": 0.30865681171417236,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-26",
+      "supported": false,
+      "score": 0.23626980185508728,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-27",
+      "supported": false,
+      "score": 0.45044633746147156,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-28",
+      "supported": false,
+      "score": 0.5194846391677856,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-29",
+      "supported": false,
+      "score": 0.4685244858264923,
+      "target_in_top10": false
+    },
+    {
+      "id": "tune-30",
+      "supported": false,
+      "score": 0.621895432472229,
+      "target_in_top10": false
+    }
+  ],
+  "review_method": "agent_source_inspection; not independent human review",
+  "scope": "Binary tuning support heuristic, not calibrated probability or held-out quality claim"
+}

@@ -1,0 +1,555 @@
+{
+  "version": 1,
+  "split": "tuning",
+  "corpus_sha256": "c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a",
+  "judgment_scope": "Target-document relevance, agent-reviewed against stored sections; not exhaustive relevance judgments or independent human review.",
+  "questions": [
+    {
+      "id": "tune-01",
+      "category": "cve",
+      "question": "How can attacker-controlled LDAP endpoints cause code execution in Apache Log4j message lookups?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-44228"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "JNDI lookup and LDAP execution are described in the NVD record.",
+        "source_content_sha256": "42755b46e1146701026d8c4b87c48b18bb68e2a7d613c2d649cfd2912bb20ed5",
+        "section_ids": [
+          "nvd:CVE-2021-44228#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-02",
+      "category": "cve",
+      "question": "What was incomplete about the Log4j 2.15 fix when using Thread Context Map inputs?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-45046"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The record describes MDC and nondefault Pattern Layout configurations.",
+        "source_content_sha256": "6132cb27f3ee3725fd99f556cc7bfb63830329bc9c8b1f6365080aac05197e65",
+        "section_ids": [
+          "nvd:CVE-2021-45046#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-03",
+      "category": "cve",
+      "question": "Which vCenter HTML5 plugin vulnerability allows unrestricted commands through port 443?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-21972"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The record specifies the vSphere Client plugin and network access to 443.",
+        "source_content_sha256": "ffb54166b3362474b766ed4b46d241e24075c308941e093087c824cdc46c877a",
+        "section_ids": [
+          "nvd:CVE-2021-21972#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-04",
+      "category": "cve",
+      "question": "What OGNL injection flaw permits unauthenticated code execution in Confluence Server?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-26084"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The record describes Confluence OGNL injection.",
+        "source_content_sha256": "3f55e10a5d7bb07eabacdc568c8fb57a4c1f21622eeeb45176f9e79cb1621f09",
+        "section_ids": [
+          "nvd:CVE-2021-26084#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-05",
+      "category": "cve",
+      "question": "How can sudoedit with a trailing backslash trigger a heap overflow and root escalation?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-3156"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The sudo off-by-one and trailing backslash are explicit.",
+        "source_content_sha256": "0bbbc55cf703fc0a324c5f0d7010237e3e9787244a973a011ca4cbfdae0dc2f9",
+        "section_ids": [
+          "nvd:CVE-2021-3156#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-06",
+      "category": "cve",
+      "question": "What does CVE-2021-26855 describe?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-26855"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The stored NVD record labels an Exchange remote code execution vulnerability; no extra mechanism is asserted.",
+        "source_content_sha256": "ff6fa22f2b72fe43202eda1fbd8c74cc1a862b42571b7d35be0102b14be7314d",
+        "section_ids": [
+          "nvd:CVE-2021-26855#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-07",
+      "category": "technique",
+      "question": "How do adversaries exploit Internet-facing applications for initial network access?",
+      "relevant_document_ids": [
+        "attack:T1190"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The technique describes initial access through public application weaknesses.",
+        "source_content_sha256": "c21f39c83d4e1e07f52b73ee15cdb4149d09e01bd869126528db24476efb66d7",
+        "section_ids": [
+          "attack:T1190#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-08",
+      "category": "technique",
+      "question": "How do adversaries abuse PowerShell for script execution?",
+      "relevant_document_ids": [
+        "attack:T1059.001"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The technique is PowerShell execution.",
+        "source_content_sha256": "5f07e2136c3a4026a430177fc3c6b04c05e2533c38104576a73d6b63c81d92eb",
+        "section_ids": [
+          "attack:T1059.001#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-09",
+      "category": "technique",
+      "question": "Which technique obtains cleartext passwords or hashes from operating system caches and memory?",
+      "relevant_document_ids": [
+        "attack:T1003"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "OS Credential Dumping covers credential material from caches and memory.",
+        "source_content_sha256": "3fe8beffda5754c91648f1e64fa2d380e8d3ec6f3569327810eec1bb8a8604f3",
+        "section_ids": [
+          "attack:T1003#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-10",
+      "category": "technique",
+      "question": "How can stolen existing accounts provide persistence and bypass access controls?",
+      "relevant_document_ids": [
+        "attack:T1078"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Valid Accounts describes credential abuse across access and persistence.",
+        "source_content_sha256": "3ef1d64cdaef5d1182f273279a8a2a0b6e34c9778b9ea5f7475506585e3a3158",
+        "section_ids": [
+          "attack:T1078#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-11",
+      "category": "technique",
+      "question": "Which technique encrypts victim files to interrupt availability and demand a ransom?",
+      "relevant_document_ids": [
+        "attack:T1486"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Data Encrypted for Impact addresses availability and ransom.",
+        "source_content_sha256": "af4238817628188c0a57e285c78599014352da799e7e27424e08b55b82512b53",
+        "section_ids": [
+          "attack:T1486#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-12",
+      "category": "technique",
+      "question": "How are tools transferred from an external adversary system into a compromised network?",
+      "relevant_document_ids": [
+        "attack:T1105"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Ingress Tool Transfer explicitly covers external transfers.",
+        "source_content_sha256": "de2bad1b71b52034a51f6aa8aa427161bba596648509b86e3d1ccd6e3848958f",
+        "section_ids": [
+          "attack:T1105#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-13",
+      "category": "technique",
+      "question": "How can valid credentials enable interactive remote desktop lateral movement?",
+      "relevant_document_ids": [
+        "attack:T1021.001"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Remote Desktop Protocol discusses account use and lateral access.",
+        "source_content_sha256": "9631a33b26a9917e40ed462774d6a4b3b328c46ca577cb5afd6dddf9f0d90e30",
+        "section_ids": [
+          "attack:T1021.001#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-14",
+      "category": "mitigation",
+      "question": "What mitigation uses regular operating system and application patching?",
+      "relevant_document_ids": [
+        "attack:M1051"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Update Software describes vendor patches.",
+        "source_content_sha256": "a90c96c19e6fb3c04c0414cf8d1ea380f818781b0705ab92fcbf1d12d98d5010",
+        "section_ids": [
+          "attack:M1051#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-15",
+      "category": "mitigation",
+      "question": "What mitigation requires multiple forms of identity verification before granting access?",
+      "relevant_document_ids": [
+        "attack:M1032"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Multi-factor Authentication defines the factors.",
+        "source_content_sha256": "4ca23499f1703095ead44087afc23ba440d33545d52a869e228b9227b4d35b51",
+        "section_ids": [
+          "attack:M1032#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-16",
+      "category": "mitigation",
+      "question": "What mitigation isolates network segments to limit lateral movement?",
+      "relevant_document_ids": [
+        "attack:M1030"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Network Segmentation limits traffic and lateral movement.",
+        "source_content_sha256": "2e420f521bb2efbdca6db5a77e5442a7fc0744104e591fbecafea4c22b3390e3",
+        "section_ids": [
+          "attack:M1030#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-17",
+      "category": "incident",
+      "question": "What does the reviewed Iranian government-sponsored advisory report about Log4Shell and PowerShell?",
+      "relevant_document_ids": [
+        "incident:AA22-320A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary distinguishes agency assessment and maps report-specific initial access and execution.",
+        "source_content_sha256": "0581e8d70bfcd8af276396a7150d3df440ef40a71aaf915adc34d17fa8202c12",
+        "section_ids": [
+          "incident:AA22-320A#section-0",
+          "incident:AA22-320A#section-1"
+        ]
+      }
+    },
+    {
+      "id": "tune-18",
+      "category": "incident",
+      "question": "What does ESXiArgs recovery guidance say about damaged virtual machine configuration files?",
+      "relevant_document_ids": [
+        "incident:AA23-039A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary distinguishes configuration encryption from intact flat files and conditional recovery.",
+        "source_content_sha256": "908e8cd35c3ebf9b927e9a60fe8b0886bf9d2bca43c4b3e3884a376fd751d88f",
+        "section_ids": [
+          "incident:AA23-039A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-19",
+      "category": "incident",
+      "question": "What is attributed to agencies about DPRK ransomware funding and Log4Shell access?",
+      "relevant_document_ids": [
+        "incident:AA23-040A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary preserves attribution of funding and access observations.",
+        "source_content_sha256": "199dc0d462fb7fa4aae1a7429903d578e6b5ffe828893b3cc061191fb3142c4a",
+        "section_ids": [
+          "incident:AA23-040A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-20",
+      "category": "incident",
+      "question": "What entry routes and data theft tools are described in the LockBit 3.0 advisory?",
+      "relevant_document_ids": [
+        "incident:AA23-075A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary names alternative routes, rclone and affiliate activity.",
+        "source_content_sha256": "24c42f6f479c98de44c168e7b3a672a72fe9e8f1d7ca75011fb4d6ac238db732",
+        "section_ids": [
+          "incident:AA23-075A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-21",
+      "category": "incident",
+      "question": "What does the PaperCut advisory report about education servers and the Bl00dy group?",
+      "relevant_document_ids": [
+        "incident:AA23-131A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary qualifies attempted exploitation and revision date.",
+        "source_content_sha256": "6244f759a6de8a814f81a9a2eec9101cae4b6dfa588815c359d23cad2333e278",
+        "section_ids": [
+          "incident:AA23-131A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-22",
+      "category": "incident",
+      "question": "What change to theft-only extortion is reported for BianLian?",
+      "relevant_document_ids": [
+        "incident:AA23-136A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary records the reported 2024 shift and RDP use.",
+        "source_content_sha256": "586f9cecb1ba2b3e8d984b98a5eac21a3fcbb75f49fa6c4bcddab84bd234532e",
+        "section_ids": [
+          "incident:AA23-136A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-23",
+      "category": "incident",
+      "question": "What is reported about CL0P, MOVEit Transfer and the LEMURLOOT web shell?",
+      "relevant_document_ids": [
+        "incident:AA23-158A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary attributes the campaign to open-source reporting.",
+        "source_content_sha256": "df2dd0c1377be83ada0fa639cbfc807ac351eb565b1fcb0ee7c87cf1d89cc749",
+        "section_ids": [
+          "incident:AA23-158A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-24",
+      "category": "incident",
+      "question": "What is reported about Citrix Bleed session hijacking and the Boeing environment?",
+      "relevant_document_ids": [
+        "incident:AA23-325A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary bounds the campaign to the NetScaler advisory.",
+        "source_content_sha256": "12b56ec82330a20d826ca322bca0fd742f336ed0f787f85ce8fcbb7be6b09de8",
+        "section_ids": [
+          "incident:AA23-325A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "tune-25",
+      "category": "unsupported",
+      "question": "What is the weather forecast for tomorrow in Kolkata?",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "No weather corpus exists.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "tune-26",
+      "category": "unsupported",
+      "question": "Give a recipe for baking sourdough bread.",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Cooking is outside this corpus.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "tune-27",
+      "category": "unsupported",
+      "question": "Which private company employee password was stolen yesterday?",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Private and current victim credentials are not present.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "tune-28",
+      "category": "unsupported",
+      "question": "Prove every Log4j vulnerability was exploited by every LockBit affiliate.",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summaries explicitly avoid universal exploitation claims.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "tune-29",
+      "category": "unsupported",
+      "question": "What exact ransom payment will guarantee restoration for my organization?",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The corpus provides no personalized restoration guarantee.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "tune-30",
+      "category": "unsupported",
+      "question": "Which vulnerability will be discovered next year?",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Future discoveries are not established by historical evidence.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    }
+  ]
+}
