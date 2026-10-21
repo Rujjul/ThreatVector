@@ -32,7 +32,7 @@ def default_service():
                                          os.environ.get('THREATVECTOR_INDEX_DIRECTORY','data/indexes'))
 
 
-def create_app(service_factory=None, *, provider=None):
+def create_app(service_factory=None, *, provider=None, benchmark_directory='data/manifests'):
     lock = threading.RLock()
     @asynccontextmanager
     async def lifespan(app):
@@ -150,11 +150,10 @@ def create_app(service_factory=None, *, provider=None):
             return {'document_id':doc.id,'source_id':doc.source_id,'title':doc.title,'active':doc.active,
                     'url':doc.url,'publication_date':doc.publication_date,'chunks':chunks}
 
-    application.add_api_route('/benchmarks',benchmarks,methods=['GET'])
+    @application.get('/benchmarks')
+    def saved_benchmarks():
+        from .benchmark_exports import load_runs
+        return load_runs(benchmark_directory)
     return application
-
-def benchmarks():
-    return {"runs": []}
-
 
 app = create_app()

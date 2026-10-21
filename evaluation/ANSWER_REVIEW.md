@@ -1,0 +1,7 @@
+# Answer review rubric and outstanding evidence
+
+Twenty representative held-out questions cover vulnerability lookup, technique discovery, mitigations, incident reporting and unsupported cases. `python -m backend.review_answers` records real retrieval/correlation/evidence-only responses with an explicitly deferred provider. It never silently calls a configured hosted model.
+
+Rate actual generated answers only after live-provider use is enabled and bounded explicitly. For each answer record provider/model, exact supplied context, answer, citations, reviewer, date and rationale. Score evidence support, technique correctness and mitigation applicability from 0 (unsupported/incorrect) to 2 (fully supported/correct); use N/A when no generated answer or no applicable technique/mitigation exists. Flag unsupported assertions, invalid/misapplied identifiers, inference presented as fact, source conflicts, missing caveats and copied instructions. Preserve failures and abstentions in coverage counts; do not score an empty answer as fully grounded.
+
+The current user choice is to continue without live provider configuration. Consequently `answer-review-v1.json` records attempts and traceability checks with `rated_answers=0`; all three answer-quality dimensions remain null. These are not 20 completed answer-quality assessments. Actual generated-answer review and live smoke remain open delivery checks. Agent source review is not independent human assessment.

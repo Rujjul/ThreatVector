@@ -39,7 +39,7 @@ export default function App() {
   useEffect(() => {
     if (view !== 'benchmarks' || mode === 'demo') return;
     const abort = new AbortController(); setBusy(true); setError('');
-    request<{runs: Benchmark[]}>('/benchmarks', undefined, abort.signal).then(data => { setRuns(data.runs); setRunId(data.runs[0]?.run_id || ''); }).catch(e => { if (!abort.signal.aborted) setError(e.message); }).finally(() => { if (!abort.signal.aborted) setBusy(false); });
+    request<{runs: Benchmark[]; errors?: string[]}>('/benchmarks', undefined, abort.signal).then(data => { setRuns(data.runs); setRunId(data.runs[0]?.run_id || ''); setError(data.errors?.join(' ') || ''); }).catch(e => { if (!abort.signal.aborted) setError(e.message); }).finally(() => { if (!abort.signal.aborted) setBusy(false); });
     return () => { abort.abort(); setBusy(false); };
   }, [view, mode]);
   useEffect(() => {

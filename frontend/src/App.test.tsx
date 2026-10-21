@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, expect, test, vi } from 'vitest';
 import App from './App';
 import { demoAnalysis } from './demo';
-afterEach(() => { cleanup(); vi.restoreAllMocks(); });
+afterEach(() => { cleanup(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 test('demo investigation opens matching citation evidence and closes by Escape', async () => {
   const user = userEvent.setup(); render(<App/>);
   await user.click(screen.getByRole('button', {name:'Explore the demo'}));
@@ -62,4 +62,21 @@ test('analysis provider failure preserves live evidence and correct unscored lab
   await screen.findByText('An explanation is unavailable; only stored evidence is shown.');
   expect(screen.getByText('Source evidence · unscored')).toBeTruthy();
   expect(screen.queryByText('Demo · unscored')).toBeNull();
+});
+
+
+test('benchmark table displays the saved measurements returned by API without recomputing them', async () => {
+  vi.stubGlobal('ResizeObserver', class { observe() {} unobserve() {} disconnect() {} });
+  const metrics=['flat','ivf','hnsw'].map((index,i)=>({index,ann_recall_at_10:1-i*.1,relevance_recall_at_10:.7,mrr:.6,p50_ms:1.234+i,p95_ms:2.345+i,build_seconds:3.456+i,serialized_bytes:123456+i,peak_process_bytes:7654321+i}));
+  const run={run_id:'fixture-export',corpus_hash:'a'.repeat(64),query_set_hash:'b'.repeat(64),model_revision:'c'.repeat(40),seed:42,threads:1,hardware:'fixture hardware',versions:{test:'fixture'},metrics};
+  vi.spyOn(globalThis,'fetch').mockImplementation(async input=>new Response(JSON.stringify(String(input).endsWith('/health') ? {status:'retrieval_ready'} : {runs:[run],errors:[]} ),{status:200}));
+  const user=userEvent.setup();render(<App/>);
+  await user.click(screen.getByRole('button',{name:'Explore the demo'}));
+  await user.selectOptions(screen.getByLabelText('Data mode'),'live');
+  await user.click(screen.getByRole('button',{name:'Benchmarks'}));
+  await screen.findByRole('table');
+  expect(screen.getByRole('cell',{name:'1.234'})).toBeTruthy();
+  expect(screen.getByRole('cell',{name:'123456'})).toBeTruthy();
+  expect(screen.getByText('fixture hardware')).toBeTruthy();
+  expect(screen.getByDisplayValue('fixture-export')).toBeTruthy();
 });

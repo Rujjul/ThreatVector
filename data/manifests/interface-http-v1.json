@@ -1,0 +1,19 @@
+{
+  "verified_at": "2026-10-21T04:27:07.608721+00:00",
+  "health": {
+    "status": "retrieval_ready",
+    "corpus_ready": true,
+    "indexes_ready": true,
+    "provider_configured": false
+  },
+  "source_counts": {
+    "cve": 10000,
+    "attack": 2239,
+    "incident": 20
+  },
+  "chunk_count": 13150,
+  "analysis_status": "generation_error",
+  "document_id": "nvd:CVE-2021-44228",
+  "matching_excerpt": true,
+  "scope": "Real local corpus/model/HTTP; deterministic missing-provider response; browser localhost connection unavailable"
+}

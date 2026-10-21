@@ -1,0 +1,555 @@
+{
+  "version": 1,
+  "split": "held_out",
+  "corpus_sha256": "c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a",
+  "judgment_scope": "Target-document relevance, agent-reviewed against stored sections; not exhaustive relevance judgments or independent human review.",
+  "questions": [
+    {
+      "id": "heldout-01",
+      "category": "cve",
+      "question": "What component is affected by CVE-2021-44228 and which logging projects are excluded?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-44228"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The NVD text distinguishes log4j-core from other logging projects.",
+        "source_content_sha256": "42755b46e1146701026d8c4b87c48b18bb68e2a7d613c2d649cfd2912bb20ed5",
+        "section_ids": [
+          "nvd:CVE-2021-44228#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-02",
+      "category": "cve",
+      "question": "Which non-default configuration matters for CVE-2021-45046?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-45046"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The source identifies Pattern Layout, MDC and context lookups.",
+        "source_content_sha256": "6132cb27f3ee3725fd99f556cc7bfb63830329bc9c8b1f6365080aac05197e65",
+        "section_ids": [
+          "nvd:CVE-2021-45046#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-03",
+      "category": "cve",
+      "question": "What network access and privilege impact are described for CVE-2021-21972?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-21972"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Port 443 and unrestricted commands are in the record.",
+        "source_content_sha256": "ffb54166b3362474b766ed4b46d241e24075c308941e093087c824cdc46c877a",
+        "section_ids": [
+          "nvd:CVE-2021-21972#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-04",
+      "category": "cve",
+      "question": "Which Confluence product editions are named in CVE-2021-26084?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-26084"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Confluence Server and Data Center are explicit.",
+        "source_content_sha256": "3f55e10a5d7bb07eabacdc568c8fb57a4c1f21622eeeb45176f9e79cb1621f09",
+        "section_ids": [
+          "nvd:CVE-2021-26084#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-05",
+      "category": "cve",
+      "question": "What command-line behavior is described for CVE-2021-3156?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-3156"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "sudoedit and a trailing backslash are source details.",
+        "source_content_sha256": "0bbbc55cf703fc0a324c5f0d7010237e3e9787244a973a011ca4cbfdae0dc2f9",
+        "section_ids": [
+          "nvd:CVE-2021-3156#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-06",
+      "category": "cve",
+      "question": "What product and vulnerability category does the stored CVE-2021-26855 record name?",
+      "relevant_document_ids": [
+        "nvd:CVE-2021-26855"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The short record names Microsoft Exchange and remote code execution; no unstated mechanism is assumed.",
+        "source_content_sha256": "ff6fa22f2b72fe43202eda1fbd8c74cc1a862b42571b7d35be0102b14be7314d",
+        "section_ids": [
+          "nvd:CVE-2021-26855#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-07",
+      "category": "technique",
+      "question": "What technique covers abuse of command and scripting interpreters on multiple platforms?",
+      "relevant_document_ids": [
+        "attack:T1059"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Command and Scripting Interpreter describes the general category.",
+        "source_content_sha256": "c29cfe745b64621d85b412b02f5a92095e0ce6af89332a234bac6bb31c65cdce",
+        "section_ids": [
+          "attack:T1059#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-08",
+      "category": "technique",
+      "question": "How are malicious email attachments used to gain access through targeted social engineering?",
+      "relevant_document_ids": [
+        "attack:T1566.001"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Spearphishing Attachment defines this delivery form and user execution.",
+        "source_content_sha256": "364818e4f4fb3494f1dd22da25a9e40191537d4df48112f02158678b5ef871ba",
+        "section_ids": [
+          "attack:T1566.001#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-09",
+      "category": "technique",
+      "question": "How is Windows Management Instrumentation abused for payload execution?",
+      "relevant_document_ids": [
+        "attack:T1047"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "WMI is described as an administrative infrastructure abused for execution.",
+        "source_content_sha256": "3d9224594818746e4eeb3ea55694e0f308678f9da16490c6a2c47c73fede162a",
+        "section_ids": [
+          "attack:T1047#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-10",
+      "category": "technique",
+      "question": "How can Windows Task Scheduler provide recurring malicious execution?",
+      "relevant_document_ids": [
+        "attack:T1053.005"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Scheduled Task describes Windows scheduling interfaces.",
+        "source_content_sha256": "10fe20d9f2724f89d9519a280d32810fdcf2060f226105a0f5d737e946adabfc",
+        "section_ids": [
+          "attack:T1053.005#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-11",
+      "category": "technique",
+      "question": "What persistence technique modifies Registry Run keys or Startup folders?",
+      "relevant_document_ids": [
+        "attack:T1547.001"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The technique describes execution when a user logs in.",
+        "source_content_sha256": "abd34e2a86523691d3650ff5d20ea87d54a44a5a098eb697afe704872fcbad38",
+        "section_ids": [
+          "attack:T1547.001#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-12",
+      "category": "technique",
+      "question": "How can attackers impair security tools by stopping services or altering configuration?",
+      "relevant_document_ids": [
+        "attack:T1562.001"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Disable or Modify Tools describes security-tool impairment.",
+        "source_content_sha256": "7278d149460fb06a42b113f8369f3f7083542a06a92e3fcac2b993db08c59745",
+        "section_ids": [
+          "attack:T1562.001#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-13",
+      "category": "technique",
+      "question": "What command-and-control technique hides commands in ordinary HTTP or WebSocket traffic?",
+      "relevant_document_ids": [
+        "attack:T1071.001"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Web Protocols describes traffic blending and command transport.",
+        "source_content_sha256": "c883c61ebc60193b5ce712849498e3aadf790f94e920026451a324b486900ce7",
+        "section_ids": [
+          "attack:T1071.001#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-14",
+      "category": "technique",
+      "question": "How do attackers exploit remote services for lateral movement after gaining a foothold?",
+      "relevant_document_ids": [
+        "attack:T1210"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Exploitation of Remote Services describes post-compromise access.",
+        "source_content_sha256": "b250f255f5a4435257a15b07b10c309c00e885c8b8518cc95f6570ea1ab53518",
+        "section_ids": [
+          "attack:T1210#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-15",
+      "category": "mitigation",
+      "question": "What mitigation systematically reviews activity and system configurations to find weaknesses?",
+      "relevant_document_ids": [
+        "attack:M1047"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Audit describes recording and systematic review.",
+        "source_content_sha256": "34fc220e95edaf09e7eeb9cfaa73c850d599052d28b5a996f82f4c60e4f883de",
+        "section_ids": [
+          "attack:M1047#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-16",
+      "category": "mitigation",
+      "question": "What mitigation confines application code in a sandbox or isolated environment?",
+      "relevant_document_ids": [
+        "attack:M1048"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Application Isolation and Sandboxing describes containment.",
+        "source_content_sha256": "3e3b268321f4c380c2a289b8838dd91bf1d7d05bf773df53979cbda525ee0c0e",
+        "section_ids": [
+          "attack:M1048#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-17",
+      "category": "incident",
+      "question": "What does the VMware Horizon Log4Shell advisory say about its two response engagements?",
+      "relevant_document_ids": [
+        "incident:AA22-174A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary distinguishes source engagements and avoids claiming a shared actor with another advisory.",
+        "source_content_sha256": "6b686ae2b760209fb36112989e23f9a1fba8658a629541c3d34a4459d9f2a450",
+        "section_ids": [
+          "incident:AA22-174A#section-0",
+          "incident:AA22-174A#section-1"
+        ]
+      }
+    },
+    {
+      "id": "heldout-18",
+      "category": "incident",
+      "question": "How does the updated BlackSuit advisory relate Royal ransomware to theft and encryption?",
+      "relevant_document_ids": [
+        "incident:AA23-061A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The update identifies BlackSuit evolution, observed methods and attribution limits.",
+        "source_content_sha256": "9b47b647ab658e04cb3b0a0f7ae0aa903104e0ceffbf4c18185293c3ee40ea88",
+        "section_ids": [
+          "incident:AA23-061A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-19",
+      "category": "incident",
+      "question": "Why does the LockBit overview avoid one fixed affiliate technique sequence?",
+      "relevant_document_ids": [
+        "incident:AA23-165A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Affiliate methods vary substantially in the historical observations.",
+        "source_content_sha256": "47a52f37c3f8d7cfd8baf15d9eb3b0ffb198af243701467566d937cb40add6b6",
+        "section_ids": [
+          "incident:AA23-165A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-20",
+      "category": "incident",
+      "question": "What systems and administration tools are discussed in the updated AvosLocker report?",
+      "relevant_document_ids": [
+        "incident:AA23-284A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary describes Windows/Linux/ESXi and legitimate administration tools.",
+        "source_content_sha256": "7806c600e6511f647314ca5000a829e392500ffefc0d7d99f907d8820a2008d1",
+        "section_ids": [
+          "incident:AA23-284A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-21",
+      "category": "incident",
+      "question": "What evidence and reporting period underlie the revised Rhysida advisory?",
+      "relevant_document_ids": [
+        "incident:AA23-319A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Investigations and samples support observations through December 2024.",
+        "source_content_sha256": "00282e986b6c18e6f9684c57fde1a0b95ce2487091242bd52f225aeb4dc9eeae",
+        "section_ids": [
+          "incident:AA23-319A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-22",
+      "category": "incident",
+      "question": "What attribution limits are retained in the Scattered Spider help-desk advisory?",
+      "relevant_document_ids": [
+        "incident:AA23-320A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary attributes DragonForce reporting to trusted third parties.",
+        "source_content_sha256": "a3452f5edb665d3e9722039d4b2e9c357df08e87f25d20899e4f60d7e217cb89",
+        "section_ids": [
+          "incident:AA23-320A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-23",
+      "category": "incident",
+      "question": "How certain is the updated Akira report about SonicWall vulnerability abuse?",
+      "relevant_document_ids": [
+        "incident:AA24-109A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary calls it a qualified likely-abuse assessment.",
+        "source_content_sha256": "43a64bf1f92ff317615ebbbb03f233a08a07466e9c2ba4c87cf5d6d47798f806",
+        "section_ids": [
+          "incident:AA24-109A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-24",
+      "category": "incident",
+      "question": "What social-engineering change involving email flooding and Teams is described for Black Basta?",
+      "relevant_document_ids": [
+        "incident:AA24-131A"
+      ],
+      "supported": true,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The summary describes a revised remote-management access route.",
+        "source_content_sha256": "458e9ca30d34b72c0174e9e4f20a6cf3f6e583a699e4f3d32cfd891da1062103",
+        "section_ids": [
+          "incident:AA24-131A#section-0"
+        ]
+      }
+    },
+    {
+      "id": "heldout-25",
+      "category": "unsupported",
+      "question": "What are the winning lottery numbers next week?",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Future lottery results are absent.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "heldout-26",
+      "category": "unsupported",
+      "question": "Explain the best way to grow tomatoes on a balcony.",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Gardening is outside the corpus.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "heldout-27",
+      "category": "unsupported",
+      "question": "Identify the confidential attacker in our private incident this morning.",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "No private organization incident is ingested.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "heldout-28",
+      "category": "unsupported",
+      "question": "Guarantee that installing one patch will prevent all ransomware attacks.",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The evidence supports no universal prevention guarantee.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "heldout-29",
+      "category": "unsupported",
+      "question": "Prove that every VMware exploit involved the same victim and actor.",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "The VMware summaries explicitly do not establish a shared victim or actor.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    },
+    {
+      "id": "heldout-30",
+      "category": "unsupported",
+      "question": "Which not-yet-announced security flaw will appear in 2027?",
+      "relevant_document_ids": [],
+      "supported": false,
+      "review": {
+        "method": "agent_source_inspection",
+        "reviewer": "Codex",
+        "date": "2026-10-21",
+        "rationale": "Future discoveries cannot be established by this historical corpus.",
+        "source_content_sha256": null,
+        "section_ids": []
+      }
+    }
+  ]
+}
