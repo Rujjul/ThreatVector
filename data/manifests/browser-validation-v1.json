@@ -1,0 +1,85 @@
+{
+  "verified_at": "2026-10-21T13:25:20.678968+00:00",
+  "scope": "Actual in-app browser over local Vite validation proxy and existing full-corpus backend; no hosted provider",
+  "browser": "Codex in-app browser",
+  "desktop_viewport_observed": {
+    "width": 1259,
+    "height": 698
+  },
+  "mobile_viewport_observed": {
+    "width": 390,
+    "height": 844,
+    "document_scroll_width": 375
+  },
+  "desktop": {
+    "query": "CVE-2021-44228: inspect Log4Shell evidence",
+    "index": "flat",
+    "sources": [
+      "cve",
+      "attack",
+      "incident"
+    ],
+    "evidence_count": 13,
+    "response": "generation_error; stored evidence visible",
+    "evidence_document": "nvd:CVE-2021-44228",
+    "chunk": "chunk:43f407e026ab08009ad5f838e4e0b149c37a94c1220a7010814db2bd89a3dc6b",
+    "escape_dismissal": true,
+    "focus_returned_to_card": true,
+    "relationship_citation_document": "incident:AA22-320A"
+  },
+  "mobile": {
+    "query": "T1059.001",
+    "index": "hnsw",
+    "sources": [
+      "attack"
+    ],
+    "evidence_count": 10,
+    "response": "generation_error; stored evidence visible",
+    "evidence_document": "attack:T1059.001",
+    "chunk": "chunk:8fc45f25df9a454dd8bdf156caa5b9164bae36738b9a7b4884b1c40c9058d4cb",
+    "dialog_width": 375.2000122070313,
+    "escape_dismissal": true,
+    "no_sources_disables_submission": true,
+    "document_failure_preserves_excerpt": true,
+    "investigation_failure": "API request failed (500); no demo substitution"
+  },
+  "source_links": {
+    "nvd_href": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228",
+    "nvd_destination_heading": "CVE-2021-44228 Detail",
+    "qualification": "Link click did not expose a new tab in immediate inventory; independently navigated observed destination successfully",
+    "attack_href": "https://attack.mitre.org/techniques/T1059/001",
+    "attack_destination_navigation": "not performed"
+  },
+  "benchmarks": {
+    "run_id": "faiss-20261021T095559Z",
+    "json_csv_http_rows_equal": 19,
+    "rendered_table_baselines_equal": 3,
+    "charts": 3,
+    "bars_per_chart": 3,
+    "mobile_chart_width": 292,
+    "desktop_chart_width": 322,
+    "empty_demo_state_verified": true,
+    "scope": "Axes, rendered bars and exact table values inspected; hover tooltips not tested"
+  },
+  "screenshots": "Desktop charts and mobile evidence/charts visually inspected via browser tool; no screenshot files exported",
+  "limitations": [
+    "Default cross-port browser requests failed after preflight; same-origin validation-only proxy required",
+    "Memory-axis byte labels visibly clipped at desktop width",
+    "Readiness badge remained retrieval_ready after controlled backend outage",
+    "Long loading observed; end-to-end duration not measured",
+    "Mobile viewport emulation, not physical-device testing",
+    "No live generation or answer quality assessment",
+    "No independent clean Windows machine"
+  ],
+  "checks": {
+    "backend_passed": 303,
+    "backend_seconds": 94.22,
+    "frontend_passed": 9,
+    "frontend_seconds": 71.5,
+    "production_build_seconds": 26.22,
+    "pip_check": "passed",
+    "compileall": "passed",
+    "npm_audit_vulnerabilities": 0
+  },
+  "acceptance": "partial; unresolved browser/default-configuration issues and blocked provider/clean-Windows criteria remain incomplete"
+}
