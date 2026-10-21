@@ -91,16 +91,67 @@ def create_app(service_factory=None, *, provider=None):
     def analyze(request: SearchRequest):
         return execute(request,analyze=True)
 
-    application.add_api_route('/health',health,methods=['GET'])
-    application.add_api_route('/corpus',corpus,methods=['GET'])
+    def snapshot():
+        try:
+            if application.state.retrieval is None:
+                application.state.retrieval=(service_factory or default_service)()
+            else:
+                application.state.retrieval.validate_current()
+            return application.state.retrieval
+        except (ValueError,OSError,ImportError,RuntimeError,sqlite3.Error) as exc:
+            if application.state.retrieval is not None:
+                application.state.retrieval.close()
+                application.state.retrieval=None
+            raise HTTPException(503,'Local corpus/index artifacts are unavailable or invalid.') from exc
+
+    @application.get('/health')
+    def readiness():
+        with lock:
+            try:
+                snapshot()
+                ready=True
+            except HTTPException:
+                ready=False
+            from .provider import ProviderConfig
+            try:
+                config=ProviderConfig.from_environment()
+                configured=bool(config.api_key.strip() and config.model.strip() and config.endpoint.strip())
+            except ValueError:
+                configured=False
+            return {'status':'ready' if ready and configured else 'retrieval_ready' if ready else 'not_ready',
+                    'corpus_ready':ready,'indexes_ready':ready,'provider_configured':configured}
+
+    @application.get('/corpus')
+    def corpus_metadata():
+        with lock:
+            service=snapshot()
+            return {'source_counts':{source:sum(d.source_type==source for d in service.documents.values())
+                                     for source in ('cve','attack','incident')},
+                    'active_document_count':sum(d.active for d in service.documents.values()),
+                    'chunk_count':len(service.chunks),'snapshot_id':service.bundle.manifest['identity']['corpus_sha256'],
+                    'active_artifacts':{'generation':service.bundle.directory.name,
+                                        'manifest_sha256':service.bundle.manifest_sha256,
+                                        'identity':service.bundle.manifest['identity']}}
+
+    @application.get('/documents/{document_id:path}')
+    def document_detail(document_id: str):
+        with lock:
+            service=snapshot()
+            doc=service.documents.get(document_id)
+            if doc is None:
+                raise HTTPException(404,'Document not found')
+            chunks=[]
+            for chunk in sorted(service.chunks.values(),key=lambda c:c['ordinal']):
+                if chunk['document_id']!=doc.id:
+                    continue
+                chunks.append({**chunk,'chunk_id':chunk['id'],'title':doc.title,'source_type':doc.source_type,
+                               'source_id':doc.source_id,'url':doc.url,'publication_date':doc.publication_date,
+                               'score':None,'match_type':'document_context'})
+            return {'document_id':doc.id,'source_id':doc.source_id,'title':doc.title,'active':doc.active,
+                    'url':doc.url,'publication_date':doc.publication_date,'chunks':chunks}
+
     application.add_api_route('/benchmarks',benchmarks,methods=['GET'])
     return application
-
-def health():
-    return {"status": "foundation_only", "corpus_ready": False, "indexes_ready": False, "provider_configured": False}
-
-def corpus():
-    return {"source_counts": {"cve": 0, "attack": 0, "incident": 0}, "snapshot_id": None, "active_artifacts": None}
 
 def benchmarks():
     return {"runs": []}
