@@ -1,0 +1,70 @@
+{
+  "corpus_sha256": "c3c3cf11a4b1038e3e56db1e362c8febd69c7f911a1b2844abc025a2bbc6d40a",
+  "documents": 12259,
+  "active_documents": 11524,
+  "relationships": 20432,
+  "resolved_relationships": 20427,
+  "sections": 12257,
+  "source_counts": {
+    "cve": 10000,
+    "attack": 2239,
+    "incident": 20
+  },
+  "changed_documents": 0,
+  "changed_relationships": 0,
+  "schema_version": 1,
+  "manifest_sha256": "fd05479f244235103fff1bfea33ba2022688ff331ae2b744f9324cb35c414f2f",
+  "verified_at": "2026-10-21T10:05:23.236048+00:00",
+  "idempotence_verified": true,
+  "replay_database_row_changes": 0,
+  "manifest_matches_database": true,
+  "sql_projections_verified": true,
+  "integrity_check": "ok",
+  "foreign_key_errors": [],
+  "inactive_documents_by_type": {
+    "attack": 390,
+    "cve": 345
+  },
+  "unresolved_relationships": 5,
+  "active_relationships": 20285,
+  "normalization_diagnostics": {
+    "empty_description": 1,
+    "legacy_external_identifier": 224,
+    "missing_description": 4
+  },
+  "chunks": 13150,
+  "python_version": "3.10.11",
+  "sqlite_version": "3.40.1",
+  "reviewed_annotations_enabled": true,
+  "limitations": [
+    "Sections are source evidence units, not tokenized chunks.",
+    "Inactive records and unresolved relationships are retained; unsupported STIX object types are diagnosed.",
+    "2021-focused CVE sample and original incident summaries; no retrieval/answer/index benchmark claimed."
+  ],
+  "source_record_references_verified": 32685,
+  "section_source_references_verified": 12257,
+  "attack_coverage": {
+    "source_object_counts": {
+      "attack-pattern": 823,
+      "campaign": 47,
+      "course-of-action": 268,
+      "identity": 1,
+      "intrusion-set": 181,
+      "malware": 667,
+      "marking-definition": 1,
+      "relationship": 20411,
+      "tool": 91,
+      "x-mitre-data-component": 109,
+      "x-mitre-data-source": 38,
+      "x-mitre-matrix": 1,
+      "x-mitre-tactic": 14
+    },
+    "all_nonstructural_entities_preserved": true,
+    "all_stix_relationships_preserved": true,
+    "all_stix_relationship_endpoints_resolved": true,
+    "structural_objects_retained_in_raw_snapshot": [
+      "identity",
+      "marking-definition"
+    ]
+  }
+}

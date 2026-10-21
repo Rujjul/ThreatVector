@@ -105,6 +105,10 @@ def verify():
 
 
 if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',default='data/manifests/phase2-acceptance-v1.json')
+    args=parser.parse_args()
     report = verify()
-    write_json('data/manifests/phase2-acceptance-v1.json',report)
+    write_json(args.output,report)
     print(json.dumps(report,indent=2))

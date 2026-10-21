@@ -1,12 +1,12 @@
 # ThreatVector
 
-ThreatVector focuses on semantic vulnerability correlation, hybrid identifier/semantic retrieval, evidence-grounded explanations, and FAISS Flat/IVF/HNSW indexing. Public incident reports serve as supporting evidence. Generic log monitoring, incident dashboards, alert feeds, and SIEM workflows are excluded. The local backend supports verified semantic and exact-identifier retrieval through the CLI and `POST /search`; complete live frontend integration remains incomplete.
+A local React/TypeScript and FastAPI application for semantic vulnerability retrieval, exact CVE/ATT&CK lookup, explicit source correlation and inspectable evidence. It compares FAISS Flat, IVF and HNSW over the same embeddings. Generic log monitoring, incident dashboards, authentication, private ingestion and cloud hosting are outside scope.
 
-React/TypeScript demo landing page and local investigation frontend. The interactive demo uses explicitly fictional content. Live mode calls the local API; it never silently substitutes demo content. There are no measured benchmark runs yet.
+The current local corpus contains **10,000 CVEs, 2,239 ATT&CK records and 20 attributed incident summaries**, with **13,150 chunks** and 12 validated indexes. Generated corpora, weights, databases and native indexes are intentionally outside Git. A fresh clone can run the synthetic demo and attributed fixtures; reproducing the full frozen snapshot requires the archived source bytes described in [CORPUS.md](backend/CORPUS.md).
 
-## Windows setup
+## Run the demo
 
-Use Node 22.12+ (verified runtime: Node 24.19.0) and Python 3.10+ (verified: 3.10.11).
+Use Node 22.12+ (verified 24.19.0). Vite 7.3.7 and Vitest 4.1.11 are pinned with the verified lockfile.
 
 ```powershell
 cd frontend
@@ -14,77 +14,39 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. Choose **Explore the demo**, run a question, and select a citation or evidence card. Try `unsupported weather question` for the empty state. Disable source checkboxes to inspect filtering. The landing page, investigation workspace, and benchmark view adapt to mobile widths.
+Open http://127.0.0.1:5173 and choose **Explore the demo**. Demo evidence is fictional and unscored. Live mode never silently replaces API failures with demo content.
 
-Optional backend foundation, from the repository root in a second terminal:
+## Run real local retrieval
+
+Use Windows x64 / Python 3.10 (verified 3.10.11). From the repository root:
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend/requirements.lock
+.\scripts\setup.ps1 -WithRetrieval
 .\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-The HTTP foundation serves `/health`, placeholder `/corpus`, and an empty `/benchmarks`. SQLite storage and ingestion now exist through the separate CLI; these routes are not wired to the database. `POST /search` now serves real local retrieval after the optional model/index setup below; analysis and complete live investigations remain later work.
+Prepare/restore corpus, model and indexes using [SETUP.md](SETUP.md), then start the frontend in a second terminal and select **Live**. Examples: `CVE-2021-44228`, `T1059.001`, or a question about exploitation of public-facing applications. Select sources and Flat/IVF/HNSW, inspect an evidence card or citation, and close the detail dialog with Escape.
 
-## Frontend verification
+The API implements `/health`, `/corpus`, `POST /search`, `POST /analyze`, `/documents/{id}` and `/benchmarks`. Readiness checks actual artifacts. Search filters query selected partitions before merging. Default top_k is 10, maximum 50. Evidence retains source/provenance/offsets and raw scores; similarity never proves exploitation.
 
-```powershell
-cd frontend
-npm run build
-npm test
-```
+Provider settings remain server-side: see [provider.env.example](backend/provider.env.example). No key is required for evidence-only operation. Explanations use conservative excerpt grounding, at most eight context chunks, strict citations/active identifiers, explicit inference, one repair attempt and evidence-only fallback. No tools or secrets enter prompts; recognized injection attempts are withheld from generation while their source evidence remains inspectable. See [ANALYSIS.md](backend/ANALYSIS.md) for limits. Arbitrary paraphrase entailment and universal injection detection are not claimed.
 
-Dependencies are pinned in `package.json` and `package-lock.json`. Backend installed dependency versions are recorded in `backend/requirements.lock`. Fonts optionally load from Google Fonts; fallback system fonts work offline. No hosted provider calls occur in this demo.
+## Measured evaluation
 
-## Integration contract
+Sixty source-reviewed questions have distinct 30/30 tuning/held-out splits. Review is explicitly agent source inspection, not independent human assessment. A frozen tuning-only relevance policy is bound to corpus/chunk/model identities.
 
-`frontend/src/api.ts` defines the proposed JSON field shapes for the BUILD.md endpoints. `/analyze` returns `status`, `claims`, `mitigations`, `related_entities`, `uncertainty`, `evidence`, and `timing`. Claims and mitigations use `text`, `citation_chunk_ids`, and an optional `inferred` flag. Evidence includes chunk/document IDs, source metadata, excerpt text, and similarity score. Missing dates, identifiers, URLs, and scores are explicit `null` values. `/search` returns `evidence` and `retrieval_ms`. `/documents/{id}` returns `chunks` plus stored metadata. `/benchmarks` returns `{ runs: [...] }` with the benchmark shape in `api.ts`.
-
-Citation membership is checked before rendering live analysis; the backend must still validate ATT&CK identifiers, source support, and provider outputs. When analysis fails, the frontend separately tries retrieval. Evidence text is rendered as plain React text, and source links allow only HTTP(S). API credentials must stay server-side. `VITE_API_BASE_URL` is a public service address only.
-
-The benchmark UI renders saved values, quality/latency/memory charts, a metric table, and reproducibility metadata. Real exports, tuning/held-out evaluation, and live provider validation remain future work. See `Progress.md` for verified status.
-
-## Reviewed seed evidence
-
-The [attributed seed corpus](data/fixtures/README.md) contains six source-backed documents across NVD, pinned MITRE ATT&CK and CISA reports. It uses original factual summaries, explicit supported relationships and unsupported cases. The [source/reuse review](data/fixtures/SOURCE_REVIEW.md) records decisions and unresolved report-text permissions. Verify the frozen fixture without downloading anything:
+[RESULTS.md](evaluation/RESULTS.md) documents the **19 measured standard configurations**, hardware, one-thread protocol, build/search/serialization/memory scope and limitations. [JSON](data/manifests/benchmark-v1.json) and [CSV](data/manifests/benchmark-v1.csv) values match the saved API output. ANN recall@10 and document relevance are separate; the incident-only nlist=1 IVF exception is excluded. The frontend displays saved default baseline values, not invented or recomputed benchmarks.
 
 ```powershell
-python data/fixtures/verify_fixture.py
+.\.venv\Scripts\python.exe -m backend.evaluation
 ```
 
-The browser demo remains synthetic. Seed data can now be normalized and ingested through the CLI; raw downloads stay ignored. Fixture hashes and upstream provenance are recorded under `data/manifests/`.
+The user deferred live provider use. [Twenty evidence-only attempts](data/manifests/answer-review-v1.json) have **zero rated generated answers**; [actual answer assessment](evaluation/ANSWER_REVIEW.md) and live smoke remain open. Browser/mobile visual checks are also open because the runner's in-app browser could not reach its loopback servers. These limitations prevent claiming every project acceptance criterion complete.
 
-The source manifest's revision-2 decisions use four explicit reuse categories and include reviewed Microsoft/NCSC candidates. The [NVD access-policy review](data/fixtures/NVD_API_POLICY.md) now verifies bulk/API limits, key handling and attribution. Current CISA policy pages were found and read, but worldwide full-report rights remain unestablished; project-authored factual summaries remain the approved representation. Microsoft articles remain links/metadata only. No candidate text has been added to the seed corpus.
-
-## Normalizers and raw-format fixtures
-
-[Source normalizers](backend/normalization/README.md) handle NVD API 2.0 responses, pinned STIX bundles and approved incident summaries. [Raw fixtures](data/fixtures/raw_normalizers/README.md) retain source format, hashes and notices. Adapters remain pure; the separate ingestion service persists their output without retrieval, indexing or providers.
+## Verify
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.lock
-.\.venv\Scripts\python.exe -m pytest
-python data/fixtures/verify_fixture.py
+.\scripts\check.ps1
 ```
 
-Normalization preserves provenance, rejects conflicting revisions, retains inactive/unresolved records and separates identifier mentions from reviewed stronger annotations. Policy comes from trusted project configuration. Source text cannot authorize itself, enable reviewed annotations or trigger tools.
-
-## SQLite and the full corpus
-
-The [corpus guide](backend/CORPUS.md) documents SQLite imports, acquisition, frozen manifests and offline verification. Current corpus v2 contains **10,000 CVEs, 2,239 ATT&CK records and 20 incident summaries**, preserving every nonstructural entity and all 20,411 STIX relationships from pinned Enterprise 17.1 with resolved STIX endpoints. Full replay changed zero rows; source-pointer/SQL checks are saved in `data/manifests/full-corpus-validation-v2.json`. Downloads/databases stay outside Git; exact replay requires archived bytes. The [phase-1 acceptance matrix](backend/PHASE1_ACCEPTANCE.md) records completion and retained corpus boundaries. Frozen v1 artifacts remain available.
-
-```powershell
-.\.venv\Scripts\python.exe -m backend.cli ingest --manifest data/manifests/full-corpus-v2.json --database data/corpus-v2.sqlite3 --reviewed-annotations --check-idempotence
-.\.venv\Scripts\python.exe -m backend.cli inspect
-```
-
-The historical CVE sample includes inactive records. Incident evidence uses original factual summaries; CISA prose is not redistributed. [Tokenizer-aware chunking and pinned MiniLM setup](backend/CHUNKING.md) provides local chunk construction and model verification. [FAISS setup and persistence](backend/INDEXES.md) covers shared CPU embeddings, Flat/IVF/HNSW strategies, source partitions, atomic generations and validation. [Filtered retrieval](backend/RETRIEVAL.md) supports local natural-language searches over the full corpus or selected source partitions through the CLI. Exact CVE/ATT&CK lookup and `POST /search` are verified. The [Phase 2 acceptance matrix](backend/PHASE2_ACCEPTANCE.md) records 196 passing backend tests and 15 local HTTP cases; complete frontend integration remains later work.
-
-## Phase 3 foundations
-
-[Correlation and provider services](backend/CORRELATION_PROVIDER.md) expand explicit source relationships and keep semantic associations separate. The configurable provider adapter keeps endpoint/model/key/timeout server-side and supports missing credentials, timeout and upstream errors. Automated checks use deterministic mocks; no live provider calls were made. The subsequent structured analysis service is described below; `/analyze` integration remains incomplete.
-
-[Structured analysis and grounding](backend/ANALYSIS.md) now provides strict schema output, eight-chunk context selection, excerpt/citation/entity validation, one repair attempt and evidence-preserving failures. Generation is conservative and extractive; semantic-only relevance is not yet calibrated. `/analyze` HTTP integration and Phase 3 completion remain open. No live provider calls were made.
-
-Analysis failure handling retries invalid output once and returns explicitly labeled evidence-only responses after failure. Prompt data is limited to explicit fields; recognized injection attempts are withheld from generation while source evidence stays inspectable. These controls do not claim universal prompt-injection detection. See [analysis safety boundaries](backend/ANALYSIS.md).
-
-Live routes now include `/analyze`, `/health`, `/corpus` and `/documents/{id}`. Readiness validates actual local artifacts; document detail resolves stored chunks. Provider failures preserve real evidence and source assertions. Eight frontend tests and the build pass; visual browser/mobile verification remains open because this runner cannot reach its loopback servers across browser/process boundaries. The user elected to continue without claiming that verification.
+The test suites use deterministic provider mocks and actual native FAISS fixtures. Setup, artifact verification, sample requests, evidence rights and remaining delivery checks are documented in [SETUP.md](SETUP.md), [DELIVERY.md](DELIVERY.md), [Progress.md](Progress.md) and the phase acceptance records. The [dependency verification](frontend/DEPENDENCIES.md) records the pinned security updates and registry audit scope.
